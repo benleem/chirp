@@ -1,20 +1,32 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
 import { useState, useEffect } from "react";
 
-const SignUp = () => {
-	const [formValues, setFormValues] = useState({ email: "", password: "" });
+import {
+	createUserWithEmailAndPassword,
+	sendEmailVerification,
+	updateProfile,
+} from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
+
+import styles from "../styles/AuthModal.module.css";
+
+const SignUp = ({ chooseForm, setChooseForm }) => {
+	const [formValues, setFormValues] = useState({
+		username: "",
+		email: "",
+		password: "",
+	});
 	const [formErrors, setFormErrors] = useState({});
 	const [firebaseError, setFirebaseError] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
 
-	const signUp = () => {
+	const createUser = () => {
 		createUserWithEmailAndPassword(auth, formValues.email, formValues.password)
 			.then((userCredential) => {
 				// Signed in
 				const user = userCredential.user;
+				updateProfile(user, { displayName: formValues.username });
 				sendEmailVerification(user);
-				console.log(user);
+				// console.log(user);
 			})
 			.catch((error) => {
 				const errorCode = error.code;
@@ -39,38 +51,85 @@ const SignUp = () => {
 		if (!values.email || !values.email.includes("@")) {
 			errors.email = "Please enter a valid email";
 		}
-		if (!values.password) {
-			errors.password = "Please enter a valid password";
+		if (!values.username || values.username.includes(" ")) {
+			errors.username = "Please enter a valid username";
+		}
+		if (!values.password || values.password.includes(" ")) {
+			errors.password = "Please fill in this field";
 		}
 		return errors;
 	};
 
 	useEffect(() => {
 		if (Object.keys(formErrors).length === 0 && isSubmitted === true) {
-			signUp();
+			createUser();
 		}
 	}, [formErrors]);
 
 	useEffect(() => {
-		console.log(firebaseError);
-	}, [firebaseError]);
+		console.log(formValues);
+	}, [formValues]);
 
 	return (
-		<form onSubmit={(e) => handleSubmit(e)} noValidate>
-			<div>
-				<input type="email" name="email" placeholder="Email" onChange={(e) => handleChange(e)} />
-				{formErrors.email ? <p>{formErrors.email}</p> : null}
-			</div>
-			<div>
+		<form
+			className={styles.authModal}
+			onSubmit={(e) => handleSubmit(e)}
+			noValidate
+		>
+			<p className={styles.modalTitle}>Sign up</p>
+			<div className={styles.inputContainer}>
+				<p className={styles.inputTag}>Username</p>
 				<input
-					type="password"
-					name="password"
-					placeholder="Password"
+					className={styles.inputField}
+					type="text"
+					name="username"
+					placeholder="coolguy123"
 					onChange={(e) => handleChange(e)}
 				/>
-				{formErrors.password ? <p>{formErrors.password}</p> : null}
+				{formErrors.username ? (
+					<p className={styles.formError}>{formErrors.username}</p>
+				) : null}
 			</div>
-			<button type="submit">Submit</button>
+			<div className={styles.inputContainer}>
+				<p className={styles.inputTag}>Email</p>
+				<input
+					className={styles.inputField}
+					type="email"
+					name="email"
+					placeholder="example@email.com"
+					onChange={(e) => handleChange(e)}
+				/>
+				{formErrors.email ? (
+					<p className={styles.formError}>{formErrors.email}</p>
+				) : null}
+			</div>
+			<div className={styles.inputContainer}>
+				<p className={styles.inputTag}>Password</p>
+				<input
+					className={styles.inputField}
+					type="password"
+					name="password"
+					placeholder="Example123!"
+					onChange={(e) => handleChange(e)}
+				/>
+				{formErrors.password ? (
+					<p className={styles.formError}>{formErrors.password}</p>
+				) : null}
+			</div>
+			<button className={styles.submitButton} type="submit">
+				Sign Up
+			</button>
+			<p className={styles.query}>Already have an account?</p>
+			<button
+				type="button"
+				className={styles.answer}
+				onClick={() => setChooseForm(!chooseForm)}
+			>
+				Sign In
+			</button>
+			{firebaseError ? (
+				<p className={styles.firebaseError}>{firebaseError}</p>
+			) : null}
 		</form>
 	);
 };

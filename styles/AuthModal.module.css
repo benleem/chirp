@@ -1,0 +1,106 @@
+.authModal{
+    background-color: white;
+    max-width: 300px;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.modalTitle{
+    font-size: 1rem;
+    font-weight: 500;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e8e8e8;
+}
+ 
+.inputContainer{
+    padding-top: 0.8rem;
+}
+
+.inputTag{
+    padding-bottom: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.inputField{
+    font-size: 1rem;
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 8px;
+    outline: 2px solid #e8e8e8;
+    border: none;
+    color: grey;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    background-color: white;
+}
+
+.inputField:focus{
+    outline: 2px solid #35CE8D;
+}
+
+.inputField:-webkit-autofill,
+.inputField:-webkit-autofill::first-line,
+.inputField:-webkit-autofill:hover, 
+.inputField:-webkit-autofill:focus,
+.inputField textarea:-webkit-autofill,
+.inputField textarea:-webkit-autofill:hover,
+.inputField textarea:-webkit-autofill:focus,
+.inputField select:-webkit-autofill,
+.inputField select:-webkit-autofill:hover,
+.inputField select:-webkit-autofill:focus {
+    border: none;
+    -webkit-text-fill-color: grey;
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    transition: background-color 5000s ease-in-out 0s;
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 0.9rem !important;
+}
+
+.submitButton{
+    cursor: pointer;
+    width: 100%;
+    background-color: #35CE8D;
+    color: white;
+    border: none;
+    padding: 0.5rem 0;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    margin: 1rem 0;
+}
+
+.formError{
+    color: red;
+    font-size: 0.8rem;
+    padding-top: 0.3rem;
+}
+
+.query, .answer{
+    color: grey;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.answer{
+    padding-top: 0.3rem;
+    color: #35CE8D;
+    width: fit-content;
+    margin: auto;
+    margin-top: 0.3rem;
+    padding: 0;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.firebaseError{
+    color: red;
+    font-size: 0.8rem;
+    padding-top: 1rem;
+    text-align: center;
+}

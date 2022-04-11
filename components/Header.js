@@ -1,10 +1,17 @@
+import { Router, useRouter } from "next/router";
 import styles from "../styles/Header.module.css";
 
 const Header = () => {
+	const router = useRouter();
+	console.log(router.pathname);
 	return (
-		<header className={styles.headerContainer}>
-			<p className={styles.headerText}>This is the header</p>
-		</header>
+		<>
+			{router.pathname === "/auth" ? null : (
+				<header className={styles.headerContainer}>
+					<p className={styles.headerText}>This is the header</p>
+				</header>
+			)}
+		</>
 	);
 };
 
