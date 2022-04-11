@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 import {
 	createUserWithEmailAndPassword,
@@ -10,8 +11,9 @@ import { auth } from "../firebase/firebaseConfig";
 import styles from "../styles/AuthModal.module.css";
 
 const SignUp = ({ chooseForm, setChooseForm }) => {
+	const router = useRouter();
 	const [formValues, setFormValues] = useState({
-		username: "",
+		displayName: "",
 		email: "",
 		password: "",
 	});
@@ -24,9 +26,9 @@ const SignUp = ({ chooseForm, setChooseForm }) => {
 			.then((userCredential) => {
 				// Signed in
 				const user = userCredential.user;
-				updateProfile(user, { displayName: formValues.username });
+				updateProfile(user, { displayName: formValues.displayName });
 				sendEmailVerification(user);
-				// console.log(user);
+				router.push("/");
 			})
 			.catch((error) => {
 				const errorCode = error.code;
@@ -51,8 +53,8 @@ const SignUp = ({ chooseForm, setChooseForm }) => {
 		if (!values.email || !values.email.includes("@")) {
 			errors.email = "Please enter a valid email";
 		}
-		if (!values.username || values.username.includes(" ")) {
-			errors.username = "Please enter a valid username";
+		if (!values.displayName || values.displayName.includes(" ")) {
+			errors.displayName = "Please enter a valid display name";
 		}
 		if (!values.password || values.password.includes(" ")) {
 			errors.password = "Please fill in this field";
@@ -78,11 +80,11 @@ const SignUp = ({ chooseForm, setChooseForm }) => {
 		>
 			<p className={styles.modalTitle}>Sign up</p>
 			<div className={styles.inputContainer}>
-				<p className={styles.inputTag}>Username</p>
+				<p className={styles.inputTag}>Display Name</p>
 				<input
 					className={styles.inputField}
 					type="text"
-					name="username"
+					name="displayName"
 					placeholder="coolguy123"
 					onChange={(e) => handleChange(e)}
 				/>

@@ -3,7 +3,6 @@ import styles from "../styles/Header.module.css";
 
 const Header = () => {
 	const router = useRouter();
-	console.log(router.pathname);
 	return (
 		<>
 			{router.pathname === "/auth" ? null : (
