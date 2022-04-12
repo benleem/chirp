@@ -16,6 +16,19 @@
     padding-bottom: 1rem;
     border-bottom: 2px solid #e8e8e8;
 }
+
+.tips{
+    font-size: 0.8rem;
+    list-style-position: inside;
+    margin: 0;
+    padding:0.5rem 0;
+    border-bottom: 2px solid #e8e8e8;
+    color: grey;
+}
+
+.tips li:last-child{
+    padding-top: 0.2rem;
+}
  
 .inputContainer{
     padding-top: 0.8rem;

@@ -3,4 +3,13 @@
     place-items: center;
     height: 100vh;
     width: 100%;
+    background: hsla(165, 59%, 35%, 1);
+
+    background: linear-gradient(45deg, hsla(165, 59%, 35%, 1) 0%, hsla(155, 61%, 51%, 1) 51%, hsla(148, 59%, 91%, 1) 100%);
+
+    background: -moz-linear-gradient(45deg, hsla(165, 59%, 35%, 1) 0%, hsla(155, 61%, 51%, 1) 51%, hsla(148, 59%, 91%, 1) 100%);
+
+    background: -webkit-linear-gradient(45deg, hsla(165, 59%, 35%, 1) 0%, hsla(155, 61%, 51%, 1) 51%, hsla(148, 59%, 91%, 1) 100%);
+
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#259076", endColorstr="#35CE8D", GradientType=1 );
 }
