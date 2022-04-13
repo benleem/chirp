@@ -1,6 +1,8 @@
 .headerContainer {
 	padding: 1rem 0;
 	background-color: #35CE8D;
+    font-family: 'Roboto', sans-serif;
+
 }
 
 .headerWrapper{
@@ -9,7 +11,7 @@
 	align-items: center;
 	color: white;
 	width: 100%;
-	max-width: 1200px;
+	max-width: 1000px;
 	margin: auto;
 }
 
@@ -19,10 +21,16 @@
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
+}
+
+.headerLeftActive{
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
 	width: 100%;
 }
 
-.headerLeft a{
+.headerLeft a, .headerLeftActive a{
 	display: inline-block;
 	margin-right: 10px;
 	height: 40px;
@@ -30,16 +38,10 @@
 
 .headerLogo{
 	height: 100%;
+	width: max-content;
 }
 
 .searchBarContainer{
-	display: flex;
-	background-color: #dcf6e8;
-	border-radius: 10px;
-	height: 40px;
-}
-
-.searchBarContainerActive{
 	display: flex;
 	background-color: #dcf6e8;
 	border-radius: 10px;
@@ -71,6 +73,14 @@
     font-family: 'Roboto', sans-serif;
     background:none;
 	padding-left: 0;
+}
+
+/* Header center */
+
+.dailyMessage{
+	text-align: center;
+	width: 100%;
+	margin: 0;
 }
 
 /* Header right */
@@ -105,12 +115,19 @@
 
 .navListContainer li:first-child{
 	padding-left: 0;
+	margin-left: 0;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1000px) {
 	/* For mobile phones: */
 	.headerWrapper{
 		padding: 0 3%;
+	}
+}
+
+@media only screen and (max-width: 700px) {
+	.dailyMessage{
+		display: none;
 	}
 }
 

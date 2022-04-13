@@ -12,7 +12,11 @@ const Header = () => {
 			{router.pathname === "/auth" ? null : (
 				<header className={styles.headerContainer}>
 					<div className={styles.headerWrapper}>
-						<div className={styles.headerLeft}>
+						<div
+							className={
+								isSearching ? styles.headerLeftActive : styles.headerLeft
+							}
+						>
 							<Link href="/">
 								<a>
 									<img
@@ -22,13 +26,7 @@ const Header = () => {
 									/>
 								</a>
 							</Link>
-							<div
-								className={
-									isSearching
-										? styles.searchBarContainerActive
-										: styles.searchBarContainer
-								}
-							>
+							<div className={styles.searchBarContainer}>
 								<button
 									className={styles.searchImageButton}
 									onClick={() => setIsSearching(!isSearching)}
@@ -48,6 +46,11 @@ const Header = () => {
 								) : null}
 							</div>
 						</div>
+						{isSearching ? null : (
+							<h2 className={styles.dailyMessage}>
+								Chirp - It's what's happening
+							</h2>
+						)}
 						{isSearching ? null : (
 							<ul className={styles.navListContainer}>
 								<li>

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
+import { protectedRoute } from "../../hooks/routes";
 
-export default function Profile() {
+const Profile = () => {
 	const router = useRouter();
 	const { profile } = router.query;
 
@@ -9,4 +10,6 @@ export default function Profile() {
 			<p>Profile: {profile}</p>
 		</div>
 	);
-}
+};
+
+export default protectedRoute(Profile);

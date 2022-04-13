@@ -6,11 +6,10 @@ import {
 	sendEmailVerification,
 	updateProfile,
 } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
 
 import styles from "../styles/AuthModal.module.css";
 
-const SignUp = ({ chooseForm, setChooseForm }) => {
+const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 	const router = useRouter();
 	const [formValues, setFormValues] = useState({
 		displayName: "",
@@ -75,10 +74,6 @@ const SignUp = ({ chooseForm, setChooseForm }) => {
 			createUser();
 		}
 	}, [formErrors]);
-
-	useEffect(() => {
-		console.log(formValues);
-	}, [formValues]);
 
 	return (
 		<form
