@@ -27,7 +27,6 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				const user = userCredential.user;
 				updateProfile(user, { displayName: formValues.displayName });
 				sendEmailVerification(user);
-				router.push("/");
 			})
 			.catch((error) => {
 				const errorCode = error.code;

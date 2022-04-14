@@ -2,7 +2,9 @@
 	padding: 1rem 0;
 	background-color: #35CE8D;
     font-family: 'Roboto', sans-serif;
-
+	width: 100%;
+	position: sticky;
+	top: 0;
 }
 
 .headerWrapper{
@@ -55,6 +57,7 @@
 	padding: 0;
 	cursor: pointer;
 	background:none;
+	position: relative;
 }
 
 .searchImage{
@@ -98,6 +101,19 @@
 	height: 100%;
 	background-color: #dcf6e8;
 	border-radius: 10px;
+	text-align: center;
+}
+
+.navListAnchor{
+	position: relative;
+	display: inline-block;
+	margin-top: 0;
+	height: 100%;
+}
+
+.navListAnchor img{
+	height: 100%;
+
 }
 
 .navListButton{
@@ -106,6 +122,8 @@
 	background:none;
 	padding: 0;
 	cursor: pointer;
+	position: relative;
+	display: inline-block;
 }
 
 .navListContainer li img{
@@ -116,6 +134,29 @@
 .navListContainer li:first-child{
 	padding-left: 0;
 	margin-left: 0;
+}
+
+.toolTip{
+	visibility: hidden;
+	width: 100px;
+	background-color: black;
+	opacity: 0.75;
+	color: white;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	font-size: 12px;
+
+	position: absolute;
+	z-index: 1;
+	top: 100%;
+	left: 50%;
+	margin-left: -50px;
+	margin-top: 5px;
+}
+
+.navListButton:hover .toolTip,.navListAnchor:hover .toolTip, .searchImageButton:hover .toolTip{
+	visibility: visible;
 }
 
 @media only screen and (max-width: 1000px) {

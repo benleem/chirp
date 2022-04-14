@@ -36,6 +36,7 @@ const Header = () => {
 										src="/img/search.svg"
 										alt=""
 									/>
+									<p className={styles.toolTip}>Search</p>
 								</button>
 								{isSearching ? (
 									<input
@@ -56,25 +57,29 @@ const Header = () => {
 								<li>
 									<button className={styles.navListButton}>
 										<img src="/img/add.svg" alt="" />
+										<p className={styles.toolTip}>Add post</p>
 									</button>
 								</li>
 								<li>
 									<Link href="/favorites">
-										<a>
+										<a className={styles.navListAnchor}>
 											<img src="/img/favorite.svg" alt="" />
+											<p className={styles.toolTip}>Favorites</p>
 										</a>
 									</Link>
 								</li>
 								<li>
 									<Link href="/messages">
-										<a>
+										<a className={styles.navListAnchor}>
 											<img src="/img/message.svg" alt="" />
+											<p className={styles.toolTip}>Messages</p>
 										</a>
 									</Link>
 								</li>
 								<li>
 									<button className={styles.navListButton}>
 										<img src="/img/profile.svg" alt="" />
+										<p className={styles.toolTip}>Profile</p>
 									</button>
 								</li>
 							</ul>

@@ -2,9 +2,9 @@ import { protectedRoute } from "../hooks/routes";
 
 const Favorites = () => {
 	return (
-		<div>
+		<main>
 			<p>This is the favorites page</p>
-		</div>
+		</main>
 	);
 };
 

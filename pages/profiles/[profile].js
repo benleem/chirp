@@ -6,9 +6,9 @@ const Profile = () => {
 	const { profile } = router.query;
 
 	return (
-		<div>
+		<main>
 			<p>Profile: {profile}</p>
-		</div>
+		</main>
 	);
 };
 

@@ -21,7 +21,6 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 			.then((userCredential) => {
 				// Signed in
 				const user = userCredential.user;
-				router.push("/");
 			})
 			.catch((error) => {
 				const errorCode = error.code;
