@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 
 import {
 	createUserWithEmailAndPassword,
-	sendEmailVerification,
 	updateProfile,
+	sendEmailVerification,
 } from "firebase/auth";
 
 import styles from "../styles/AuthModal.module.css";
 
 const SignUp = ({ chooseForm, setChooseForm, auth }) => {
-	const router = useRouter();
 	const [formValues, setFormValues] = useState({
 		displayName: "",
 		email: "",

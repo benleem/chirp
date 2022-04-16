@@ -1,0 +1,71 @@
+.navListContainer{
+	margin: 0;
+	padding: 0;
+	height: 40px;
+	white-space: nowrap;
+}
+
+.navListItem{
+	display: inline-block;
+	margin-left: 10px;
+	height: 100%;
+	background-color: #dcf6e8;
+	border-radius: 10px;
+	text-align: center;
+	position: relative;
+}
+
+.navListAnchor{
+	position: relative;
+	display: inline-block;
+	margin-top: 0;
+	height: 100%;
+}
+
+.navListAnchor img{
+	height: 100%;
+
+}
+
+.navListButton{
+	height: 100%;
+	border: none;
+	background:none;
+	padding: 0;
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+}
+
+.navListItem img{
+	height: 100%;
+	padding: 5px;
+}
+
+.navListContainer li:first-child{
+	padding-left: 0;
+	margin-left: 0;
+}
+
+.toolTip{
+	visibility: hidden;
+	width: 100px;
+	background-color: black;
+	opacity: 0.75;
+	color: white;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	font-size: 12px;
+
+	position: absolute;
+	z-index: 99;
+	top: 100%;
+	left: 50%;
+	margin-left: -50px;
+	margin-top: 5px;
+}
+
+.navListButton:hover .toolTip,.navListAnchor:hover .toolTip{
+	visibility: visible;
+}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+import { auth } from "../firebase/firebaseConfig";
 import { useUser } from "../context/UserContext";
 
 import styles from "../styles/Header.module.css";
@@ -83,14 +84,37 @@ const Header = () => {
 									</Link>
 								</li>
 								<li className={styles.navListItem}>
-									<button className={styles.navListButton}>
+									<button
+										className={styles.navListButton}
+										onClick={() => setShowDropdown(!showDropdown)}
+									>
 										<img src="/img/profile.svg" alt="" />
 										<p className={styles.toolTip}>Profile</p>
 									</button>
-									<ul className={styles.profileDropdown}>
-										<li>Log out</li>
-										<li>Profile</li>
-									</ul>
+									{showDropdown ? (
+										<ul className={styles.profileDropdown}>
+											<li className={styles.dropdownListItem}>
+												{user ? (
+													<button
+														className={styles.logOutButton}
+														onClick={() => auth.signOut()}
+													>
+														Log out
+													</button>
+												) : (
+													<Link href="/auth">
+														<a>Sign In / Sign Up</a>
+													</Link>
+												)}
+											</li>
+											{user ? (
+												<>
+													<li className={styles.dropdownListItem}>Profile</li>
+													<li className={styles.dropdownListItem}>Settings</li>
+												</>
+											) : null}
+										</ul>
+									) : null}
 								</li>
 							</ul>
 						)}

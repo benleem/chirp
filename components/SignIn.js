@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 
-import { useRouter } from "next/router";
-
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import styles from "../styles/AuthModal.module.css";
 
 const SignIn = ({ chooseForm, setChooseForm, auth }) => {
-	const router = useRouter();
 	const [formValues, setFormValues] = useState({
 		email: "",
 		password: "",

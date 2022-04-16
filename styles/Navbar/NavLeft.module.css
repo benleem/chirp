@@ -1,0 +1,81 @@
+.navLeft{
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.navLeftActive{
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
+}
+
+.navLeft a, .navLeftActive a{
+	display: inline-block;
+	margin-right: 10px;
+	height: 40px;
+}
+
+.navLogo{
+	height: 100%;
+	width: max-content;
+}
+
+.searchBarContainer{
+	display: flex;
+	background-color: #dcf6e8;
+	border-radius: 10px;
+	height: 40px;
+	width: 100%;
+}
+
+.searchImageButton{
+	border: none;
+	height: 100%;
+	padding: 0;
+	cursor: pointer;
+	background:none;
+	position: relative;
+}
+
+.searchImage{
+	height: 100%;
+	padding: 5px;
+}
+
+.searchBar{
+	font-size: 16px;
+    width: 100%;
+    padding: 5px;
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    color: grey;
+    font-family: 'Roboto', sans-serif;
+    background:none;
+	padding-left: 0;
+}
+
+.toolTip{
+	visibility: hidden;
+	width: 100px;
+	background-color: black;
+	opacity: 0.75;
+	color: white;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	font-size: 12px;
+
+	position: absolute;
+	z-index: 99;
+	top: 100%;
+	left: 50%;
+	margin-left: -50px;
+	margin-top: 5px;
+}
+
+.searchImageButton:hover .toolTip{
+	visibility: visible;
+}

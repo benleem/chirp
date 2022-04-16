@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import { UserProvider } from "../context/UserContext";
-import Header from "../components/Header";
+import NavbarContainer from "../components/Navbar/NavbarContainer";
 
 import "../styles/globals.css";
 
@@ -18,7 +18,8 @@ function MyApp({ Component, pageProps }) {
 				/>
 				<link rel="apple-touch-icon" href="/img/logo.svg" />
 			</Head>
-			<Header />
+			<NavbarContainer />
+			{/* <Header /> */}
 			<Component {...pageProps} />
 		</UserProvider>
 	);
