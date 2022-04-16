@@ -1,12 +1,13 @@
 import Head from "next/head";
 
+import { UserProvider } from "../context/UserContext";
 import Header from "../components/Header";
 
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
 	return (
-		<>
+		<UserProvider>
 			<Head>
 				<title>Chirp</title>
 				<meta charSet="utf-8" />
@@ -19,7 +20,7 @@ function MyApp({ Component, pageProps }) {
 			</Head>
 			<Header />
 			<Component {...pageProps} />
-		</>
+		</UserProvider>
 	);
 }
 

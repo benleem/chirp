@@ -1,12 +1,18 @@
 import { useState } from "react";
-
-import Link from "next/link";
 import { useRouter } from "next/router";
+import Link from "next/link";
+
+import { useUser } from "../context/UserContext";
+
 import styles from "../styles/Header.module.css";
 
 const Header = () => {
+	const user = useUser();
 	const router = useRouter();
+
 	const [isSearching, setIsSearching] = useState(false);
+	const [showDropdown, setShowDropdown] = useState(false);
+
 	return (
 		<>
 			{router.pathname === "/auth" ? null : (
@@ -54,13 +60,13 @@ const Header = () => {
 						)}
 						{isSearching ? null : (
 							<ul className={styles.navListContainer}>
-								<li>
+								<li className={styles.navListItem}>
 									<button className={styles.navListButton}>
 										<img src="/img/add.svg" alt="" />
 										<p className={styles.toolTip}>Add post</p>
 									</button>
 								</li>
-								<li>
+								<li className={styles.navListItem}>
 									<Link href="/favorites">
 										<a className={styles.navListAnchor}>
 											<img src="/img/favorite.svg" alt="" />
@@ -68,7 +74,7 @@ const Header = () => {
 										</a>
 									</Link>
 								</li>
-								<li>
+								<li className={styles.navListItem}>
 									<Link href="/messages">
 										<a className={styles.navListAnchor}>
 											<img src="/img/message.svg" alt="" />
@@ -76,11 +82,15 @@ const Header = () => {
 										</a>
 									</Link>
 								</li>
-								<li>
+								<li className={styles.navListItem}>
 									<button className={styles.navListButton}>
 										<img src="/img/profile.svg" alt="" />
 										<p className={styles.toolTip}>Profile</p>
 									</button>
+									<ul className={styles.profileDropdown}>
+										<li>Log out</li>
+										<li>Profile</li>
+									</ul>
 								</li>
 							</ul>
 						)}

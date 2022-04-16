@@ -95,13 +95,14 @@
 	white-space: nowrap;
 }
 
-.navListContainer li{
+.navListItem{
 	display: inline-block;
 	margin-left: 10px;
 	height: 100%;
 	background-color: #dcf6e8;
 	border-radius: 10px;
 	text-align: center;
+	position: relative;
 }
 
 .navListAnchor{
@@ -126,7 +127,7 @@
 	display: inline-block;
 }
 
-.navListContainer li img{
+.navListItem img{
 	height: 100%;
 	padding: 5px;
 }
@@ -157,6 +158,20 @@
 
 .navListButton:hover .toolTip,.navListAnchor:hover .toolTip, .searchImageButton:hover .toolTip{
 	visibility: visible;
+}
+
+.profileDropdown{
+	background-color: black;
+	color: white;
+	visibility: hidden;
+	font-size: 12px;
+
+	position: absolute;
+	z-index: 1;
+	top: 100%;
+	margin-top: 5px;
+
+	right: 0%;
 }
 
 @media only screen and (max-width: 1000px) {
