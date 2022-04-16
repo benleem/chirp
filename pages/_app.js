@@ -19,7 +19,6 @@ function MyApp({ Component, pageProps }) {
 				<link rel="apple-touch-icon" href="/img/logo.svg" />
 			</Head>
 			<NavbarContainer />
-			{/* <Header /> */}
 			<Component {...pageProps} />
 		</UserProvider>
 	);

@@ -4,7 +4,13 @@ import ProfileDropdown from "./ProfileDropdown";
 
 import styles from "../../styles/Navbar/NavRight.module.css";
 
-const NavbarRight = ({ isSearching, showDropdown, setShowDropdown }) => {
+const NavbarRight = ({
+	isSearching,
+	showDropdown,
+	setShowDropdown,
+	showPostModal,
+	setShowPostModal,
+}) => {
 	return (
 		<>
 			{isSearching ? null : (
@@ -12,7 +18,10 @@ const NavbarRight = ({ isSearching, showDropdown, setShowDropdown }) => {
 					<li className={styles.navListItem}>
 						<button
 							className={styles.navListButton}
-							onClick={() => setShowDropdown(false)}
+							onClick={() => {
+								setShowDropdown(false);
+								setShowPostModal(!showPostModal);
+							}}
 						>
 							<img src="/img/add.svg" alt="" />
 							<p className={styles.toolTip}>Add post</p>

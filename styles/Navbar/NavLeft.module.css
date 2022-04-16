@@ -79,3 +79,13 @@
 .searchImageButton:hover .toolTip{
 	visibility: visible;
 }
+
+@media only screen and (max-width: 350px) {
+	.searchBarContainer{
+		height: 30px;
+	}
+
+	.searchBarContainerActive{
+		height: 30px;
+	}
+}

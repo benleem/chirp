@@ -14,9 +14,12 @@ export const protectedRoute = (Component) => {
 		useEffect(() => {
 			if (!user) {
 				router.push("/auth");
-				// return <PageLoading />;
 			}
 		}, [user]);
+
+		// if (!user) {
+		// 	return <PageLoading />;
+		// }
 
 		return <Component auth={auth} {...props} />;
 	};
@@ -30,7 +33,6 @@ export const publicRoute = (Component) => {
 		useEffect(() => {
 			if (user) {
 				router.push("/");
-				// return <PageLoading />;
 			}
 		}, [user]);
 
