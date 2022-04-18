@@ -1,8 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 
+import { useUser } from "../context/UserContext";
+
 import styles from "../styles/AddPostModal.module.css";
 
 const AddPostModal = ({ showPostModal, setShowPostModal }) => {
+	const user = useUser();
+
 	const textArea = useRef();
 	const imageInputArea = useRef();
 	const gifInputArea = useRef();
@@ -13,7 +17,6 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	const [formErrors, setFormErrors] = useState({});
 	// const [firebaseError, setFirebaseError] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
-
 	const [file, setFile] = useState("");
 
 	const handleSubmit = (e) => {
@@ -66,10 +69,20 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	// 	console.log(formValues);
 	// }, [formValues]);
 
+	useEffect(() => {
+		console.log(user);
+	}, [user]);
+
 	return (
 		<div className={styles.addPostModalContainer}>
 			<form className={styles.addPostModal} onSubmit={(e) => handleSubmit(e)}>
-				<p className={styles.modalTitle}>Add Post</p>
+				<div className={styles.topContainer}>
+					<p className={styles.modalTitle}>Add Post</p>
+					<button
+						className={styles.closeButton}
+						onClick={() => setShowPostModal(!showPostModal)}
+					></button>
+				</div>
 				<div className={styles.inputContainer}>
 					<textarea
 						className={styles.textInput}

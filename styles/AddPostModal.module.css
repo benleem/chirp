@@ -25,11 +25,53 @@
     font-family: 'Roboto', sans-serif;
 }
 
+.topContainer{
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .modalTitle{
     font-size: 1rem;
     font-weight: 500;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #e8e8e8;
+}
+
+.closeButton {
+    height: 2rem;
+    width: 2rem;
+    padding: 0.3rem;
+    background: none;
+    background-color: none;
+    border-radius: 0.3rem;
+    position: relative;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+}
+
+.closeButton:hover{
+    background-color: rgba(0,0,0,0.2);
+}
+
+.closeButton:before, .closeButton:after {
+    position: absolute;
+    content: '';
+    display: block;
+    background-color: black;
+    height: 3px;
+    width: 80%;
+}
+.closeButton:before {
+    transform: rotate(45deg);
+}
+.closeButton:after {
+    transform: rotate(-45deg);
 }
 
 .inputContainer{
