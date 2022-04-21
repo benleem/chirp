@@ -13,17 +13,17 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 	const [firebaseError, setFirebaseError] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
 
-	const loginUser = () => {
-		signInWithEmailAndPassword(auth, formValues.email, formValues.password)
-			.then((userCredential) => {
-				// Signed in
-				const user = userCredential.user;
-			})
-			.catch((error) => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				setFirebaseError(errorMessage);
-			});
+	const loginUser = async () => {
+		try {
+			await signInWithEmailAndPassword(
+				auth,
+				formValues.email,
+				formValues.password
+			);
+		} catch (error) {
+			const errorMessage = error.message;
+			setFirebaseError(errorMessage);
+		}
 	};
 
 	const handleChange = (e) => {

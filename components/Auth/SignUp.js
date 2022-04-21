@@ -4,7 +4,7 @@ import {
 	updateProfile,
 	sendEmailVerification,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 
 import { db } from "../../firebase/firebaseConfig";
 
@@ -19,22 +19,6 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 	const [formErrors, setFormErrors] = useState({});
 	const [firebaseError, setFirebaseError] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
-
-	// const createUser = () => {
-	// 	createUserWithEmailAndPassword(auth, formValues.email, formValues.password)
-	// 		.then((userCredential) => {
-	// 			// Signed in
-	// 			const user = userCredential.user;
-	// 			updateProfile(user, { displayName: formValues.displayName });
-	// 			sendEmailVerification(user);
-	// 		})
-	// 		.catch((error) => {
-	// 			const errorCode = error.code;
-	// 			const errorMessage = error.message;
-	// 			setFirebaseError(errorMessage);
-	// 		});
-	// };
-
 	const createUser = async () => {
 		try {
 			const userCredential = await createUserWithEmailAndPassword(
@@ -53,10 +37,15 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				posts: [],
 				favorites: [],
 			});
+			await addDoc(collection(db, `users/${user.uid}/messages`), {
+				uid: "chirp",
+				msg: "Welcome to chirp, take a look around",
+			});
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);
+			console.log(errorMessage);
 		}
 	};
 
