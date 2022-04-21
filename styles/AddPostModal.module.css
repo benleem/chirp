@@ -13,16 +13,15 @@
 }
 
 .addPostModal{
+    position: relative;
     padding: 1rem;
-    display: flex;
-    flex-direction: column;
     max-width: 450px;
     width: 100%;
-    height: fit-content;
     background-color: white;
     border-radius: 10px;
     font-family: 'Roboto', sans-serif;
-    margin: 2rem 0;
+    overflow: auto;
+    max-height: 90%;
 }
 
 .topContainer{
@@ -188,4 +187,33 @@
     border-radius: 8px;
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
+}
+
+.formLoading{
+    display: grid;
+    place-content: center;
+    text-align: center;
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255,255,255,0.6);
+}
+
+.formLoadingSpinner{
+    /* background-color: aqua;   */
+    padding: 0;
+    margin: 0;
+    display: block;
+    height: 75px;
+    width: 75px;
+}
+
+.firebaseError{
+    color: red;
+    font-size: 0.8rem;
+    padding-top: 1rem;
+    text-align: center;
 }

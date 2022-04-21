@@ -1,16 +1,11 @@
 import { useState, useEffect } from "react";
 
-import {
-	createUserWithEmailAndPassword,
-	updateProfile,
-	sendEmailVerification,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-import styles from "../styles/AuthModal.module.css";
+import styles from "../../styles/AuthModal.module.css";
 
-const SignUp = ({ chooseForm, setChooseForm, auth }) => {
+const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 	const [formValues, setFormValues] = useState({
-		displayName: "",
 		email: "",
 		password: "",
 	});
@@ -18,13 +13,11 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 	const [firebaseError, setFirebaseError] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
 
-	const createUser = () => {
-		createUserWithEmailAndPassword(auth, formValues.email, formValues.password)
+	const loginUser = () => {
+		signInWithEmailAndPassword(auth, formValues.email, formValues.password)
 			.then((userCredential) => {
 				// Signed in
 				const user = userCredential.user;
-				updateProfile(user, { displayName: formValues.displayName });
-				sendEmailVerification(user);
 			})
 			.catch((error) => {
 				const errorCode = error.code;
@@ -46,29 +39,18 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 
 	const validate = (values) => {
 		const errors = {};
-		if (
-			!values.email ||
-			!values.email.includes("@") ||
-			values.email.includes(" ")
-		) {
-			errors.email = "Please enter a valid email";
+		if (!values.email) {
+			errors.email = "Please fill in this field";
 		}
-		if (!values.displayName || values.displayName.includes(" ")) {
-			errors.displayName = "Please enter a valid display name";
-		}
-		if (
-			!values.password ||
-			values.password.includes(" ") ||
-			values.password.length < 6
-		) {
-			errors.password = "Please enter a valid password";
+		if (!values.password) {
+			errors.password = "Please fill in this field";
 		}
 		return errors;
 	};
 
 	useEffect(() => {
 		if (Object.keys(formErrors).length === 0 && isSubmitted === true) {
-			createUser();
+			loginUser();
 		}
 	}, [formErrors]);
 
@@ -78,24 +60,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 			onSubmit={(e) => handleSubmit(e)}
 			noValidate
 		>
-			<p className={styles.modalTitle}>Sign up</p>
-			<ul className={styles.tips}>
-				<li>Passwords must contain 6 or more characters</li>
-				<li>Display names and passwords cannot contain a space</li>
-			</ul>
-			<div className={styles.inputContainer}>
-				<p className={styles.inputTag}>Display Name</p>
-				<input
-					className={styles.inputField}
-					type="text"
-					name="displayName"
-					placeholder="coolperson123"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.displayName ? (
-					<p className={styles.formError}>{formErrors.displayName}</p>
-				) : null}
-			</div>
+			<p className={styles.modalTitle}>Sign In</p>
 			<div className={styles.inputContainer}>
 				<p className={styles.inputTag}>Email</p>
 				<input
@@ -123,15 +88,15 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				) : null}
 			</div>
 			<button className={styles.submitButton} type="submit">
-				Sign Up
+				Sign In
 			</button>
-			<p className={styles.query}>Already have an account?</p>
+			<p className={styles.query}>Don't have an account?</p>
 			<button
 				type="button"
 				className={styles.answer}
 				onClick={() => setChooseForm(!chooseForm)}
 			>
-				Sign In
+				Sign Up
 			</button>
 			{firebaseError ? (
 				<p className={styles.firebaseError}>{firebaseError}</p>
@@ -140,4 +105,4 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 	);
 };
 
-export default SignUp;
+export default SignIn;

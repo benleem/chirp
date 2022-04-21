@@ -10,7 +10,7 @@ const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
 		<button type="button" className={styles.giphyTile}>
 			<img
 				className={styles.gif}
-				src={gif?.images.original.url}
+				src={gif?.images.downsized.url}
 				alt="gif"
 				onClick={handleClick}
 			/>

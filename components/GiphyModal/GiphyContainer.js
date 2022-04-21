@@ -51,6 +51,13 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 	return (
 		<div className={styles.giphyContainer}>
 			<div className={styles.giphyContainerTop}>
+				<button
+					className={styles.backButton}
+					type="button"
+					onClick={() => setShowGiphy(!showGiphy)}
+				>
+					{"<"}
+				</button>
 				<form className={styles.searchForm} onSubmit={(e) => handleSubmit(e)}>
 					<button type="submit" className={styles.searchButton}>
 						<img className={styles.searchImage} src="/img/search.svg" alt="" />
@@ -65,9 +72,9 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 					/>
 				</form>
 			</div>
-			{gifs.map((gif) => (
+			{gifs.map((gif, index) => (
 				<GiphyTile
-					key={gif.id}
+					key={gif.id + index}
 					gif={gif}
 					showGiphy={showGiphy}
 					setShowGiphy={setShowGiphy}

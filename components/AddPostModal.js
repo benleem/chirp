@@ -1,13 +1,18 @@
 import { useRef, useState, useEffect } from "react";
 
-// import { useUser } from "../context/UserContext";
+import { motion } from "framer-motion";
+import { collection, addDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+import { useUser } from "../context/UserContext";
+import { db, storage } from "../firebase/firebaseConfig";
 
 import GiphyContainer from "./GiphyModal/GiphyContainer";
 
 import styles from "../styles/AddPostModal.module.css";
 
 const AddPostModal = ({ showPostModal, setShowPostModal }) => {
-	// const user = useUser();
+	const user = useUser();
 
 	const textArea = useRef();
 	const imageInputArea = useRef();
@@ -16,8 +21,10 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 		text: "",
 	});
 	const [formErrors, setFormErrors] = useState({});
-	// const [firebaseError, setFirebaseError] = useState("");
+	const [firebaseError, setFirebaseError] = useState("");
+	const [formLoading, setFormLoading] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
+	const [fileToUpload, setFileToUpload] = useState();
 	const [file, setFile] = useState("");
 	const [showGiphy, setShowGiphy] = useState(false);
 
@@ -45,6 +52,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 
 	const handleFileChange = (e) => {
 		const selectedFile = e.target.files[0];
+		setFileToUpload(selectedFile);
 		if (selectedFile) {
 			let reader = new FileReader();
 			reader.readAsDataURL(selectedFile);
@@ -55,14 +63,43 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	};
 
 	const removeFile = () => {
+		fileToUpload(null);
 		setFile(null);
 		imageInputArea.current.value = null;
 	};
 
+	const addPost = async () => {
+		try {
+			setFormLoading(true);
+			let fileUrl = "";
+			if (file) {
+				if (file.includes("giphy.com")) {
+					fileUrl = file;
+				} else {
+					const storageRef = ref(storage, `images/${fileToUpload.name}`);
+					await uploadBytes(storageRef, fileToUpload);
+					fileUrl = await getDownloadURL(storageRef);
+				}
+			}
+			const docRef = await addDoc(collection(db, "posts"), {
+				userId: user.uid,
+				text: formValues.text,
+				fileRef: fileUrl,
+				favorited: [],
+			});
+			console.log("Document written with ID: ", docRef.id);
+			setFormLoading(false);
+			setShowPostModal(!showPostModal);
+		} catch (error) {
+			const errorMessage = error.message;
+			setFirebaseError(errorMessage);
+			setFormLoading(false);
+		}
+	};
+
 	useEffect(() => {
 		if (Object.keys(formErrors).length === 0 && isSubmitted === true) {
-			setShowPostModal(!showPostModal);
-			console.log("Form submitted");
+			addPost();
 		}
 	}, [formErrors]);
 
@@ -84,6 +121,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 							onChange={(e) => handleTextChange(e)}
 							placeholder="What's chirpin?"
 							name="text"
+							defaultValue={formValues.text}
 						/>
 						{formErrors.text ? (
 							<p className={styles.formError}>{formErrors.text}</p>
@@ -118,7 +156,11 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 					</div>
 					{file ? (
 						<div className={styles.mediaPreviewContainer}>
-							<img className={styles.mediaPreviewFile} src={file} alt="" />
+							<img
+								className={styles.mediaPreviewFile}
+								src={file}
+								alt="preview"
+							/>
 							<button
 								className={styles.mediaPreviewButton}
 								type="button"
@@ -131,6 +173,20 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 					<button className={styles.submitButton} type="submit">
 						Post
 					</button>
+					{formLoading ? (
+						<div className={styles.formLoading}>
+							<motion.img
+								className={styles.formLoadingSpinner}
+								animate={{ rotate: 360 }}
+								transition={{ loop: Infinity, ease: "linear", duration: 3 }}
+								src="/img/hourglass-loading.svg"
+								alt="loading"
+							/>
+						</div>
+					) : null}
+					{firebaseError ? (
+						<p className={styles.firebaseError}>{firebaseError}</p>
+					) : null}
 				</form>
 			)}
 			{showGiphy ? (

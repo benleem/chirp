@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { publicRoute } from "../hooks/routes";
 
-import SignUp from "../components/SignUp";
-import SignIn from "../components/SignIn";
+import SignUp from "../components/Auth/SignUp";
+import SignIn from "../components/Auth/SignIn";
 
 import styles from "../styles/Auth.module.css";
 
