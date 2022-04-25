@@ -56,11 +56,19 @@
 	margin-top: 0.5rem;
 }
 
+/* Interact container */
+
 .interactContainer {
-	align-items: center;
 	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	margin-top: 0.5rem;
 	width: 100%;
+}
+
+.interactLeft,
+.interactRight {
+	display: flex;
 }
 
 .interactButton {
@@ -77,7 +85,7 @@
 }
 
 .interactButtonImg {
-	height: 20px;
+	height: 1.2rem;
 	width: 100%;
 	display: block;
 }

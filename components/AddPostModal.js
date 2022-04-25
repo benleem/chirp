@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from "react";
-
 import { motion } from "framer-motion";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { useUser } from "../context/UserContext";

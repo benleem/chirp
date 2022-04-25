@@ -6,7 +6,7 @@ const PostsContainer = ({ posts }) => {
 	return (
 		<div className={styles.postsContainer}>
 			{posts?.map((post) => (
-				<Post post={post} />
+				<Post key={post.id} postId={post.id} post={post.data} />
 			))}
 		</div>
 	);
