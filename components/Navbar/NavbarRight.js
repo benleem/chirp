@@ -39,17 +39,6 @@ const NavbarRight = ({
 						</Link>
 					</li>
 					<li className={styles.navListItem}>
-						<Link href="/messages">
-							<a
-								className={styles.navListAnchor}
-								onClick={() => setShowDropdown(false)}
-							>
-								<img src="/img/message.svg" alt="" />
-								<p className={styles.toolTip}>Messages</p>
-							</a>
-						</Link>
-					</li>
-					<li className={styles.navListItem}>
 						<button
 							className={styles.navListButton}
 							onClick={() => setShowDropdown(!showDropdown)}

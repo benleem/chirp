@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap");
 
 /* Colors
 baby green - #dcf6e8
@@ -14,12 +14,12 @@ html,
 body {
 	padding: 0;
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-		Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	background-color: #e8e8e8;
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	background-color: #f0f2f5;
 }
 
-main{
+main {
 	max-width: 1000px;
 	width: 100%;
 	margin: auto;
@@ -41,7 +41,7 @@ p {
 
 @media only screen and (max-width: 1000px) {
 	/* For mobile phones: */
-	main{
+	main {
 		padding: 0 3%;
 	}
 }

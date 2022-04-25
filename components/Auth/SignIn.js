@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-import styles from "../../styles/AuthModal.module.css";
+import styles from "../../styles/Auth/AuthModal.module.css";
 
 const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 	const [formValues, setFormValues] = useState({

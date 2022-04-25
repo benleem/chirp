@@ -5,7 +5,7 @@ import { publicRoute } from "../hooks/routes";
 import SignUp from "../components/Auth/SignUp";
 import SignIn from "../components/Auth/SignIn";
 
-import styles from "../styles/Auth.module.css";
+import styles from "../styles/Auth/Auth.module.css";
 
 const Auth = ({ auth }) => {
 	const [chooseForm, setChooseForm] = useState(false);

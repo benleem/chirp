@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 
 import { motion } from "framer-motion";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { useUser } from "../context/UserContext";
@@ -63,7 +63,6 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	};
 
 	const removeFile = () => {
-		fileToUpload(null);
 		setFile(null);
 		imageInputArea.current.value = null;
 	};
@@ -83,9 +82,11 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 			}
 			const docRef = await addDoc(collection(db, "posts"), {
 				userId: user.uid,
+				displayName: user.displayName,
+				// userImg: user.photoUrl,
 				text: formValues.text,
 				fileRef: fileUrl,
-				favorited: [],
+				timeStamp: Date.now(),
 			});
 			console.log("Document written with ID: ", docRef.id);
 			setFormLoading(false);

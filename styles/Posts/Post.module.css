@@ -1,0 +1,83 @@
+.post {
+	width: 100%;
+	/* background-color: aquamarine; */
+	padding: 2rem;
+	border-bottom: 1px solid grey;
+	border-left: 1px solid grey;
+	border-right: 1px solid grey;
+	font-family: "Roboto", sans-serif;
+	display: flex;
+	background-color: white;
+}
+
+.post:first-child {
+	border-top: 1px solid grey;
+}
+
+.imgContainer {
+	background-color: black;
+	border-radius: 50%;
+	height: 2.3rem;
+	margin-right: 0.5rem;
+}
+
+.userImg {
+	height: 100%;
+}
+
+.postContainer {
+	width: 100%;
+}
+
+.postDetails {
+	padding-bottom: 0.5rem;
+}
+
+.displayName {
+	font-weight: 600;
+	font-size: 1rem;
+}
+
+.postTime {
+	font-size: 0.85rem;
+	font-weight: 300;
+	color: grey;
+}
+
+.postText {
+	font-size: 0.95rem;
+	white-space: pre-line;
+}
+
+.postImg {
+	width: 100%;
+	border: 1px solid grey;
+	border-radius: 10px;
+	margin-top: 0.5rem;
+}
+
+.interactContainer {
+	align-items: center;
+	display: flex;
+	margin-top: 0.5rem;
+	width: 100%;
+}
+
+.interactButton {
+	border-radius: 8px;
+	font-family: "Roboto", sans-serif;
+	cursor: pointer;
+	background: none;
+	border: none;
+	padding: 0;
+}
+
+.interactButton:first-child {
+	margin-right: 1rem;
+}
+
+.interactButtonImg {
+	height: 20px;
+	width: 100%;
+	display: block;
+}

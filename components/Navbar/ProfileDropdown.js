@@ -9,11 +9,11 @@ import styles from "../../styles/Navbar/ProfileDropdown.module.css";
 const ProfileDropdown = ({ setShowDropdown, showDropdown }) => {
 	const user = useUser();
 
-	useEffect(() => {
-		if (user) {
-			console.log(user);
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (user) {
+	// 		console.log(user);
+	// 	}
+	// }, []);
 
 	return (
 		<ul className={styles.profileDropdown}>

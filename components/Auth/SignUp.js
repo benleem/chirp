@@ -4,11 +4,11 @@ import {
 	updateProfile,
 	sendEmailVerification,
 } from "firebase/auth";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 import { db } from "../../firebase/firebaseConfig";
 
-import styles from "../../styles/AuthModal.module.css";
+import styles from "../../styles/Auth/AuthModal.module.css";
 
 const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 	const [formValues, setFormValues] = useState({
@@ -27,7 +27,6 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				formValues.password
 			);
 			const user = userCredential.user;
-			console.log(user);
 			await updateProfile(user, { displayName: formValues.displayName });
 			await sendEmailVerification(user);
 			await setDoc(doc(db, "users", user.uid), {
@@ -37,15 +36,14 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				posts: [],
 				favorites: [],
 			});
-			await addDoc(collection(db, `users/${user.uid}/messages`), {
-				uid: "chirp",
-				msg: "Welcome to chirp, take a look around",
-			});
+			// await addDoc(collection(db, `users/${user.uid}/messages`), {
+			// 	uid: "chirp",
+			// 	msg: "Welcome to chirp, take a look around",
+			// });
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);
-			console.log(errorMessage);
 		}
 	};
 
