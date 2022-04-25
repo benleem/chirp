@@ -1,13 +1,31 @@
 import { useState } from "react";
+import nookies from "nookies";
 
-import { publicRoute } from "../hooks/routes";
+import { auth } from "../firebase/firebaseConfig";
+import { adminAuth } from "../firebase/firebaseAdmin";
 
 import SignUp from "../components/Auth/SignUp";
 import SignIn from "../components/Auth/SignIn";
 
 import styles from "../styles/Auth/Auth.module.css";
 
-const Auth = ({ auth }) => {
+export const getServerSideProps = async (context) => {
+	try {
+		const cookies = nookies.get(context);
+		const token = await adminAuth.verifyIdToken(cookies.token);
+
+		if (token) {
+			context.res.writeHead(302, { Location: "/" });
+			context.res.end();
+		}
+
+		return { props: {} };
+	} catch (err) {
+		return { props: {} };
+	}
+};
+
+const Auth = () => {
 	const [chooseForm, setChooseForm] = useState(false);
 
 	return (
@@ -29,4 +47,4 @@ const Auth = ({ auth }) => {
 	);
 };
 
-export default publicRoute(Auth);
+export default Auth;

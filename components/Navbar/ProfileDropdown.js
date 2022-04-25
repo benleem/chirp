@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { auth } from "../../firebase/firebaseConfig";
-import { useUser } from "../../context/UserContext";
+import { useAuth } from "../../hooks/useAuth";
 
 import styles from "../../styles/Navbar/ProfileDropdown.module.css";
 
 const ProfileDropdown = ({ setShowDropdown, showDropdown }) => {
-	const user = useUser();
+	const router = useRouter();
+	const user = useAuth();
 
 	// useEffect(() => {
 	// 	if (user) {
@@ -31,6 +33,7 @@ const ProfileDropdown = ({ setShowDropdown, showDropdown }) => {
 						onClick={() => {
 							auth.signOut();
 							setShowDropdown(!showDropdown);
+							router.push("/auth");
 						}}
 					>
 						Log out

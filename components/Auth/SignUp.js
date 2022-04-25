@@ -5,12 +5,14 @@ import {
 	sendEmailVerification,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
 
 import { db } from "../../firebase/firebaseConfig";
 
 import styles from "../../styles/Auth/AuthModal.module.css";
 
 const SignUp = ({ chooseForm, setChooseForm, auth }) => {
+	const router = useRouter();
 	const [formValues, setFormValues] = useState({
 		displayName: "",
 		email: "",
@@ -40,6 +42,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 			// 	uid: "chirp",
 			// 	msg: "Welcome to chirp, take a look around",
 			// });
+			router.push("/");
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;

@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { protectedRoute } from "../../hooks/routes";
 
 const Profile = () => {
 	const router = useRouter();
@@ -12,4 +11,4 @@ const Profile = () => {
 	);
 };
 
-export default protectedRoute(Profile);
+export default Profile;

@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-import { useUser } from "../context/UserContext";
+import { useAuth } from "../hooks/useAuth";
+
 import { db, storage } from "../firebase/firebaseConfig";
 
 import GiphyContainer from "./GiphyModal/GiphyContainer";
@@ -11,7 +12,7 @@ import GiphyContainer from "./GiphyModal/GiphyContainer";
 import styles from "../styles/AddPostModal.module.css";
 
 const AddPostModal = ({ showPostModal, setShowPostModal }) => {
-	const user = useUser();
+	const user = useAuth();
 
 	const textArea = useRef();
 	const imageInputArea = useRef();

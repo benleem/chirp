@@ -1,13 +1,13 @@
 import Head from "next/head";
 
-import { UserProvider } from "../context/UserContext";
+import { AuthProvider } from "../context/AuthContext";
 import NavbarContainer from "../components/Navbar/NavbarContainer";
 
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
 	return (
-		<UserProvider>
+		<AuthProvider>
 			<Head>
 				<title>Chirp</title>
 				<meta charSet="utf-8" />
@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
 			</Head>
 			<NavbarContainer />
 			<Component {...pageProps} />
-		</UserProvider>
+		</AuthProvider>
 	);
 }
 

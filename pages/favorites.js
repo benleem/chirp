@@ -1,5 +1,3 @@
-import { protectedRoute } from "../hooks/routes";
-
 const Favorites = () => {
 	return (
 		<main>
@@ -8,4 +6,4 @@ const Favorites = () => {
 	);
 };
 
-export default protectedRoute(Favorites);
+export default Favorites;

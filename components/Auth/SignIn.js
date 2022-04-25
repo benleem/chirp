@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/router";
 
 import styles from "../../styles/Auth/AuthModal.module.css";
 
 const SignIn = ({ chooseForm, setChooseForm, auth }) => {
+	const router = useRouter();
 	const [formValues, setFormValues] = useState({
 		email: "",
 		password: "",
@@ -20,6 +21,7 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 				formValues.email,
 				formValues.password
 			);
+			router.push("/");
 		} catch (error) {
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);
@@ -53,6 +55,10 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 			loginUser();
 		}
 	}, [formErrors]);
+
+	useEffect(() => {
+		console.log(firebaseError);
+	}, [firebaseError]);
 
 	return (
 		<form

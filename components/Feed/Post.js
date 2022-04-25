@@ -4,12 +4,12 @@ import { deleteObject, ref } from "firebase/storage";
 import { motion } from "framer-motion";
 
 import { db, storage } from "../../firebase/firebaseConfig";
-import { useUser } from "../../context/UserContext";
+import { useAuth } from "../../hooks/useAuth";
 
 import styles from "../../styles/Posts/Post.module.css";
 
 const Post = ({ postId, post }) => {
-	const user = useUser();
+	const user = useAuth();
 	const [commentHover, setCommentHover] = useState(false);
 	const [favoriteHover, setFavoriteHover] = useState(false);
 	const [editHover, setEditHover] = useState(false);
