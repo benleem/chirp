@@ -1,8 +1,9 @@
 import { useEffect, useState, Suspense } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
-import { motion, AnimatePresence } from "framer-motion";
+import { deleteObject, ref } from "firebase/storage";
+import { motion } from "framer-motion";
 
-import { db } from "../../firebase/firebaseConfig";
+import { db, storage } from "../../firebase/firebaseConfig";
 import { useUser } from "../../context/UserContext";
 
 import styles from "../../styles/Posts/Post.module.css";
@@ -31,8 +32,16 @@ const Post = ({ postId, post }) => {
 	};
 
 	const deletePost = async () => {
-		const docRef = doc(db, "posts", postId);
-		await deleteDoc(docRef);
+		try {
+			if (post?.fileRef.includes("firebasestorage")) {
+				const imgRef = ref(storage, post.fileRef);
+				await deleteObject(imgRef);
+			}
+			const docRef = doc(db, "posts", postId);
+			await deleteDoc(docRef);
+		} catch (error) {
+			console.log(error.message);
+		}
 	};
 
 	return (
