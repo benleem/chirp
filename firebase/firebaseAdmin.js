@@ -9,4 +9,5 @@ if (admin.apps.length === 0) {
 }
 
 const adminAuth = admin.auth();
+
 export { adminAuth };

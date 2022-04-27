@@ -1,6 +1,7 @@
 import { useEffect, useState, Suspense } from "react";
+import { useRouter } from "next/router";
 import { deleteDoc, doc } from "firebase/firestore";
-import { deleteObject, ref } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref } from "firebase/storage";
 import { motion } from "framer-motion";
 
 import { db, storage } from "../../firebase/firebaseConfig";
@@ -10,6 +11,8 @@ import styles from "../../styles/Posts/Post.module.css";
 
 const Post = ({ postId, post }) => {
 	const user = useAuth();
+	const router = useRouter();
+
 	const [commentHover, setCommentHover] = useState(false);
 	const [favoriteHover, setFavoriteHover] = useState(false);
 	const [editHover, setEditHover] = useState(false);
@@ -32,15 +35,26 @@ const Post = ({ postId, post }) => {
 	};
 
 	const deletePost = async () => {
+		const docRef = doc(db, "posts", postId);
+		const imgRef = ref(storage, post.fileRef);
 		try {
 			if (post?.fileRef.includes("firebasestorage")) {
-				const imgRef = ref(storage, post.fileRef);
 				await deleteObject(imgRef);
 			}
-			const docRef = doc(db, "posts", postId);
 			await deleteDoc(docRef);
+			await router.replace(router.asPath);
+			window.scrollTo({ top: 0, behavior: "smooth" });
 		} catch (error) {
-			console.log(error.message);
+			if (error.code === "storage/object-not-found") {
+				console.log(error);
+				try {
+					await deleteDoc(docRef);
+					await router.replace(router.asPath);
+					window.scrollTo({ top: 0, behavior: "smooth" });
+				} catch (error) {
+					console.log(error);
+				}
+			}
 		}
 	};
 

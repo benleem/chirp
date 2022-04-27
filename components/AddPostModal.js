@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -13,6 +14,7 @@ import styles from "../styles/AddPostModal.module.css";
 
 const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	const user = useAuth();
+	const router = useRouter();
 
 	const textArea = useRef();
 	const imageInputArea = useRef();
@@ -91,6 +93,10 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 			console.log("Document written with ID: ", docRef.id);
 			setFormLoading(false);
 			setShowPostModal(!showPostModal);
+			if ((router.pathname = "/")) {
+				await router.replace(router.asPath);
+				window.scrollTo({ top: 0, behavior: "smooth" });
+			}
 		} catch (error) {
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);

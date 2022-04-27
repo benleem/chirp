@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
 	getDocs,
+	getDoc,
 	collection,
 	query,
-	doc,
 	orderBy,
-	onSnapshot,
-	documentId,
+	doc,
 } from "firebase/firestore";
 import nookies from "nookies";
 
@@ -19,30 +18,30 @@ export const getServerSideProps = async (context) => {
 	try {
 		const cookies = nookies.get(context);
 		const token = await adminAuth.verifyIdToken(cookies.token);
+		const { uid } = token;
 
-		// FETCH STUFF HERE!! 🚀
+		const postsQuery = query(
+			collection(db, "posts"),
+			orderBy("timeStamp", "desc")
+		);
+		const posts = [];
+		const postsData = await getDocs(postsQuery);
+		postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
+
+		const userQuery = query(doc(db, `users/${uid}`));
+		const favoritesData = (await getDoc(userQuery)).data();
 
 		return {
-			props: { token },
+			props: { posts, favorites: favoritesData.favorites },
 		};
 	} catch (err) {
-		context.res.writeHead(302, { Location: "/auth" });
-		context.res.end();
-		return { props: {} };
+		// context.res.writeHead(302, { Location: "/auth" });
+		// context.res.end();
+		return { props: { error: err.message } };
 	}
 };
 
-const Home = ({ token }) => {
-	// const q = query(collection(db, "posts"), orderBy("timeStamp", "desc"));
-
-	// const [posts, setPosts] = useState([]);
-
-	// const getPosts = async () => {
-	// 	const postsData = await getDocs(collection(db, "posts"));
-	// 	const posts = postsData.docs.map((doc) => doc.data());
-	// 	setPosts(posts);
-	// };
-
+const Home = ({ posts, favorites, error }) => {
 	// useEffect(() => {
 	// 	onSnapshot(q, (querySnapshot) => {
 	// 		const posts = [];
@@ -53,12 +52,17 @@ const Home = ({ token }) => {
 	// 	});
 	// }, []);
 
-	// useEffect(() => {
-	// 	console.log(posts);
-	// 	// window.scrollTo({ top: 0, behavior: "smooth" });
-	// }, [posts]);
+	useEffect(() => {
+		// console.log(token);
+		console.log(favorites);
+		console.log(error);
+	}, []);
 
-	return <main>{/* <PostsContainer posts={posts} /> */}</main>;
+	return (
+		<main>
+			<PostsContainer posts={posts} />
+		</main>
+	);
 };
 
 export default Home;
