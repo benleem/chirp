@@ -1,6 +1,6 @@
 import { useEffect, useState, Suspense } from "react";
 import { useRouter } from "next/router";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, ref } from "firebase/storage";
 import { motion } from "framer-motion";
 
@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 import styles from "../../styles/Posts/Post.module.css";
 
-const Post = ({ postId, post }) => {
+const Post = ({ postId, post, favorites }) => {
 	const user = useAuth();
 	const router = useRouter();
 
@@ -32,6 +32,26 @@ const Post = ({ postId, post }) => {
 		});
 
 		return <p className={styles.postTime}>{time}</p>;
+	};
+
+	const handleFavorite = async () => {
+		const userRef = doc(db, `users/${user.uid}`);
+		try {
+			if (favorites.includes(postId)) {
+				const updatedFavorites = favorites.filter(
+					(favorite) => favorite !== postId
+				);
+				await updateDoc(userRef, {
+					favorites: updatedFavorites,
+				});
+			} else {
+				await updateDoc(userRef, {
+					favorites: [...favorites, postId],
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const deletePost = async () => {
@@ -101,8 +121,9 @@ const Post = ({ postId, post }) => {
 								className={styles.interactButton}
 								onMouseEnter={() => setFavoriteHover(true)}
 								onMouseLeave={() => setFavoriteHover(false)}
+								onClick={handleFavorite}
 							>
-								{favoriteHover ? (
+								{favorites.includes(postId) || favoriteHover ? (
 									<img
 										className={styles.interactButtonImg}
 										src="/img/favorite-post-hover.svg"

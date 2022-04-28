@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
 	getDocs,
 	getDoc,
@@ -6,6 +6,7 @@ import {
 	query,
 	orderBy,
 	doc,
+	onSnapshot,
 } from "firebase/firestore";
 import nookies from "nookies";
 
@@ -13,6 +14,7 @@ import { adminAuth } from "../firebase/firebaseAdmin";
 import { db } from "../firebase/firebaseConfig";
 
 import PostsContainer from "../components/Feed/PostsContainer";
+import { useAuth } from "../hooks/useAuth";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -20,47 +22,50 @@ export const getServerSideProps = async (context) => {
 		const token = await adminAuth.verifyIdToken(cookies.token);
 		const { uid } = token;
 
-		const postsQuery = query(
-			collection(db, "posts"),
-			orderBy("timeStamp", "desc")
-		);
-		const posts = [];
-		const postsData = await getDocs(postsQuery);
-		postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
+		if (token) {
+			const postsQuery = query(
+				collection(db, "posts"),
+				orderBy("timeStamp", "desc")
+			);
+			const posts = [];
+			const postsData = await getDocs(postsQuery);
+			postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
 
-		const userQuery = query(doc(db, `users/${uid}`));
-		const favoritesData = (await getDoc(userQuery)).data();
+			const userQuery = query(doc(db, `users/${uid}`));
+			const favoritesData = (await getDoc(userQuery)).data();
 
-		return {
-			props: { posts, favorites: favoritesData.favorites },
-		};
+			return {
+				props: { posts, uid, initialFavorites: favoritesData },
+			};
+		} else {
+			return { props: {} };
+		}
 	} catch (err) {
-		// context.res.writeHead(302, { Location: "/auth" });
-		// context.res.end();
+		context.res.writeHead(301, { Location: "/auth" });
+		context.res.end();
 		return { props: { error: err.message } };
 	}
 };
 
-const Home = ({ posts, favorites, error }) => {
-	// useEffect(() => {
-	// 	onSnapshot(q, (querySnapshot) => {
-	// 		const posts = [];
-	// 		querySnapshot.forEach((doc) => {
-	// 			posts.push({ id: doc.id, data: doc.data() });
-	// 		});
-	// 		setPosts(posts);
-	// 	});
-	// }, []);
+const Home = ({ posts, error, uid, initialFavorites }) => {
+	const [favorites, setFavorites] = useState([initialFavorites]);
+
+	const getFavorites = async () => {
+		const userQuery = query(doc(db, `users/${uid}`));
+		onSnapshot(userQuery, (doc) => {
+			const userInfo = doc.data();
+			const favorites = userInfo.favorites;
+			setFavorites(favorites);
+		});
+	};
 
 	useEffect(() => {
-		// console.log(token);
-		console.log(favorites);
-		console.log(error);
+		getFavorites();
 	}, []);
 
 	return (
 		<main>
-			<PostsContainer posts={posts} />
+			<PostsContainer posts={posts} favorites={favorites} />
 		</main>
 	);
 };
