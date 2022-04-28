@@ -28,13 +28,13 @@ const NavbarRight = ({
 						</button>
 					</li>
 					<li className={styles.navListItem}>
-						<Link href="/favorites">
+						<Link href="/favorited">
 							<a
 								className={styles.navListAnchor}
 								onClick={() => setShowDropdown(false)}
 							>
 								<img src="/img/favorite.svg" alt="" />
-								<p className={styles.toolTip}>Favorites</p>
+								<p className={styles.toolTip}>Favorited</p>
 							</a>
 						</Link>
 					</li>

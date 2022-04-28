@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import nookies from "nookies";
 import {
 	getDocs,
 	getDoc,
 	collection,
 	query,
-	orderBy,
 	doc,
-	onSnapshot,
+	where,
+	documentId,
 } from "firebase/firestore";
-import nookies from "nookies";
 
 import { adminAuth } from "../firebase/firebaseAdmin";
 import { db } from "../firebase/firebaseConfig";
 
 import PostsContainer from "../components/Feed/PostsContainer";
-import { useAuth } from "../hooks/useAuth";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -23,24 +22,20 @@ export const getServerSideProps = async (context) => {
 		const { uid } = token;
 
 		try {
-			const postsQuery = query(
-				collection(db, "posts"),
-				orderBy("timeStamp", "desc")
-			);
-			const posts = [];
-			const postsData = await getDocs(postsQuery);
-			postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
-
 			const userQuery = query(doc(db, `users/${uid}`));
 			const favoritesData = (await getDoc(userQuery)).data();
+			const favoriteIds = favoritesData.favorites;
 
-			return {
-				props: { posts, uid, initialFavorites: favoritesData.favorites },
-			};
+			const posts = [];
+			const postsQuery = query(
+				collection(db, "posts"),
+				where(documentId(), "in", favoriteIds)
+			);
+			const postsData = await getDocs(postsQuery);
+			postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
+			return { props: { favorites: favoriteIds, posts } };
 		} catch (error) {
-			return {
-				props: { error: error.message },
-			};
+			return { props: { error: error.message } };
 		}
 	} catch (err) {
 		context.res.writeHead(302, { Location: "/auth" });
@@ -49,20 +44,11 @@ export const getServerSideProps = async (context) => {
 	}
 };
 
-const Home = ({ posts, error, uid, initialFavorites }) => {
-	const [favorites, setFavorites] = useState(initialFavorites);
-
-	const getFavorites = async () => {
-		const userQuery = query(doc(db, `users/${uid}`));
-		onSnapshot(userQuery, (doc) => {
-			const userInfo = doc.data();
-			const favorites = userInfo.favorites;
-			setFavorites(favorites);
-		});
-	};
-
+const Favorited = ({ error, posts, favorites }) => {
 	useEffect(() => {
-		getFavorites();
+		if (posts.length < 1) {
+			console.log("This user has no favorites");
+		}
 	}, []);
 
 	return (
@@ -72,4 +58,4 @@ const Home = ({ posts, error, uid, initialFavorites }) => {
 	);
 };
 
-export default Home;
+export default Favorited;

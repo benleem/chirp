@@ -14,10 +14,8 @@ export const getServerSideProps = async (context) => {
 		const cookies = nookies.get(context);
 		const token = await adminAuth.verifyIdToken(cookies.token);
 
-		if (token) {
-			context.res.writeHead(302, { Location: "/" });
-			context.res.end();
-		}
+		context.res.writeHead(302, { Location: "/" });
+		context.res.end();
 
 		return { props: {} };
 	} catch (err) {

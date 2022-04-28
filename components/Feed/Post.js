@@ -44,6 +44,9 @@ const Post = ({ postId, post, favorites }) => {
 				await updateDoc(userRef, {
 					favorites: updatedFavorites,
 				});
+				if (router.pathname === "/favorited") {
+					router.replace(router.asPath);
+				}
 			} else {
 				await updateDoc(userRef, {
 					favorites: [...favorites, postId],
@@ -56,9 +59,9 @@ const Post = ({ postId, post, favorites }) => {
 
 	const deletePost = async () => {
 		const docRef = doc(db, "posts", postId);
-		const imgRef = ref(storage, post.fileRef);
 		try {
-			if (post?.fileRef.includes("firebasestorage")) {
+			if (post.fileRef.includes("firebasestorage")) {
+				const imgRef = ref(storage, post.fileRef);
 				await deleteObject(imgRef);
 			}
 			await deleteDoc(docRef);
