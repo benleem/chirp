@@ -8,12 +8,14 @@ import {
 	doc,
 	where,
 	documentId,
+	orderBy,
 } from "firebase/firestore";
 
 import { adminAuth } from "../firebase/firebaseAdmin";
 import { db } from "../firebase/firebaseConfig";
 
 import PostsContainer from "../components/Feed/PostsContainer";
+import FavoriteDeleted from "../components/Favorited/FavoriteDeleted";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -33,6 +35,7 @@ export const getServerSideProps = async (context) => {
 			);
 			const postsData = await getDocs(postsQuery);
 			postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
+
 			return { props: { favorites: favoriteIds, posts } };
 		} catch (error) {
 			return { props: { error: error.message } };
@@ -45,14 +48,11 @@ export const getServerSideProps = async (context) => {
 };
 
 const Favorited = ({ error, posts, favorites }) => {
-	useEffect(() => {
-		if (posts.length < 1) {
-			console.log("This user has no favorites");
-		}
-	}, []);
-
 	return (
 		<main>
+			{posts.length < favorites.length ? (
+				<FavoriteDeleted posts={posts} />
+			) : null}
 			<PostsContainer posts={posts} favorites={favorites} />
 		</main>
 	);

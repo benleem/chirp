@@ -56,10 +56,6 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 		}
 	}, [formErrors]);
 
-	useEffect(() => {
-		console.log(firebaseError);
-	}, [firebaseError]);
-
 	return (
 		<form
 			className={styles.authModal}

@@ -82,7 +82,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 					fileUrl = await getDownloadURL(storageRef);
 				}
 			}
-			const docRef = await addDoc(collection(db, "posts"), {
+			await addDoc(collection(db, "posts"), {
 				userId: user.uid,
 				displayName: user.displayName,
 				// userImg: user.photoUrl,
@@ -90,7 +90,6 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 				fileRef: fileUrl,
 				timeStamp: Date.now(),
 			});
-			console.log("Document written with ID: ", docRef.id);
 			setFormLoading(false);
 			setShowPostModal(!showPostModal);
 			if ((router.pathname = "/")) {

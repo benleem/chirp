@@ -11,12 +11,6 @@ const ProfileDropdown = ({ setShowDropdown, showDropdown }) => {
 	const router = useRouter();
 	const user = useAuth();
 
-	// useEffect(() => {
-	// 	if (user) {
-	// 		console.log(user);
-	// 	}
-	// }, []);
-
 	return (
 		<ul className={styles.profileDropdown}>
 			{user ? (
