@@ -8,13 +8,14 @@ import {
 	doc,
 	where,
 	documentId,
-	orderBy,
+	limit,
 } from "firebase/firestore";
 
 import { adminAuth } from "../firebase/firebaseAdmin";
 import { db } from "../firebase/firebaseConfig";
 
 import PostsContainer from "../components/Feed/PostsContainer";
+import NoFavorites from "../components/Favorited/NoFavorites";
 import FavoriteDeleted from "../components/Favorited/FavoriteDeleted";
 
 export const getServerSideProps = async (context) => {
@@ -31,12 +32,16 @@ export const getServerSideProps = async (context) => {
 			const posts = [];
 			const postsQuery = query(
 				collection(db, "posts"),
-				where(documentId(), "in", favoriteIds)
+				where(documentId(), "in", favoriteIds),
+				limit(10)
 			);
 			const postsData = await getDocs(postsQuery);
 			postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
+			const orderedPosts = posts.sort(
+				(a, b) => b.data.timeStamp - a.data.timeStamp
+			);
 
-			return { props: { favorites: favoriteIds, posts } };
+			return { props: { favorites: favoriteIds, posts: orderedPosts } };
 		} catch (error) {
 			return { props: { error: error.message } };
 		}
@@ -48,12 +53,31 @@ export const getServerSideProps = async (context) => {
 };
 
 const Favorited = ({ error, posts, favorites }) => {
+	const CheckFavorites = () => {
+		if (posts === undefined) {
+			return <NoFavorites />;
+		} else if (favorites.length > posts.length && posts.length === 0) {
+			return (
+				<>
+					<FavoriteDeleted posts={posts} />
+					<NoFavorites />
+				</>
+			);
+		} else if (favorites.length > posts.length) {
+			return (
+				<>
+					<FavoriteDeleted posts={posts} />
+					<PostsContainer posts={posts} favorites={favorites} />
+				</>
+			);
+		} else {
+			return <PostsContainer posts={posts} favorites={favorites} />;
+		}
+	};
+
 	return (
 		<main>
-			{posts.length < favorites.length ? (
-				<FavoriteDeleted posts={posts} />
-			) : null}
-			<PostsContainer posts={posts} favorites={favorites} />
+			<CheckFavorites />
 		</main>
 	);
 };

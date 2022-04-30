@@ -1,13 +1,14 @@
 .navContainer {
 	padding: 16px 0;
-	background-color: #35CE8D;
-    font-family: 'Roboto', sans-serif;
+	background-color: #35ce8d;
+	font-family: "Roboto", sans-serif;
 	width: 100vw;
 	position: sticky;
 	top: 0;
+	z-index: 1;
 }
 
-.navBar{
+.navBar {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -18,7 +19,7 @@
 }
 
 @media only screen and (max-width: 1000px) {
-	.navBar{
+	.navBar {
 		padding: 0 3%;
 	}
 }

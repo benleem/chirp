@@ -7,6 +7,7 @@ import {
 	orderBy,
 	doc,
 	onSnapshot,
+	limit,
 } from "firebase/firestore";
 import nookies from "nookies";
 
@@ -14,7 +15,6 @@ import { adminAuth } from "../firebase/firebaseAdmin";
 import { db } from "../firebase/firebaseConfig";
 
 import PostsContainer from "../components/Feed/PostsContainer";
-import { useAuth } from "../hooks/useAuth";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -25,7 +25,8 @@ export const getServerSideProps = async (context) => {
 		try {
 			const postsQuery = query(
 				collection(db, "posts"),
-				orderBy("timeStamp", "desc")
+				orderBy("timeStamp", "desc"),
+				limit(10)
 			);
 			const posts = [];
 			const postsData = await getDocs(postsQuery);
