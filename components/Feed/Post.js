@@ -86,7 +86,17 @@ const Post = ({ postId, post, favorites }) => {
 		<Suspense fallback={null}>
 			<div className={styles.post}>
 				<div className={styles.imgContainer}>
-					<img className={styles.userImg} src="/img/search.svg" alt="" />
+					<div className={styles.userImgWrapper}>
+						<Image
+							src="/img/sample-profile.jpeg"
+							alt="User picture"
+							layout="responsive"
+							width={40}
+							height={40}
+							objectFit="cover"
+						/>
+					</div>
+					{/* <img className={styles.userImg} src="/img/search.svg" alt="" /> */}
 				</div>
 				<div className={styles.postContainer}>
 					<div className={styles.postDetails}>

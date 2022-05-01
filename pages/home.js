@@ -13,7 +13,6 @@ import nookies from "nookies";
 
 import { adminAuth } from "../firebase/firebaseAdmin";
 import { db } from "../firebase/firebaseConfig";
-import { useAuth } from "../hooks/useAuth";
 
 import PostsContainer from "../components/Feed/PostsContainer";
 import UserCard from "../components/UserCard";
@@ -50,7 +49,7 @@ export const getServerSideProps = async (context) => {
 			};
 		}
 	} catch (err) {
-		context.res.writeHead(302, { Location: "/auth" });
+		context.res.writeHead(302, { Location: "/" });
 		context.res.end();
 		return { props: {} };
 	}

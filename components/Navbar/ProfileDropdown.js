@@ -33,7 +33,7 @@ const ProfileDropdown = ({ setShowDropdown, showDropdown }) => {
 						Log out
 					</button>
 				) : (
-					<Link href="/auth">
+					<Link href="/">
 						<a onClick={() => setShowDropdown(!showDropdown)}>
 							Sign In / Sign Up
 						</a>

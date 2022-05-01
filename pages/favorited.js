@@ -47,7 +47,7 @@ export const getServerSideProps = async (context) => {
 			return { props: { error: error.message } };
 		}
 	} catch (err) {
-		context.res.writeHead(302, { Location: "/auth" });
+		context.res.writeHead(302, { Location: "/" });
 		context.res.end();
 		return { props: {} };
 	}

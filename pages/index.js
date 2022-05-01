@@ -12,18 +12,21 @@ import styles from "../styles/Auth/Auth.module.css";
 export const getServerSideProps = async (context) => {
 	try {
 		const cookies = nookies.get(context);
-		await adminAuth.verifyIdToken(cookies.token);
+		const token = await adminAuth.verifyIdToken(cookies.token);
 
-		context.res.writeHead(302, { Location: "/home" });
-		context.res.end();
+		if (token !== undefined || token !== "" || token !== null) {
+			context.res.writeHead(302, { Location: "/home" });
+			context.res.end();
+		}
 
-		return { props: {} };
+		return { props: { token } };
 	} catch (err) {
 		return { props: {} };
 	}
 };
 
-const Auth = () => {
+const Auth = ({ token }) => {
+	console.log(token);
 	const [chooseForm, setChooseForm] = useState(false);
 
 	return (

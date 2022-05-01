@@ -6,9 +6,91 @@
 	background-color: white;
 	border: 1px solid grey;
 	border-left: none;
-	padding: 2rem 1rem;
+	/* padding: 2rem 1rem; */
 	position: sticky;
 	top: 72px;
 	background-color: white;
-	text-align: center;
+	font-family: "Roboto", sans-serif;
 }
+
+.cardTop {
+	width: 100%;
+	background-color: aquamarine;
+}
+
+.backgroundWrapper {
+	display: block;
+	width: 100%;
+}
+
+.cardBottom {
+	padding: 0 1rem;
+}
+
+.userImgRow {
+	height: 37.5px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.imgWrapper {
+	position: relative;
+	top: -37.5px;
+	display: inline-block;
+	border-radius: 50%;
+	overflow: hidden;
+	width: 75px;
+	height: 75px;
+}
+
+.userDetails {
+	padding-top: 0.5rem;
+	padding-bottom: 1rem;
+}
+
+.displayName {
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.description {
+	font-size: 0.95rem;
+	line-height: 1.5;
+	padding: 0.3rem 0;
+}
+
+.joined,
+.userActivity {
+	font-weight: 300;
+	color: grey;
+	font-size: 0.85rem;
+}
+
+.userActivity {
+	padding-top: 0.2rem;
+	display: flex;
+}
+
+.posts {
+	padding-left: 0.5rem;
+}
+
+.editButton {
+	margin-top: 1rem;
+	background: none;
+	border: none;
+	background-color: #35ce8d;
+	border-radius: 8px;
+	color: white;
+	cursor: pointer;
+	font-family: "Roboto", sans-serif;
+	padding: 0.5rem;
+	width: 100%;
+	font-size: 1rem;
+}
+
+/* .topCard {
+	width: 100%;
+	background: hsla(155, 61%, 51%, 1);
+	padding: 0 1rem;
+} */

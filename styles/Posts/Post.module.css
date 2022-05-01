@@ -15,10 +15,16 @@
 }
 
 .imgContainer {
-	background-color: black;
-	border-radius: 50%;
-	height: 2.3rem;
+	/* height: 2.3rem; */
 	margin-right: 0.5rem;
+}
+
+.userImgWrapper {
+	display: block;
+	height: 2.1rem;
+	width: 2.1rem;
+	border-radius: 50%;
+	overflow: hidden;
 }
 
 .userImg {
