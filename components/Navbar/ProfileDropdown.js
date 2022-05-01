@@ -27,7 +27,7 @@ const ProfileDropdown = ({ setShowDropdown, showDropdown }) => {
 						onClick={() => {
 							auth.signOut();
 							setShowDropdown(!showDropdown);
-							router.push("/auth");
+							router.push("/");
 						}}
 					>
 						Log out

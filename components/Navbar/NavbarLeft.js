@@ -5,7 +5,7 @@ import styles from "../../styles/Navbar/NavLeft.module.css";
 const NavbarLeft = ({ isSearching, setIsSearching, setShowDropdown }) => {
 	return (
 		<div className={isSearching ? styles.navLeftActive : styles.navLeft}>
-			<Link href="/">
+			<Link href="/home">
 				<a onClick={() => setShowDropdown(false)}>
 					<img className={styles.navLogo} src="/img/logo.svg" alt="" />
 				</a>

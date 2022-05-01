@@ -1,5 +1,6 @@
 import { useEffect, useState, Suspense } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, ref } from "firebase/storage";
 import { motion } from "framer-motion";
@@ -94,7 +95,9 @@ const Post = ({ postId, post, favorites }) => {
 					</div>
 					<p className={styles.postText}>{post.text}</p>
 					{post.fileRef ? (
-						<img className={styles.postImg} src={post.fileRef} alt="" />
+						<>
+							<img className={styles.postImg} src={post.fileRef} alt="" />
+						</>
 					) : null}
 					<div className={styles.interactContainer}>
 						<div className={styles.interactLeft}>

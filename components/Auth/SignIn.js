@@ -21,7 +21,7 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 				formValues.email,
 				formValues.password
 			);
-			router.push("/");
+			router.push("/home");
 		} catch (error) {
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);

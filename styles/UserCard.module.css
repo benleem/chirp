@@ -1,0 +1,14 @@
+.userCardContainer {
+	flex: 1;
+}
+
+.userCard {
+	background-color: white;
+	border: 1px solid grey;
+	border-left: none;
+	padding: 2rem 1rem;
+	position: sticky;
+	top: 72px;
+	background-color: white;
+	text-align: center;
+}

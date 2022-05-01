@@ -17,7 +17,7 @@ const NavbarContainer = () => {
 
 	return (
 		<>
-			{router.pathname === "/auth" ? null : (
+			{router.pathname === "/" ? null : (
 				<>
 					<div className={styles.navContainer}>
 						<nav className={styles.navBar}>

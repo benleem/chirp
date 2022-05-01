@@ -92,7 +92,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 			});
 			setFormLoading(false);
 			setShowPostModal(!showPostModal);
-			if ((router.pathname = "/")) {
+			if ((router.pathname = "/home")) {
 				await router.replace(router.asPath);
 				window.scrollTo({ top: 0, behavior: "smooth" });
 			}

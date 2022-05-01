@@ -42,7 +42,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 			// 	uid: "chirp",
 			// 	msg: "Welcome to chirp, take a look around",
 			// });
-			router.push("/");
+			router.push("/home");
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;

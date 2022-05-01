@@ -17,6 +17,7 @@ import { db } from "../firebase/firebaseConfig";
 import PostsContainer from "../components/Feed/PostsContainer";
 import NoFavorites from "../components/Favorited/NoFavorites";
 import FavoriteDeleted from "../components/Favorited/FavoriteDeleted";
+import UserCard from "../components/UserCard";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -55,30 +56,46 @@ export const getServerSideProps = async (context) => {
 const Favorited = ({ error, posts, favorites }) => {
 	const CheckFavorites = () => {
 		if (posts === undefined) {
-			return <NoFavorites />;
+			return (
+				<main>
+					<NoFavorites />
+					<UserCard />
+				</main>
+			);
 		} else if (favorites.length > posts.length && posts.length === 0) {
 			return (
 				<>
 					<FavoriteDeleted posts={posts} />
-					<NoFavorites />
+					<main>
+						<NoFavorites />
+						<UserCard />
+					</main>
 				</>
 			);
 		} else if (favorites.length > posts.length) {
 			return (
 				<>
 					<FavoriteDeleted posts={posts} />
-					<PostsContainer posts={posts} favorites={favorites} />
+					<main>
+						<PostsContainer posts={posts} favorites={favorites} />
+						<UserCard />
+					</main>
 				</>
 			);
 		} else {
-			return <PostsContainer posts={posts} favorites={favorites} />;
+			return (
+				<main>
+					<PostsContainer posts={posts} favorites={favorites} />
+					<UserCard />
+				</main>
+			);
 		}
 	};
 
 	return (
-		<main>
+		<>
 			<CheckFavorites />
-		</main>
+		</>
 	);
 };
 

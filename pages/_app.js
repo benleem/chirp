@@ -1,6 +1,6 @@
 import Head from "next/head";
-
 import { AuthProvider } from "../context/AuthContext";
+
 import NavbarContainer from "../components/Navbar/NavbarContainer";
 
 import "../styles/globals.css";

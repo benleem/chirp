@@ -1,76 +1,48 @@
-import { useEffect, useState } from "react";
-import {
-	getDocs,
-	getDoc,
-	collection,
-	query,
-	orderBy,
-	doc,
-	onSnapshot,
-	limit,
-} from "firebase/firestore";
+import { useState } from "react";
 import nookies from "nookies";
 
+import { auth } from "../firebase/firebaseConfig";
 import { adminAuth } from "../firebase/firebaseAdmin";
-import { db } from "../firebase/firebaseConfig";
 
-import PostsContainer from "../components/Feed/PostsContainer";
+import SignUp from "../components/Auth/SignUp";
+import SignIn from "../components/Auth/SignIn";
+
+import styles from "../styles/Auth/Auth.module.css";
 
 export const getServerSideProps = async (context) => {
 	try {
 		const cookies = nookies.get(context);
-		const token = await adminAuth.verifyIdToken(cookies.token);
-		const { uid } = token;
+		await adminAuth.verifyIdToken(cookies.token);
 
-		try {
-			const postsQuery = query(
-				collection(db, "posts"),
-				orderBy("timeStamp", "desc"),
-				limit(10)
-			);
-			const posts = [];
-			const postsData = await getDocs(postsQuery);
-			postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
-
-			const userQuery = query(doc(db, `users/${uid}`));
-			const favoritesData = (await getDoc(userQuery)).data();
-
-			return {
-				props: { posts, uid, initialFavorites: favoritesData.favorites },
-			};
-		} catch (error) {
-			return {
-				props: { error: error.message },
-			};
-		}
-	} catch (err) {
-		context.res.writeHead(302, { Location: "/auth" });
+		context.res.writeHead(302, { Location: "/home" });
 		context.res.end();
+
+		return { props: {} };
+	} catch (err) {
 		return { props: {} };
 	}
 };
 
-const Home = ({ posts, error, uid, initialFavorites }) => {
-	const [favorites, setFavorites] = useState(initialFavorites);
-
-	const getFavorites = async () => {
-		const userQuery = query(doc(db, `users/${uid}`));
-		onSnapshot(userQuery, (doc) => {
-			const userInfo = doc.data();
-			const favorites = userInfo.favorites;
-			setFavorites(favorites);
-		});
-	};
-
-	useEffect(() => {
-		getFavorites();
-	}, []);
+const Auth = () => {
+	const [chooseForm, setChooseForm] = useState(false);
 
 	return (
-		<main>
-			<PostsContainer posts={posts} favorites={favorites} />
-		</main>
+		<div className={styles.modalContainer}>
+			{chooseForm ? (
+				<SignUp
+					chooseForm={chooseForm}
+					setChooseForm={setChooseForm}
+					auth={auth}
+				/>
+			) : (
+				<SignIn
+					chooseForm={chooseForm}
+					setChooseForm={setChooseForm}
+					auth={auth}
+				/>
+			)}
+		</div>
 	);
 };
 
-export default Home;
+export default Auth;
