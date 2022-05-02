@@ -2,7 +2,7 @@ import styles from "../../styles/Giphy/GiphyTile.module.css";
 
 const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
 	const handleClick = () => {
-		setFile(gif?.images.original.url);
+		setFile(gif?.images.downsized.url);
 		setShowGiphy(!showGiphy);
 	};
 

@@ -2,16 +2,33 @@ import { useEffect } from "react";
 import Image from "next/image";
 
 import { useAuth } from "../hooks/useAuth";
+import { useUser } from "../hooks/useUser";
 
 import styles from "../styles/UserCard.module.css";
 
 const UserCard = () => {
 	const user = useAuth();
+	const userInfo = useUser();
+
+	const ConvertTime = () => {
+		let date = new Date(user?.metadata.creationTime);
+		let time = date.toLocaleDateString("en-US", {
+			month: "long",
+			day: "numeric",
+			year: "numeric",
+		});
+
+		return <p className={styles.joined}>Joined: {time}</p>;
+	};
 
 	useEffect(() => {
 		console.log(user);
-		console.log(user?.metadata.createdAt);
+		console.log(user?.metadata);
 	}, [user]);
+
+	// useEffect(() => {
+	// 	console.log(userInfo);
+	// }, [userInfo]);
 
 	return (
 		<div className={styles.userCardContainer}>
@@ -43,15 +60,13 @@ const UserCard = () => {
 					</div>
 					<div className={styles.userDetails}>
 						<p className={styles.displayName}>{user?.displayName}</p>
-						<p className={styles.description}>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-							ut libero nec risus blandit auctor id sed quam. Ut ac libero ex.
-							Nam eleifend tincidunt luctus
-						</p>
-						<p className={styles.joined}>Joined {user?.metadata.createdAt} </p>
+						<p className={styles.description}>{userInfo?.description}</p>
+						<ConvertTime />
 						<div className={styles.userActivity}>
-							<p className={styles.favorites}>Favorites: 4</p>
-							<p className={styles.posts}>Posts: 12</p>
+							<p className={styles.favorites}>
+								Favorites: {userInfo?.favorites.length}
+							</p>
+							<p className={styles.posts}>Posts: {userInfo?.posts.length}</p>
 						</div>
 						<button className={styles.editButton}>Edit profile</button>
 					</div>

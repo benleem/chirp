@@ -60,13 +60,12 @@ const home = ({ posts, error, uid, initialFavorites }) => {
 
 	const getFavorites = async () => {
 		const userQuery = query(doc(db, `users/${uid}`));
-		if (userQuery) {
-			onSnapshot(userQuery, (doc) => {
-				const userInfo = doc.data();
-				const favorites = userInfo.favorites;
-				setFavorites(favorites);
-			});
-		}
+
+		onSnapshot(userQuery, (doc) => {
+			const userInfo = doc.data();
+			const favorites = userInfo.favorites;
+			setFavorites(favorites);
+		});
 	};
 
 	useEffect(() => {

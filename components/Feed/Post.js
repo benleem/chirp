@@ -7,11 +7,14 @@ import { motion } from "framer-motion";
 
 import { db, storage } from "../../firebase/firebaseConfig";
 import { useAuth } from "../../hooks/useAuth";
+import { useUser } from "../../hooks/useUser";
 
 import styles from "../../styles/Posts/Post.module.css";
+import { async } from "@firebase/util";
 
 const Post = ({ postId, post, favorites }) => {
 	const user = useAuth();
+	const userInfo = useUser();
 	const router = useRouter();
 
 	const [commentHover, setCommentHover] = useState(false);
@@ -60,23 +63,33 @@ const Post = ({ postId, post, favorites }) => {
 
 	const deletePost = async () => {
 		const docRef = doc(db, "posts", postId);
+		const userRef = doc(db, `users/${user.uid}`);
+
+		const deleteDocmuent = async () => {
+			await deleteDoc(docRef);
+
+			const updatedPosts = userInfo.posts.filter((post) => post !== postId);
+			await updateDoc(userRef, {
+				posts: updatedPosts,
+			});
+
+			await router.replace(router.asPath);
+			window.scrollTo({ top: 0, behavior: "smooth" });
+		};
+
 		try {
 			if (post.fileRef.includes("firebasestorage")) {
 				const imgRef = ref(storage, post.fileRef);
 				await deleteObject(imgRef);
 			}
-			await deleteDoc(docRef);
-			await router.replace(router.asPath);
-			window.scrollTo({ top: 0, behavior: "smooth" });
+			deleteDocmuent();
 		} catch (error) {
 			if (error.code === "storage/object-not-found") {
-				console.log(error);
+				console.log(error.message);
 				try {
-					await deleteDoc(docRef);
-					await router.replace(router.asPath);
-					window.scrollTo({ top: 0, behavior: "smooth" });
+					deleteDocmuent();
 				} catch (error) {
-					console.log(error);
+					console.log(error.message);
 				}
 			}
 		}

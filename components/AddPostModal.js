@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { useAuth } from "../hooks/useAuth";
+import { useUser } from "../hooks/useUser";
 
 import { db, storage } from "../firebase/firebaseConfig";
 
@@ -14,6 +15,7 @@ import styles from "../styles/AddPostModal.module.css";
 
 const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	const user = useAuth();
+	const userInfo = useUser();
 	const router = useRouter();
 
 	const textArea = useRef();
@@ -82,13 +84,17 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 					fileUrl = await getDownloadURL(storageRef);
 				}
 			}
-			await addDoc(collection(db, "posts"), {
+			const docRef = await addDoc(collection(db, "posts"), {
 				userId: user.uid,
 				displayName: user.displayName,
 				// userImg: user.photoUrl,
 				text: formValues.text,
 				fileRef: fileUrl,
 				timeStamp: Date.now(),
+			});
+			const userRef = doc(db, `users/${user.uid}`);
+			await updateDoc(userRef, {
+				posts: [...userInfo.posts, docRef.id],
 			});
 			setFormLoading(false);
 			setShowPostModal(!showPostModal);
