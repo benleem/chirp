@@ -29,11 +29,17 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				formValues.password
 			);
 			const user = userCredential.user;
-			await updateProfile(user, { displayName: formValues.displayName });
-			await sendEmailVerification(user);
+
+			// await updateProfile(user, { displayName: formValues.displayName });
+			// await updateProfile(user, {
+			// 	photoURL: `https://avatars.dicebear.com/api/pixel-art-neutral/${user.uid}.svg`,
+			// });
+
 			await setDoc(doc(db, "users", user.uid), {
-				displayName: user.displayName,
-				imgUrl: user.photoURL,
+				displayName: formValues.displayName,
+				imgUrl: `https://avatars.dicebear.com/api/pixel-art-neutral/${user.uid}.svg`,
+				backgroundUrl: "",
+				createdAt: user.metadata.creationTime,
 				description: "",
 				posts: [],
 				favorites: [],
@@ -42,6 +48,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 			// 	uid: "chirp",
 			// 	msg: "Welcome to chirp, take a look around",
 			// });
+			await sendEmailVerification(user);
 			router.push("/home");
 		} catch (error) {
 			const errorCode = error.code;

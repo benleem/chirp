@@ -101,7 +101,7 @@ const Post = ({ postId, post, favorites }) => {
 				<div className={styles.imgContainer}>
 					<div className={styles.userImgWrapper}>
 						<Image
-							src="/img/sample-profile.jpeg"
+							src={post.userImg}
 							alt="User picture"
 							layout="responsive"
 							width={40}
@@ -109,7 +109,6 @@ const Post = ({ postId, post, favorites }) => {
 							objectFit="cover"
 						/>
 					</div>
-					{/* <img className={styles.userImg} src="/img/search.svg" alt="" /> */}
 				</div>
 				<div className={styles.postContainer}>
 					<div className={styles.postDetails}>

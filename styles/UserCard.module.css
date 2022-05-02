@@ -41,6 +41,7 @@
 	overflow: hidden;
 	width: 75px;
 	height: 75px;
+	background-color: white;
 }
 
 .userDetails {
@@ -51,12 +52,21 @@
 .displayName {
 	font-size: 1rem;
 	font-weight: 600;
+	padding-bottom: 0.3rem;
+}
+
+.symbol {
+	display: inline-block;
+	align-items: center;
+	vertical-align: text-top;
+	font-size: 0.85rem;
+	letter-spacing: 0.05rem;
 }
 
 .description {
 	font-size: 0.95rem;
 	line-height: 1.5;
-	padding: 0.3rem 0;
+	padding-bottom: 0.3rem;
 }
 
 .joined,
@@ -76,7 +86,7 @@
 }
 
 .editButton {
-	margin-top: 1rem;
+	margin-top: 0.5rem;
 	background: none;
 	border: none;
 	background-color: #35ce8d;

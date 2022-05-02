@@ -1,17 +1,15 @@
 import { useEffect } from "react";
 import Image from "next/image";
 
-import { useAuth } from "../hooks/useAuth";
 import { useUser } from "../hooks/useUser";
 
 import styles from "../styles/UserCard.module.css";
 
 const UserCard = () => {
-	const user = useAuth();
 	const userInfo = useUser();
 
 	const ConvertTime = () => {
-		let date = new Date(user?.metadata.creationTime);
+		let date = new Date(userInfo?.createdAt);
 		let time = date.toLocaleDateString("en-US", {
 			month: "long",
 			day: "numeric",
@@ -20,15 +18,6 @@ const UserCard = () => {
 
 		return <p className={styles.joined}>Joined: {time}</p>;
 	};
-
-	useEffect(() => {
-		console.log(user);
-		console.log(user?.metadata);
-	}, [user]);
-
-	// useEffect(() => {
-	// 	console.log(userInfo);
-	// }, [userInfo]);
 
 	return (
 		<div className={styles.userCardContainer}>
@@ -48,23 +37,30 @@ const UserCard = () => {
 				<div className={styles.cardBottom}>
 					<div className={styles.userImgRow}>
 						<div className={styles.imgWrapper}>
-							<Image
-								src="/img/sample-profile.jpeg"
-								alt="User picture"
-								layout="fixed"
-								width="75px"
-								height="75px"
-								objectFit="cover"
-							/>
+							{userInfo ? (
+								<Image
+									src={userInfo.imgUrl}
+									alt="User picture"
+									layout="fixed"
+									width="75px"
+									height="75px"
+									objectFit="cover"
+								/>
+							) : null}
 						</div>
 					</div>
 					<div className={styles.userDetails}>
-						<p className={styles.displayName}>{user?.displayName}</p>
-						<p className={styles.description}>{userInfo?.description}</p>
+						<p className={styles.displayName}>
+							<span className={styles.symbol}>@</span>
+							{userInfo?.displayName}
+						</p>
+						{userInfo?.description ? (
+							<p className={styles.description}>{userInfo?.description}</p>
+						) : null}
 						<ConvertTime />
 						<div className={styles.userActivity}>
 							<p className={styles.favorites}>
-								Favorites: {userInfo?.favorites.length}
+								Favorited: {userInfo?.favorites.length}
 							</p>
 							<p className={styles.posts}>Posts: {userInfo?.posts.length}</p>
 						</div>

@@ -79,15 +79,15 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 				if (file.includes("giphy.com")) {
 					fileUrl = file;
 				} else {
-					const storageRef = ref(storage, `images/${fileToUpload.name}`);
+					const storageRef = ref(storage, `post/${fileToUpload.name}`);
 					await uploadBytes(storageRef, fileToUpload);
 					fileUrl = await getDownloadURL(storageRef);
 				}
 			}
 			const docRef = await addDoc(collection(db, "posts"), {
 				userId: user.uid,
-				displayName: user.displayName,
-				// userImg: user.photoUrl,
+				displayName: userInfo.displayName,
+				userImg: userInfo.imgUrl,
 				text: formValues.text,
 				fileRef: fileUrl,
 				timeStamp: Date.now(),
