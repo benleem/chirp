@@ -18,6 +18,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	const userInfo = useUser();
 	const router = useRouter();
 
+	const form = useRef();
 	const textArea = useRef();
 	const imageInputArea = useRef();
 
@@ -115,10 +116,22 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 		}
 	}, [formErrors]);
 
+	useEffect(() => {
+		if (formLoading === true) {
+			form.current.scrollTop = 0;
+		}
+	}, [formLoading]);
+
 	return (
 		<div className={styles.addPostModalContainer}>
 			{showGiphy ? null : (
-				<form className={styles.addPostModal} onSubmit={(e) => handleSubmit(e)}>
+				<form
+					ref={form}
+					className={
+						formLoading ? styles.addPostModalDisableScroll : styles.addPostModal
+					}
+					onSubmit={(e) => handleSubmit(e)}
+				>
 					<div className={styles.topContainer}>
 						<p className={styles.modalTitle}>Add Post</p>
 						<button

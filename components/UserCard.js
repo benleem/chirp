@@ -24,14 +24,20 @@ const UserCard = () => {
 			<div className={styles.userCard}>
 				<div className={styles.cardTop}>
 					<div className={styles.backgroundWrapper}>
-						<Image
-							src="/img/sample-background.jpg"
-							alt="User background"
-							layout="responsive"
-							width={400}
-							height={200}
-							objectFit="cover"
-						/>
+						{userInfo ? (
+							<Image
+								src={
+									userInfo.backgroundUrl === ""
+										? "/img/sample-background.jpg"
+										: userInfo.backgroundUrl
+								}
+								alt="User background"
+								layout="responsive"
+								width={400}
+								height={200}
+								objectFit="cover"
+							/>
+						) : null}
 					</div>
 				</div>
 				<div className={styles.cardBottom}>

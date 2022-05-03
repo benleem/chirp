@@ -16,8 +16,17 @@ const ProfileDropdown = ({ setShowDropdown, showDropdown }) => {
 			{user ? (
 				<>
 					<li className={styles.dropdownListItem}>{user?.email}</li>
-					<li className={styles.dropdownListItem}>Profile</li>
-					<li className={styles.dropdownListItem}>Settings</li>
+					<li className={styles.dropdownListItem}>
+						<Link href={`/${user.uid}`}>
+							<a
+								onClick={() => {
+									setShowDropdown(!showDropdown);
+								}}
+							>
+								Profile
+							</a>
+						</Link>
+					</li>
 				</>
 			) : null}
 			<li className={styles.dropdownListItem}>
