@@ -1,48 +1,27 @@
-import { useEffect } from "react";
-import nookies from "nookies";
-import {
-	getDocs,
-	getDoc,
-	collection,
-	query,
-	doc,
-	where,
-	documentId,
-	limit,
-} from "firebase/firestore";
-
-import { adminAuth } from "../firebase/firebaseAdmin";
 import { db } from "../firebase/firebaseConfig";
+import { verifyToken } from "../hooks/server/verifyToken";
+import { getUserData } from "../hooks/server/getUserData";
+import { getFavoritedPosts } from "../hooks/server/getFavoritedPosts";
 
 import PostsContainer from "../components/Feed/PostsContainer";
-import NoFavorites from "../components/Favorited/NoFavorites";
+import NoPosts from "../components/Errors/NoPosts";
 import FavoriteDeleted from "../components/Favorited/FavoriteDeleted";
 import UserCard from "../components/UserCard";
 
 export const getServerSideProps = async (context) => {
 	try {
-		const cookies = nookies.get(context);
-		const token = await adminAuth.verifyIdToken(cookies.token);
-		const { uid } = token;
+		const uid = await verifyToken(context);
 
 		try {
-			const userQuery = query(doc(db, `users/${uid}`));
-			const favoritesData = (await getDoc(userQuery)).data();
-			const favoriteIds = favoritesData.favorites;
+			const userData = await getUserData(uid);
+			const favoriteIds = userData.favorites;
 
-			const posts = [];
-			const postsQuery = query(
-				collection(db, "posts"),
-				where(documentId(), "in", favoriteIds),
-				limit(10)
-			);
-			const postsData = await getDocs(postsQuery);
-			postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
-			const orderedPosts = posts.sort(
-				(a, b) => b.data.timeStamp - a.data.timeStamp
-			);
+			if (favoriteIds.length > 0) {
+				const posts = await getFavoritedPosts(favoriteIds);
+				return { props: { favorites: favoriteIds, posts } };
+			}
 
-			return { props: { favorites: favoriteIds, posts: orderedPosts } };
+			return { props: { favorites: favoriteIds, posts: null } };
 		} catch (error) {
 			return { props: { error: error.message } };
 		}
@@ -54,49 +33,35 @@ export const getServerSideProps = async (context) => {
 };
 
 const Favorited = ({ error, posts, favorites }) => {
-	const CheckFavorites = () => {
-		if (posts === undefined) {
+	const ControlErrors = () => {
+		if (error) {
+			return <p>Something went wrong</p>;
+		} else if (favorites.length === 0 && posts === null) {
 			return (
-				<main>
-					<NoFavorites />
-					<UserCard />
-				</main>
+				<>
+					<NoPosts />
+				</>
 			);
 		} else if (favorites.length > posts.length && posts.length === 0) {
 			return (
 				<>
 					<FavoriteDeleted posts={posts} />
-					<main>
-						<NoFavorites />
-						<UserCard />
-					</main>
+					<NoPosts />
 				</>
 			);
 		} else if (favorites.length > posts.length) {
 			return (
 				<>
 					<FavoriteDeleted posts={posts} />
-					<main>
-						<PostsContainer posts={posts} favorites={favorites} />
-						<UserCard />
-					</main>
+					<PostsContainer posts={posts} favorites={favorites} />
 				</>
 			);
 		} else {
-			return (
-				<main>
-					<PostsContainer posts={posts} favorites={favorites} />
-					<UserCard />
-				</main>
-			);
+			return <PostsContainer posts={posts} favorites={favorites} />;
 		}
 	};
 
-	return (
-		<>
-			<CheckFavorites />
-		</>
-	);
+	return <ControlErrors />;
 };
 
 export default Favorited;

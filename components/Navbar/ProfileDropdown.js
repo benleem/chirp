@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { auth } from "../../firebase/firebaseConfig";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/client/useAuth";
 
 import styles from "../../styles/Navbar/ProfileDropdown.module.css";
 

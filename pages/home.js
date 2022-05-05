@@ -1,46 +1,27 @@
 import { useEffect, useState } from "react";
-import {
-	getDocs,
-	getDoc,
-	collection,
-	query,
-	orderBy,
-	doc,
-	onSnapshot,
-	limit,
-} from "firebase/firestore";
-import nookies from "nookies";
+import { query, doc, onSnapshot } from "firebase/firestore";
 
-import { adminAuth } from "../firebase/firebaseAdmin";
 import { db } from "../firebase/firebaseConfig";
+import { verifyToken } from "../hooks/server/verifyToken";
+import { getUserData } from "../hooks/server/getUserData";
+import { getPosts } from "../hooks/server/getPosts";
 
+import NoPosts from "../components/Errors/NoPosts";
 import PostsContainer from "../components/Feed/PostsContainer";
-import UserCard from "../components/UserCard";
 
 export const getServerSideProps = async (context) => {
 	try {
-		const cookies = nookies.get(context);
-		const token = await adminAuth.verifyIdToken(cookies.token);
-		const { uid } = token;
+		const uid = await verifyToken(context);
 
 		try {
-			const postsQuery = query(
-				collection(db, "posts"),
-				orderBy("timeStamp", "desc"),
-				limit(10)
-			);
-			const posts = [];
-			const postsData = await getDocs(postsQuery);
-			postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
-
-			const userQuery = query(doc(db, `users/${uid}`));
-			const favoritesData = (await getDoc(userQuery)).data();
+			const posts = await getPosts();
+			const userData = await getUserData(uid);
 
 			return {
 				props: {
 					posts,
 					uid,
-					initialFavorites: favoritesData.favorites,
+					initialFavorites: userData.favorites,
 				},
 			};
 		} catch (error) {
@@ -55,8 +36,9 @@ export const getServerSideProps = async (context) => {
 	}
 };
 
-const home = ({ posts, error, uid, initialFavorites }) => {
+const Home = ({ posts, error, uid, initialFavorites }) => {
 	const [favorites, setFavorites] = useState(initialFavorites);
+	console.log(error, posts);
 
 	const getFavorites = async () => {
 		const userQuery = query(doc(db, `users/${uid}`));
@@ -72,12 +54,17 @@ const home = ({ posts, error, uid, initialFavorites }) => {
 		getFavorites();
 	}, []);
 
-	return (
-		<main>
-			<PostsContainer posts={posts} favorites={favorites} />
-			<UserCard />
-		</main>
-	);
+	const ControlErrors = () => {
+		if (error) {
+			return <p>Something went wrong...</p>;
+		} else if (posts.length === 0) {
+			return <NoPosts />;
+		} else {
+			return <PostsContainer posts={posts} favorites={favorites} />;
+		}
+	};
+
+	return <ControlErrors />;
 };
 
-export default home;
+export default Home;

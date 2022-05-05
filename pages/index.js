@@ -25,8 +25,7 @@ export const getServerSideProps = async (context) => {
 	}
 };
 
-const Auth = ({ token }) => {
-	console.log(token);
+const Auth = () => {
 	const [chooseForm, setChooseForm] = useState(false);
 
 	return (

@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-import { useAuth } from "../hooks/useAuth";
-import { useUser } from "../hooks/useUser";
+import { useAuth } from "../hooks/client/useAuth";
+import { useUser } from "../hooks/client/useUser";
 
 import { db, storage } from "../firebase/firebaseConfig";
 

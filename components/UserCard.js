@@ -1,12 +1,19 @@
 import { useEffect } from "react";
 import Image from "next/image";
 
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../hooks/client/useUser";
 
 import styles from "../styles/UserCard.module.css";
 
-const UserCard = () => {
-	const userInfo = useUser();
+const UserCard = ({ profileData }) => {
+	const checkUserInfo = () => {
+		if (profileData) {
+			return profileData;
+		} else {
+			return useUser();
+		}
+	};
+	const userInfo = checkUserInfo();
 
 	const ConvertTime = () => {
 		let date = new Date(userInfo?.createdAt);
@@ -20,7 +27,7 @@ const UserCard = () => {
 	};
 
 	return (
-		<div className={styles.userCardContainer}>
+		<section className={styles.userCardContainer}>
 			<div className={styles.userCard}>
 				<div className={styles.cardTop}>
 					<div className={styles.backgroundWrapper}>
@@ -36,6 +43,7 @@ const UserCard = () => {
 								width={400}
 								height={200}
 								objectFit="cover"
+								priority
 							/>
 						) : null}
 					</div>
@@ -51,6 +59,7 @@ const UserCard = () => {
 									width="75px"
 									height="75px"
 									objectFit="cover"
+									priority
 								/>
 							) : null}
 						</div>
@@ -70,11 +79,13 @@ const UserCard = () => {
 							</p>
 							<p className={styles.posts}>Posts: {userInfo?.posts.length}</p>
 						</div>
-						<button className={styles.editButton}>Edit profile</button>
+						{profileData ? null : (
+							<button className={styles.editButton}>Edit profile</button>
+						)}
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 };
 

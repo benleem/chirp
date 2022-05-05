@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { doc, updateDoc } from "firebase/firestore";
 
 import { db } from "../../firebase/firebaseConfig";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/client/useAuth";
 
 import styles from "../../styles/Favorited/FavoriteDeleted.module.css";
 

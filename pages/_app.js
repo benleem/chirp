@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { AuthProvider } from "../context/AuthContext";
 
-import NavbarContainer from "../components/Navbar/NavbarContainer";
+import MainLayout from "../components/MainLayout";
 
 import "../styles/globals.css";
 
@@ -18,8 +18,9 @@ function MyApp({ Component, pageProps }) {
 				/>
 				<link rel="apple-touch-icon" href="/img/logo.svg" />
 			</Head>
-			<NavbarContainer />
-			<Component {...pageProps} />
+			<MainLayout>
+				<Component {...pageProps} />
+			</MainLayout>
 		</AuthProvider>
 	);
 }

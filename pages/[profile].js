@@ -1,71 +1,50 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
-import nookies from "nookies";
-import {
-	getDocs,
-	getDoc,
-	collection,
-	query,
-	doc,
-	where,
-	documentId,
-	limit,
-} from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { query, doc, onSnapshot } from "firebase/firestore";
 
-import { adminAuth } from "../firebase/firebaseAdmin";
 import { db } from "../firebase/firebaseConfig";
+import { verifyToken } from "../hooks/server/verifyToken";
+import { getUserData } from "../hooks/server/getUserData";
+import { getUserPosts } from "../hooks/server/getUserPosts";
 
-import ProfileHeader from "../components/Profile/ProfileHeader";
+import NoPosts from "../components/Errors/NoPosts";
 import PostsContainer from "../components/Feed/PostsContainer";
+import UserCard from "../components/UserCard";
 
 export const getServerSideProps = async (context) => {
 	try {
-		const cookies = nookies.get(context);
-		const token = await adminAuth.verifyIdToken(cookies.token);
-		const { uid } = token;
-
-		const profileid = context.params.profile;
+		const uid = await verifyToken(context);
+		const profileId = context.params.profile;
 
 		try {
-			// get user data
-			const userQuery = query(doc(db, `users/${profileid}`));
-			const userData = (await getDoc(userQuery)).data();
+			const profileData = await getUserData(profileId);
+			const userData = await getUserData(uid);
+			const initialFavorites = userData.favorites;
 
-			if (userData) {
-				//get user posts
-				const posts = [];
-				const postsQuery = query(
-					collection(db, "posts"),
-					where(documentId(), "in", userData.posts),
-					limit(10)
-				);
-				const postsData = await getDocs(postsQuery);
-				postsData.docs.map((doc) =>
-					posts.push({ id: doc.id, data: doc.data() })
-				);
-				const orderedPosts = posts.sort(
-					(a, b) => b.data.timeStamp - a.data.timeStamp
-				);
+			if (profileData && profileData.posts.length > 0) {
+				const profilePosts = await getUserPosts(profileData);
 
-				// get user favorites
-
-				// get user commments
-				return { props: { userData, userPosts: orderedPosts } };
+				return {
+					props: {
+						uid,
+						initialFavorites,
+						profileData,
+						profileId,
+						profilePosts,
+					},
+				};
+			} else if (profileData && profileData.posts.length < 1) {
+				return {
+					props: {
+						uid,
+						initialFavorites,
+						profileData,
+						profileId,
+						profilePosts: [],
+					},
+				};
 			} else {
-				return { props: { userData: null } };
+				return { props: { profileData: null } };
 			}
-
-			// const posts = [];
-			// const postsQuery = query(
-			// 	collection(db, "posts"),
-			// 	where(documentId(), "in", favoriteIds),
-			// 	limit(10)
-			// );
-			// const postsData = await getDocs(postsQuery);
-			// postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
-			// const orderedPosts = posts.sort(
-			// 	(a, b) => b.data.timeStamp - a.data.timeStamp
-			// );
 		} catch (error) {
 			return { props: { error: error.message } };
 		}
@@ -76,42 +55,55 @@ export const getServerSideProps = async (context) => {
 	}
 };
 
-const Profile = ({ userData, error, userPosts }) => {
-	console.log(userData, error);
+const Profile = ({
+	uid,
+	initialFavorites,
+	profileData,
+	profileId,
+	profilePosts,
+	error,
+}) => {
+	const [favorites, setFavorites] = useState(initialFavorites);
 
-	const [view, setView] = useState("posts");
+	const getFavorites = async () => {
+		const userQuery = query(doc(db, `users/${uid}`));
+
+		onSnapshot(userQuery, (doc) => {
+			const userInfo = doc.data();
+			const favorites = userInfo.favorites;
+			setFavorites(favorites);
+		});
+	};
+
+	useEffect(() => {
+		if (favorites) {
+			getFavorites();
+		}
+	}, []);
 
 	const ControlErrors = () => {
-		if (error && userData === undefined) {
+		if (error) {
 			return <p>Something went wrong...</p>;
-		} else if (userData === null && error === undefined) {
+		} else if (profileData === null) {
 			return <p>This page doesn't exist</p>;
+		} else if (profilePosts.length < 1) {
+			return (
+				<>
+					<NoPosts profileData={profileData} />
+					<UserCard profileData={profileData} />
+				</>
+			);
 		} else {
 			return (
 				<>
-					<ProfileHeader userData={userData} setView={setView} />
-					<main>
-						<ControlView />
-					</main>
+					<PostsContainer posts={profilePosts} favorites={favorites} />
+					{uid === profileId ? (
+						<UserCard />
+					) : (
+						<UserCard profileData={profileData} />
+					)}
 				</>
 			);
-		}
-	};
-
-	const ControlView = () => {
-		switch (view) {
-			case "posts":
-				return (
-					<PostsContainer posts={userPosts} favorites={userData.favorites} />
-				);
-			case "comments":
-				return <p>This is the comments view</p>;
-			case "favorites":
-				return <p>This is the favorites view</p>;
-			default:
-				return (
-					<PostsContainer posts={userPosts} favorites={userData.favorites} />
-				);
 		}
 	};
 

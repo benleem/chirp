@@ -1,16 +1,16 @@
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Link from "next/link";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, ref } from "firebase/storage";
 import { motion } from "framer-motion";
 
 import { db, storage } from "../../firebase/firebaseConfig";
-import { useAuth } from "../../hooks/useAuth";
-import { useUser } from "../../hooks/useUser";
+import { useAuth } from "../../hooks/client/useAuth";
+import { useUser } from "../../hooks/client/useUser";
 
 import styles from "../../styles/Posts/Post.module.css";
-import { async } from "@firebase/util";
 
 const Post = ({ postId, post, favorites }) => {
 	const user = useAuth();
@@ -96,123 +96,123 @@ const Post = ({ postId, post, favorites }) => {
 	};
 
 	return (
-		<Suspense fallback={null}>
-			<div className={styles.post}>
-				<div className={styles.imgContainer}>
-					<div className={styles.userImgWrapper}>
-						<Image
-							src={post.userImg}
-							alt="User picture"
-							layout="responsive"
-							width={40}
-							height={40}
-							objectFit="cover"
-						/>
-					</div>
+		<div className={styles.post}>
+			<div className={styles.imgContainer}>
+				<div className={styles.userImgWrapper}>
+					<Image
+						src={post.userImg}
+						alt="User picture"
+						layout="responsive"
+						width={40}
+						height={40}
+						objectFit="cover"
+					/>
 				</div>
-				<div className={styles.postContainer}>
-					<div className={styles.postDetails}>
-						<p className={styles.displayName}>{post.displayName}</p>
-						<ConvertTime />
+			</div>
+			<div className={styles.postContainer}>
+				<div className={styles.postDetails}>
+					<Link href={`/${post.userId}`}>
+						<a className={styles.displayName}> {post.displayName}</a>
+					</Link>
+					<ConvertTime />
+				</div>
+				<p className={styles.postText}>{post.text}</p>
+				{post.fileRef ? (
+					<>
+						<img className={styles.postImg} src={post.fileRef} alt="" />
+					</>
+				) : null}
+				<div className={styles.interactContainer}>
+					<div className={styles.interactLeft}>
+						<button
+							className={styles.interactButton}
+							onMouseEnter={() => setCommentHover(true)}
+							onMouseLeave={() => setCommentHover(false)}
+						>
+							{commentHover ? (
+								<motion.img
+									animate={{
+										opacity: 1,
+									}}
+									className={styles.interactButtonImg}
+									src="/img/comment-hover.svg"
+									alt=""
+								/>
+							) : (
+								<motion.img
+									className={styles.interactButtonImg}
+									src="/img/comment.svg"
+									alt=""
+								/>
+							)}
+						</button>
+						<button
+							className={styles.interactButton}
+							onMouseEnter={() => setFavoriteHover(true)}
+							onMouseLeave={() => setFavoriteHover(false)}
+							onClick={handleFavorite}
+						>
+							{favorites.includes(postId) || favoriteHover ? (
+								<img
+									className={styles.interactButtonImg}
+									src="/img/favorite-post-hover.svg"
+									alt=""
+								/>
+							) : (
+								<img
+									className={styles.interactButtonImg}
+									src="/img/favorite-post.svg"
+									alt=""
+								/>
+							)}
+						</button>
 					</div>
-					<p className={styles.postText}>{post.text}</p>
-					{post.fileRef ? (
-						<>
-							<img className={styles.postImg} src={post.fileRef} alt="" />
-						</>
-					) : null}
-					<div className={styles.interactContainer}>
-						<div className={styles.interactLeft}>
+					{post.userId === user?.uid ? (
+						<div className={styles.interactRight}>
 							<button
 								className={styles.interactButton}
-								onMouseEnter={() => setCommentHover(true)}
-								onMouseLeave={() => setCommentHover(false)}
+								onMouseEnter={() => setEditHover(true)}
+								onMouseLeave={() => setEditHover(false)}
 							>
-								{commentHover ? (
-									<motion.img
-										animate={{
-											opacity: 1,
-										}}
+								{editHover ? (
+									<img
 										className={styles.interactButtonImg}
-										src="/img/comment-hover.svg"
+										src="/img/edit-hover.svg"
 										alt=""
 									/>
 								) : (
-									<motion.img
+									<img
 										className={styles.interactButtonImg}
-										src="/img/comment.svg"
+										src="/img/edit.svg"
 										alt=""
 									/>
 								)}
 							</button>
 							<button
 								className={styles.interactButton}
-								onMouseEnter={() => setFavoriteHover(true)}
-								onMouseLeave={() => setFavoriteHover(false)}
-								onClick={handleFavorite}
+								onClick={deletePost}
+								onMouseEnter={() => setDeleteHover(true)}
+								onMouseLeave={() => setDeleteHover(false)}
 							>
-								{favorites.includes(postId) || favoriteHover ? (
+								{deleteHover ? (
 									<img
 										className={styles.interactButtonImg}
-										src="/img/favorite-post-hover.svg"
+										src="/img/delete-hover.svg"
 										alt=""
 									/>
 								) : (
 									<img
 										className={styles.interactButtonImg}
-										src="/img/favorite-post.svg"
+										src="/img/delete.svg"
 										alt=""
 									/>
 								)}
 							</button>
 						</div>
-						{post.userId === user?.uid ? (
-							<div className={styles.interactRight}>
-								<button
-									className={styles.interactButton}
-									onMouseEnter={() => setEditHover(true)}
-									onMouseLeave={() => setEditHover(false)}
-								>
-									{editHover ? (
-										<img
-											className={styles.interactButtonImg}
-											src="/img/edit-hover.svg"
-											alt=""
-										/>
-									) : (
-										<img
-											className={styles.interactButtonImg}
-											src="/img/edit.svg"
-											alt=""
-										/>
-									)}
-								</button>
-								<button
-									className={styles.interactButton}
-									onClick={deletePost}
-									onMouseEnter={() => setDeleteHover(true)}
-									onMouseLeave={() => setDeleteHover(false)}
-								>
-									{deleteHover ? (
-										<img
-											className={styles.interactButtonImg}
-											src="/img/delete-hover.svg"
-											alt=""
-										/>
-									) : (
-										<img
-											className={styles.interactButtonImg}
-											src="/img/delete.svg"
-											alt=""
-										/>
-									)}
-								</button>
-							</div>
-						) : null}
-					</div>
+					) : null}
 				</div>
 			</div>
-		</Suspense>
+		</div>
 	);
 };
 
