@@ -26,7 +26,7 @@ const MainLayout = ({ children }) => {
 							{children}
 						</section>
 						{router.pathname === "/home" || router.pathname === "/favorited" ? (
-							<UserCard />
+							<UserCard renderButton={true} />
 						) : null}
 					</main>
 				</>

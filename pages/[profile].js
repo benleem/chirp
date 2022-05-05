@@ -90,7 +90,7 @@ const Profile = ({
 			return (
 				<>
 					<NoPosts profileData={profileData} />
-					<UserCard profileData={profileData} />
+					<UserCard profileData={profileData} renderButton={true} />
 				</>
 			);
 		} else {
@@ -98,9 +98,9 @@ const Profile = ({
 				<>
 					<PostsContainer posts={profilePosts} favorites={favorites} />
 					{uid === profileId ? (
-						<UserCard />
+						<UserCard renderButton={true} />
 					) : (
-						<UserCard profileData={profileData} />
+						<UserCard profileData={profileData} renderButton={false} />
 					)}
 				</>
 			);

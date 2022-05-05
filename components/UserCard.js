@@ -5,7 +5,7 @@ import { useUser } from "../hooks/client/useUser";
 
 import styles from "../styles/UserCard.module.css";
 
-const UserCard = ({ profileData }) => {
+const UserCard = ({ profileData, renderButton }) => {
 	const checkUserInfo = () => {
 		if (profileData) {
 			return profileData;
@@ -79,9 +79,9 @@ const UserCard = ({ profileData }) => {
 							</p>
 							<p className={styles.posts}>Posts: {userInfo?.posts.length}</p>
 						</div>
-						{profileData ? null : (
+						{renderButton === true ? (
 							<button className={styles.editButton}>Edit profile</button>
-						)}
+						) : null}
 					</div>
 				</div>
 			</div>
