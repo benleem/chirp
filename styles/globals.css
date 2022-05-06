@@ -33,10 +33,3 @@ p {
 * {
 	box-sizing: border-box;
 }
-
-@media only screen and (max-width: 1000px) {
-	/* For mobile phones: */
-	main {
-		padding: 0 3%;
-	}
-}

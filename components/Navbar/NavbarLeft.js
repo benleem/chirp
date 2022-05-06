@@ -7,7 +7,13 @@ const NavbarLeft = ({ isSearching, setIsSearching, setShowDropdown }) => {
 		<div className={isSearching ? styles.navLeftActive : styles.navLeft}>
 			<Link href="/home">
 				<a onClick={() => setShowDropdown(false)}>
-					<img className={styles.navLogo} src="/img/logo.svg" alt="" />
+					<img
+						className={styles.navLogo}
+						src="/img/logo.svg"
+						alt="logo"
+						height={40}
+						width={40}
+					/>
 				</a>
 			</Link>
 			<div className={styles.searchBarContainer}>
@@ -18,7 +24,13 @@ const NavbarLeft = ({ isSearching, setIsSearching, setShowDropdown }) => {
 						setShowDropdown(false);
 					}}
 				>
-					<img className={styles.searchImage} src="/img/search.svg" alt="" />
+					<img
+						className={styles.searchImage}
+						src="/img/search.svg"
+						alt="search"
+						height={40}
+						width={40}
+					/>
 					<p className={styles.toolTip}>Search</p>
 				</button>
 				{isSearching ? (
