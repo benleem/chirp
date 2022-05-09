@@ -1,9 +1,10 @@
-import { useRef, useState, useEffect } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+import { EditContext } from "../context/EditContext";
 import { useAuth } from "../hooks/client/useAuth";
 import { useUser } from "../hooks/client/useUser";
 
@@ -13,14 +14,16 @@ import GiphyContainer from "./GiphyModal/GiphyContainer";
 
 import styles from "../styles/AddPostModal.module.css";
 
-const AddPostModal = ({ showPostModal, setShowPostModal }) => {
+const AddPostModal = ({ setShowPostModal }) => {
 	const user = useAuth();
 	const userInfo = useUser();
 	const router = useRouter();
+	const { editActive, setEditActive, setEditObject, editObject } =
+		useContext(EditContext);
 
 	const form = useRef();
 	const textArea = useRef();
-	const imageInputArea = useRef();
+	// const imageInputArea = useRef();
 
 	const [formValues, setFormValues] = useState({
 		text: "",
@@ -29,7 +32,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	const [firebaseError, setFirebaseError] = useState("");
 	const [formLoading, setFormLoading] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
-	const [fileToUpload, setFileToUpload] = useState();
+	// const [fileToUpload, setFileToUpload] = useState();
 	const [file, setFile] = useState("");
 	const [showGiphy, setShowGiphy] = useState(false);
 
@@ -55,42 +58,42 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 		setFormValues({ ...formValues, [name]: value });
 	};
 
-	const handleFileChange = (e) => {
-		const selectedFile = e.target.files[0];
-		setFileToUpload(selectedFile);
-		if (selectedFile) {
-			let reader = new FileReader();
-			reader.readAsDataURL(selectedFile);
-			reader.onloadend = () => {
-				setFile(reader.result);
-			};
-		}
-	};
+	// const handleFileChange = (e) => {
+	// 	const selectedFile = e.target.files[0];
+	// 	setFileToUpload(selectedFile);
+	// 	if (selectedFile) {
+	// 		let reader = new FileReader();
+	// 		reader.readAsDataURL(selectedFile);
+	// 		reader.onloadend = () => {
+	// 			setFile(reader.result);
+	// 		};
+	// 	}
+	// };
 
 	const removeFile = () => {
 		setFile(null);
-		imageInputArea.current.value = null;
+		// imageInputArea.current.value = null;
 	};
 
 	const addPost = async () => {
 		try {
 			setFormLoading(true);
-			let fileUrl = "";
-			if (file) {
-				if (file.includes("giphy.com")) {
-					fileUrl = file;
-				} else {
-					const storageRef = ref(storage, `post/${fileToUpload.name}`);
-					await uploadBytes(storageRef, fileToUpload);
-					fileUrl = await getDownloadURL(storageRef);
-				}
-			}
+			// let fileUrl = "";
+			// if (file) {
+			// 	if (file.includes("giphy.com")) {
+			// 		fileUrl = file;
+			// 	} else {
+			// 		const storageRef = ref(storage, `post/${fileToUpload.name}`);
+			// 		await uploadBytes(storageRef, fileToUpload);
+			// 		fileUrl = await getDownloadURL(storageRef);
+			// 	}
+			// }
 			const docRef = await addDoc(collection(db, "posts"), {
 				userId: user.uid,
 				displayName: userInfo.displayName,
 				userImg: userInfo.imgUrl,
 				text: formValues.text,
-				fileRef: fileUrl,
+				fileRef: file,
 				timeStamp: Date.now(),
 			});
 			const userRef = doc(db, `users/${user.uid}`);
@@ -98,8 +101,8 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 				posts: [...userInfo.posts, docRef.id],
 			});
 			setFormLoading(false);
-			setShowPostModal(!showPostModal);
-			if ((router.pathname = "/home")) {
+			setShowPostModal(false);
+			if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
 				await router.replace(router.asPath);
 				window.scrollTo({ top: 0, behavior: "smooth" });
 			}
@@ -110,12 +113,52 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 		}
 	};
 
+	const editPost = async () => {
+		const postRef = doc(db, `posts/${editObject.postId}`);
+
+		try {
+			setFormLoading(true);
+			await updateDoc(postRef, {
+				text: formValues.text,
+				fileRef: file,
+			});
+			setFormLoading(false);
+			setShowPostModal(false);
+			setEditActive(false);
+			setEditObject(null);
+			if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
+				await router.replace(router.asPath);
+				window.scrollTo({ top: 0, behavior: "smooth" });
+			}
+		} catch (error) {
+			const errorMessage = error.message;
+			setFirebaseError(errorMessage);
+			setFormLoading(false);
+		}
+	};
+
+	// fill form with post values that's being edited
+	useEffect(() => {
+		if (editObject) {
+			setFormValues({ ...formValues, text: editObject.text });
+			if (editObject.fileRef) {
+				setFile(editObject.fileRef);
+			}
+		}
+	}, [editObject]);
+
+	// check errors, if none run addPost
 	useEffect(() => {
 		if (Object.keys(formErrors).length === 0 && isSubmitted === true) {
-			addPost();
+			if (editActive === true) {
+				editPost();
+			} else {
+				addPost();
+			}
 		}
 	}, [formErrors]);
 
+	// prevent scrolling when uploading post
 	useEffect(() => {
 		if (formLoading === true) {
 			form.current.scrollTop = 0;
@@ -136,7 +179,11 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 						<p className={styles.modalTitle}>Add Post</p>
 						<button
 							className={styles.closeButton}
-							onClick={() => setShowPostModal(!showPostModal)}
+							onClick={() => {
+								setShowPostModal(false);
+								setEditActive(false);
+								setEditObject(null);
+							}}
 						></button>
 					</div>
 					<div className={styles.inputContainer}>
@@ -146,7 +193,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 							onChange={(e) => handleTextChange(e)}
 							placeholder="What's chirpin?"
 							name="text"
-							defaultValue={formValues.text}
+							defaultValue={editObject ? editObject.text : formValues.text}
 						/>
 						{formErrors.text ? (
 							<p className={styles.formError}>{formErrors.text}</p>
@@ -155,7 +202,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 					<div className={styles.mediaUploadContainer}>
 						<p>Media</p>
 						<div className={styles.mediaInputFields}>
-							<input
+							{/* <input
 								ref={imageInputArea}
 								className={styles.mediaUpload}
 								type="file"
@@ -169,7 +216,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 								onClick={() => imageInputArea.current.click()}
 							>
 								<img src="/img/image-upload.svg" alt="upload image" />
-							</button>
+							</button> */}
 							<button
 								className={styles.mediaUploadButton}
 								type="button"

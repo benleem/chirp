@@ -1,5 +1,7 @@
 import Head from "next/head";
+
 import { AuthProvider } from "../context/AuthContext";
+import { EditProvider } from "../context/EditContext";
 
 import MainLayout from "../components/MainLayout";
 
@@ -18,9 +20,11 @@ function MyApp({ Component, pageProps }) {
 				/>
 				<link rel="apple-touch-icon" href="/img/logo.svg" />
 			</Head>
-			<MainLayout>
-				<Component {...pageProps} />
-			</MainLayout>
+			<EditProvider>
+				<MainLayout>
+					<Component {...pageProps} />
+				</MainLayout>
+			</EditProvider>
 		</AuthProvider>
 	);
 }

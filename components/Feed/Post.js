@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { deleteObject, getDownloadURL, ref } from "firebase/storage";
 import { motion } from "framer-motion";
 
 import { db, storage } from "../../firebase/firebaseConfig";
+import { EditContext } from "../../context/EditContext";
 import { useAuth } from "../../hooks/client/useAuth";
 import { useUser } from "../../hooks/client/useUser";
 
@@ -16,6 +17,7 @@ const Post = ({ postId, post, favorites }) => {
 	const user = useAuth();
 	const userInfo = useUser();
 	const router = useRouter();
+	const { setEditActive, setEditObject } = useContext(EditContext);
 
 	const [commentHover, setCommentHover] = useState(false);
 	const [favoriteHover, setFavoriteHover] = useState(false);
@@ -78,21 +80,49 @@ const Post = ({ postId, post, favorites }) => {
 		};
 
 		try {
-			if (post.fileRef.includes("firebasestorage")) {
-				const imgRef = ref(storage, post.fileRef);
-				await deleteObject(imgRef);
-			}
 			deleteDocmuent();
 		} catch (error) {
-			if (error.code === "storage/object-not-found") {
-				console.log(error.message);
-				try {
-					deleteDocmuent();
-				} catch (error) {
-					console.log(error.message);
-				}
-			}
+			console.log(error.message);
 		}
+	};
+
+	// const deletePost = async () => {
+	// 	const docRef = doc(db, "posts", postId);
+	// 	const userRef = doc(db, `users/${user.uid}`);
+
+	// 	const deleteDocmuent = async () => {
+	// 		await deleteDoc(docRef);
+
+	// 		const updatedPosts = userInfo.posts.filter((post) => post !== postId);
+	// 		await updateDoc(userRef, {
+	// 			posts: updatedPosts,
+	// 		});
+
+	// 		await router.replace(router.asPath);
+	// 		window.scrollTo({ top: 0, behavior: "smooth" });
+	// 	};
+
+	// 	try {
+	// 		if (post.fileRef.includes("firebasestorage")) {
+	// 			const imgRef = ref(storage, post.fileRef);
+	// 			await deleteObject(imgRef);
+	// 		}
+	// 		deleteDocmuent();
+	// 	} catch (error) {
+	// 		if (error.code === "storage/object-not-found") {
+	// 			console.log(error.message);
+	// 			try {
+	// 				deleteDocmuent();
+	// 			} catch (error) {
+	// 				console.log(error.message);
+	// 			}
+	// 		}
+	// 	}
+	// };
+
+	const editPost = () => {
+		setEditActive(true);
+		setEditObject({ postId: postId, text: post.text, fileRef: post.fileRef });
 	};
 
 	return (
@@ -148,9 +178,9 @@ const Post = ({ postId, post, favorites }) => {
 						</button>
 						<button
 							className={styles.interactButton}
+							onClick={handleFavorite}
 							onMouseEnter={() => setFavoriteHover(true)}
 							onMouseLeave={() => setFavoriteHover(false)}
-							onClick={handleFavorite}
 						>
 							{favorites.includes(postId) || favoriteHover ? (
 								<img
@@ -171,6 +201,7 @@ const Post = ({ postId, post, favorites }) => {
 						<div className={styles.interactRight}>
 							<button
 								className={styles.interactButton}
+								onClick={editPost}
 								onMouseEnter={() => setEditHover(true)}
 								onMouseLeave={() => setEditHover(false)}
 							>

@@ -38,7 +38,6 @@ export const getServerSideProps = async (context) => {
 
 const Home = ({ posts, error, uid, initialFavorites }) => {
 	const [favorites, setFavorites] = useState(initialFavorites);
-	console.log(error, posts);
 
 	const getFavorites = async () => {
 		const userQuery = query(doc(db, `users/${uid}`));

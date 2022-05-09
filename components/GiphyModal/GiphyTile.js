@@ -9,6 +9,9 @@ const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
 	return (
 		<button type="button" className={styles.giphyTile}>
 			<img
+				autoPlay="autoPlay"
+				loop
+				muted
 				className={styles.gif}
 				src={gif?.images.downsized.url}
 				alt="gif"

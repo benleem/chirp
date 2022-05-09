@@ -40,8 +40,8 @@ const UserCard = ({ profileData, renderButton }) => {
 								}
 								alt="User background"
 								layout="responsive"
-								width={400}
-								height={200}
+								width="400px"
+								height="200px"
 								objectFit="cover"
 								priority
 							/>

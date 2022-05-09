@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+
+import { EditContext } from "../../context/EditContext";
 
 import NavbarLeft from "./NavbarLeft";
 import NavbarCenter from "./NavbarCenter";
@@ -9,11 +11,19 @@ import AddPostModal from "../AddPostModal";
 import styles from "../../styles/Navbar/Nav.module.css";
 
 const NavbarContainer = () => {
+	const { editActive } = useContext(EditContext);
+
 	const router = useRouter();
 
 	const [isSearching, setIsSearching] = useState(false);
 	const [showDropdown, setShowDropdown] = useState(false);
 	const [showPostModal, setShowPostModal] = useState(false);
+
+	useEffect(() => {
+		if (editActive === true) {
+			setShowPostModal(true);
+		}
+	}, [editActive]);
 
 	return (
 		<>
@@ -37,10 +47,7 @@ const NavbarContainer = () => {
 						</nav>
 					</div>
 					{showPostModal ? (
-						<AddPostModal
-							showPostModal={showPostModal}
-							setShowPostModal={setShowPostModal}
-						/>
+						<AddPostModal setShowPostModal={setShowPostModal} />
 					) : null}
 				</>
 			)}

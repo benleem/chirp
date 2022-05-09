@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 
 import styles from "../../styles/NoPosts.module.css";
@@ -12,12 +11,14 @@ const NoPosts = ({ profileData }) => {
 				return (
 					<div className={styles.noPosts}>
 						<p className={styles.title}>There are no posts!</p>
-						<video autoplay="autoplay" loop muted className={styles.mp4Gif}>
-							<source
-								type="video/mp4"
-								src="https://media.giphy.com/media/jU9OCvBiO1besabUKU/giphy.mp4"
-							/>
-						</video>
+						<video
+							className={styles.mp4Gif}
+							autoPlay="autoplay"
+							loop
+							muted
+							playsInline
+							src="https://media.giphy.com/media/jU9OCvBiO1besabUKU/giphy.mp4"
+						/>
 						<p className={styles.altTitle}>See posts from everyone</p>
 						<p className={styles.details}>
 							When someone adds a post it will show up here. Reload the page or
@@ -29,21 +30,14 @@ const NoPosts = ({ profileData }) => {
 				return (
 					<div className={styles.noPosts}>
 						<p className={styles.title}>You don't have any favorites!</p>
-						<video autoplay="autoplay" loop muted className={styles.mp4Gif}>
-							<source
-								type="video/mp4"
-								src="https://media.giphy.com/media/d2lcHJTG5Tscg/giphy.mp4"
-							/>
-						</video>
-						{/* <div className={styles.imgWrapper}>
-							<Image
-								src="/img/sad.gif"
-								alt="No favorites :("
-								width={440}
-								height={245}
-								layout="responsive"
-							/>
-						</div> */}
+						<video
+							className={styles.mp4Gif}
+							autoPlay="autoplay"
+							loop
+							muted
+							playsInline
+							src="https://media.giphy.com/media/d2lcHJTG5Tscg/giphy.mp4"
+						/>
 						<p className={styles.altTitle}>Save posts for later.</p>
 						<p className={styles.details}>
 							When you see a post you like, click the heart button. It'll be
@@ -57,21 +51,14 @@ const NoPosts = ({ profileData }) => {
 						<p className={styles.title}>
 							{profileData.displayName} doesn't have any posts!
 						</p>
-						<video autoplay="autoplay" loop muted className={styles.mp4Gif}>
-							<source
-								type="video/mp4"
-								src="https://media.giphy.com/media/TeyLTZpDWHAik1TD2N/giphy.mp4"
-							/>
-						</video>
-						{/* <div className={styles.imgWrapper}>
-							<Image
-								src="/img/sad.gif"
-								alt="No favorites :("
-								width={440}
-								height={245}
-								layout="responsive"
-							/>
-						</div> */}
+						<video
+							className={styles.mp4Gif}
+							autoPlay="autoplay"
+							loop
+							muted
+							playsInline
+							src="https://media.giphy.com/media/TeyLTZpDWHAik1TD2N/giphy.mp4"
+						/>
 						<p className={styles.altTitle}>See user posts</p>
 						<p className={styles.details}>
 							When {profileData.displayName} starts posting, their posts will be
