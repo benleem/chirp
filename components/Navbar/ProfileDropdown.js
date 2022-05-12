@@ -27,28 +27,39 @@ const ProfileDropdown = ({ setShowDropdown, showDropdown }) => {
 							</a>
 						</Link>
 					</li>
+					<li className={styles.dropdownListItem}>
+						<Link href={`/${user.uid}/settings`}>
+							<a
+								onClick={() => {
+									setShowDropdown(!showDropdown);
+								}}
+							>
+								Settings
+							</a>
+						</Link>
+					</li>
+					<li className={styles.dropdownListItem}>
+						<button
+							className={styles.logOutButton}
+							onClick={() => {
+								auth.signOut();
+								setShowDropdown(!showDropdown);
+								router.push("/");
+							}}
+						>
+							Log out
+						</button>
+					</li>
 				</>
-			) : null}
-			<li className={styles.dropdownListItem}>
-				{user ? (
-					<button
-						className={styles.logOutButton}
-						onClick={() => {
-							auth.signOut();
-							setShowDropdown(!showDropdown);
-							router.push("/");
-						}}
-					>
-						Log out
-					</button>
-				) : (
+			) : (
+				<li className={styles.dropdownListItem}>
 					<Link href="/">
 						<a onClick={() => setShowDropdown(!showDropdown)}>
 							Sign In / Sign Up
 						</a>
 					</Link>
-				)}
-			</li>
+				</li>
+			)}
 		</ul>
 	);
 };

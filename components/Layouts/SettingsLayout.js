@@ -18,10 +18,6 @@ const SettingsLayout = ({ children }) => {
 		setSelectedPage(router.route.replace("/[profile]/", ""));
 	}, [router]);
 
-	useEffect(() => {
-		console.log(selectedPage);
-	}, [selectedPage]);
-
 	return (
 		<>
 			<section className={styles.tabSection}>
