@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { AnimatePresence } from "framer-motion";
 
 import { EditContext } from "../../context/EditContext";
 

@@ -1,0 +1,9 @@
+.feedSection {
+	width: 600px;
+	max-width: 100%;
+}
+
+.profileFeed {
+	width: 100%;
+	display: flex;
+}

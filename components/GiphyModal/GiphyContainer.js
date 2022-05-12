@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 import { GiphyFetch } from "@giphy/js-fetch-api";
 
@@ -49,7 +50,11 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 	}, []);
 
 	return (
-		<div className={styles.giphyContainer}>
+		<motion.div
+			className={styles.giphyContainer}
+			initial={{ x: "100%", opacity: 0 }}
+			animate={{ x: 0, opacity: 1 }}
+		>
 			<div className={styles.giphyContainerTop}>
 				<button
 					className={styles.backButton}
@@ -81,7 +86,7 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 					setFile={setFile}
 				/>
 			))}
-		</div>
+		</motion.div>
 	);
 };
 

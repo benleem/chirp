@@ -6,6 +6,8 @@ import { verifyToken } from "../hooks/server/verifyToken";
 import { getUserData } from "../hooks/server/getUserData";
 import { getPosts } from "../hooks/server/getPosts";
 
+import MainLayout from "../components/Layouts/MainLayout";
+import FeedLayout from "../components/Layouts/FeedLayout";
 import NoPosts from "../components/Errors/NoPosts";
 import PostsContainer from "../components/Feed/PostsContainer";
 
@@ -64,6 +66,14 @@ const Home = ({ posts, error, uid, initialFavorites }) => {
 	};
 
 	return <ControlErrors />;
+};
+
+Home.getLayout = function getLayout(page) {
+	return (
+		<MainLayout>
+			<FeedLayout>{page}</FeedLayout>
+		</MainLayout>
+	);
 };
 
 export default Home;

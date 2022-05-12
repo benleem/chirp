@@ -3,11 +3,11 @@ import Head from "next/head";
 import { AuthProvider } from "../context/AuthContext";
 import { EditProvider } from "../context/EditContext";
 
-import MainLayout from "../components/MainLayout";
-
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
+	const getLayout = Component.getLayout || ((page) => page);
+
 	return (
 		<AuthProvider>
 			<Head>
@@ -20,11 +20,7 @@ function MyApp({ Component, pageProps }) {
 				/>
 				<link rel="apple-touch-icon" href="/img/logo.svg" />
 			</Head>
-			<EditProvider>
-				<MainLayout>
-					<Component {...pageProps} />
-				</MainLayout>
-			</EditProvider>
+			<EditProvider>{getLayout(<Component {...pageProps} />)}</EditProvider>
 		</AuthProvider>
 	);
 }

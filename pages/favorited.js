@@ -3,6 +3,8 @@ import { verifyToken } from "../hooks/server/verifyToken";
 import { getUserData } from "../hooks/server/getUserData";
 import { getFavoritedPosts } from "../hooks/server/getFavoritedPosts";
 
+import MainLayout from "../components/Layouts/MainLayout";
+import FeedLayout from "../components/Layouts/FeedLayout";
 import PostsContainer from "../components/Feed/PostsContainer";
 import NoPosts from "../components/Errors/NoPosts";
 import FavoriteDeleted from "../components/Favorited/FavoriteDeleted";
@@ -62,6 +64,14 @@ const Favorited = ({ error, posts, favorites }) => {
 	};
 
 	return <ControlErrors />;
+};
+
+Favorited.getLayout = function getLayout(page) {
+	return (
+		<MainLayout>
+			<FeedLayout>{page}</FeedLayout>
+		</MainLayout>
+	);
 };
 
 export default Favorited;

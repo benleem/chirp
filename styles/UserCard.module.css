@@ -85,6 +85,7 @@
 }
 
 .editButton {
+	display: block;
 	margin-top: 0.5rem;
 	background: none;
 	border: none;
@@ -96,6 +97,12 @@
 	padding: 0.5rem;
 	width: 100%;
 	font-size: 1rem;
+	transition: background-color 0.3s ease-in-out;
+	text-align: center;
+}
+
+.editButton:hover {
+	background-color: #259076;
 }
 
 /* .topCard {

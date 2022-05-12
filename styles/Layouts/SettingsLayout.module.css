@@ -1,0 +1,42 @@
+.tabSection {
+	/* background-color: white; */
+	max-width: 250px;
+	width: 100%;
+	border: 1px solid grey;
+	background-color: white;
+	font-family: "Roboto", sans-serif;
+	height: calc(100vh - 72px);
+}
+
+.linkTab {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.settingsLink,
+.linkBorderLeft {
+	padding: 1rem;
+	width: 100%;
+	transition: background-color 0.3s ease-in-out;
+	border-left: 3px solid transparent;
+}
+
+.settingsLink:hover,
+.linkBorderLeft:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.linkBorderLeft {
+	border-left: 3px solid black;
+}
+
+.settingsContent {
+	font-family: "Roboto", sans-serif;
+	border: 1px solid grey;
+	border-left: none;
+	flex: 1;
+	background-color: white;
+}

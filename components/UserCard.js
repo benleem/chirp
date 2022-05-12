@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { useUser } from "../hooks/client/useUser";
+import { useAuth } from "../hooks/client/useAuth";
 
 import styles from "../styles/UserCard.module.css";
 
@@ -14,6 +16,7 @@ const UserCard = ({ profileData, renderButton }) => {
 		}
 	};
 	const userInfo = checkUserInfo();
+	const user = useAuth();
 
 	const ConvertTime = () => {
 		let date = new Date(userInfo?.createdAt);
@@ -80,7 +83,9 @@ const UserCard = ({ profileData, renderButton }) => {
 							<p className={styles.posts}>Posts: {userInfo?.posts.length}</p>
 						</div>
 						{renderButton === true ? (
-							<button className={styles.editButton}>Edit profile</button>
+							<Link href={`/${user?.uid}/edit`}>
+								<a className={styles.editButton}>Edit profile</a>
+							</Link>
 						) : null}
 					</div>
 				</div>

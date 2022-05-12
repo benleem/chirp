@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { query, doc, onSnapshot } from "firebase/firestore";
 
-import { db } from "../firebase/firebaseConfig";
-import { verifyToken } from "../hooks/server/verifyToken";
-import { getUserData } from "../hooks/server/getUserData";
-import { getUserPosts } from "../hooks/server/getUserPosts";
+import { db } from "../../firebase/firebaseConfig";
+import { verifyToken } from "../../hooks/server/verifyToken";
+import { getUserData } from "../../hooks/server/getUserData";
+import { getUserPosts } from "../../hooks/server/getUserPosts";
 
-import NoPosts from "../components/Errors/NoPosts";
-import PostsContainer from "../components/Feed/PostsContainer";
-import UserCard from "../components/UserCard";
+import MainLayout from "../../components/Layouts/MainLayout";
+import FeedLayout from "../../components/Layouts/FeedLayout";
+import NoPosts from "../../components/Errors/NoPosts";
+import PostsContainer from "../../components/Feed/PostsContainer";
+import UserCard from "../../components/UserCard";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -108,6 +110,14 @@ const Profile = ({
 	};
 
 	return <ControlErrors />;
+};
+
+Profile.getLayout = function getLayout(page) {
+	return (
+		<MainLayout>
+			<FeedLayout>{page}</FeedLayout>
+		</MainLayout>
+	);
 };
 
 export default Profile;
