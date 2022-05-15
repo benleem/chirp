@@ -12,7 +12,7 @@ import UserCard from "../components/UserCard";
 
 export const getServerSideProps = async (context) => {
 	try {
-		const uid = await verifyToken(context);
+		const { uid } = await verifyToken(context);
 
 		try {
 			const userData = await getUserData(uid);

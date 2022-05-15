@@ -6,6 +6,9 @@
 	background-color: white;
 	font-family: "Roboto", sans-serif;
 	height: calc(100vh - 72px);
+	position: sticky;
+	top: 72px;
+	left: 0;
 }
 
 .linkTab {
@@ -34,11 +37,20 @@
 }
 
 .settingsContent {
-	display: grid;
-	place-items: center;
+	/* display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr;
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+	place-items: center; */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	font-family: "Roboto", sans-serif;
 	border: 1px solid grey;
 	border-left: none;
 	flex: 1;
 	background-color: white;
+	padding: 2rem;
 }

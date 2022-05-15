@@ -13,7 +13,7 @@ import PostsContainer from "../components/Feed/PostsContainer";
 
 export const getServerSideProps = async (context) => {
 	try {
-		const uid = await verifyToken(context);
+		const { uid } = await verifyToken(context);
 
 		try {
 			const posts = await getPosts();

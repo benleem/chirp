@@ -2,7 +2,12 @@
 	flex: 1;
 }
 
-.userCard {
+.userCardContainerPreview {
+	width: 100%;
+}
+
+.userCard,
+.userCardPreview {
 	background-color: white;
 	border: 1px solid grey;
 	border-left: none;
@@ -11,6 +16,11 @@
 	top: 72px;
 	background-color: white;
 	font-family: "Roboto", sans-serif;
+}
+
+.userCardPreview {
+	border: 1px solid grey;
+	/* padding: 2rem 1rem; */
 }
 
 .cardTop {

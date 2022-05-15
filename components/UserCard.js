@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Router, useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,6 +9,8 @@ import { useAuth } from "../hooks/client/useAuth";
 import styles from "../styles/UserCard.module.css";
 
 const UserCard = ({ profileData, renderButton }) => {
+	const router = useRouter();
+
 	const checkUserInfo = () => {
 		if (profileData) {
 			return profileData;
@@ -30,8 +33,20 @@ const UserCard = ({ profileData, renderButton }) => {
 	};
 
 	return (
-		<section className={styles.userCardContainer}>
-			<div className={styles.userCard}>
+		<div
+			className={
+				router.route === "/[profile]/edit"
+					? styles.userCardContainerPreview
+					: styles.userCardContainer
+			}
+		>
+			<div
+				className={
+					router.route === "/[profile]/edit"
+						? styles.userCardPreview
+						: styles.userCard
+				}
+			>
 				<div className={styles.cardTop}>
 					<div className={styles.backgroundWrapper}>
 						{userInfo ? (
@@ -90,7 +105,7 @@ const UserCard = ({ profileData, renderButton }) => {
 					</div>
 				</div>
 			</div>
-		</section>
+		</div>
 	);
 };
 
