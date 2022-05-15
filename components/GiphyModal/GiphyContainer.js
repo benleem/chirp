@@ -5,7 +5,7 @@ import { GiphyFetch } from "@giphy/js-fetch-api";
 
 import GiphyTile from "./GiphyTile";
 
-import styles from "../../styles/Giphy/GiphyContainer.module.css";
+import styles from "../../styles/GiphyModal/GiphyContainer.module.css";
 
 const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 	const gf = new GiphyFetch(`${process.env.NEXT_PUBLIC_GIPHY_KEY}`);

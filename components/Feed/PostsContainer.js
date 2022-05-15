@@ -1,6 +1,6 @@
 import Post from "./Post";
 
-import styles from "../../styles/Posts/PostsContainer.module.css";
+import styles from "../../styles/Feed/PostsContainer.module.css";
 
 const PostsContainer = ({ posts, favorites }) => {
 	return (

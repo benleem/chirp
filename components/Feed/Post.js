@@ -11,7 +11,7 @@ import { EditContext } from "../../context/EditContext";
 import { useAuth } from "../../hooks/client/useAuth";
 import { useUser } from "../../hooks/client/useUser";
 
-import styles from "../../styles/Posts/Post.module.css";
+import styles from "../../styles/Feed/Post.module.css";
 
 const Post = ({ postId, post, favorites }) => {
 	const user = useAuth();

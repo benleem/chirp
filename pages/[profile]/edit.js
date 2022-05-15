@@ -1,8 +1,9 @@
 import MainLayout from "../../components/Layouts/MainLayout";
 import SettingsLayout from "../../components/Layouts/SettingsLayout";
+import EditProfileForm from "../../components/EditProfile/EditProfileForm";
 
 const Edit = () => {
-	return <div>This is the edit page</div>;
+	return <EditProfileForm />;
 };
 
 Edit.getLayout = function getLayout(page) {

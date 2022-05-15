@@ -22,17 +22,6 @@ const SettingsLayout = ({ children }) => {
 		<>
 			<section className={styles.tabSection}>
 				<div className={styles.linkTab}>
-					<Link href={`/${user?.uid}/settings`}>
-						<a
-							className={
-								selectedPage === "settings"
-									? styles.linkBorderLeft
-									: styles.settingsLink
-							}
-						>
-							Settings
-						</a>
-					</Link>
 					<Link href={`/${user?.uid}/edit`}>
 						<a
 							className={
@@ -42,6 +31,17 @@ const SettingsLayout = ({ children }) => {
 							}
 						>
 							Edit Profile
+						</a>
+					</Link>
+					<Link href={`/${user?.uid}/password`}>
+						<a
+							className={
+								selectedPage === "password"
+									? styles.linkBorderLeft
+									: styles.settingsLink
+							}
+						>
+							Change Password
 						</a>
 					</Link>
 				</div>

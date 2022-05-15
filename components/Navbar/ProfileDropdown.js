@@ -28,7 +28,7 @@ const ProfileDropdown = ({ setShowDropdown, showDropdown }) => {
 						</Link>
 					</li>
 					<li className={styles.dropdownListItem}>
-						<Link href={`/${user.uid}/settings`}>
+						<Link href={`/${user.uid}/edit`}>
 							<a
 								onClick={() => {
 									setShowDropdown(!showDropdown);

@@ -21,7 +21,7 @@
 	padding: 1rem;
 	width: 100%;
 	transition: background-color 0.3s ease-in-out;
-	border-left: 3px solid transparent;
+	border-left: 2px solid transparent;
 }
 
 .settingsLink:hover,
@@ -30,10 +30,12 @@
 }
 
 .linkBorderLeft {
-	border-left: 3px solid black;
+	border-left: 2px solid black;
 }
 
 .settingsContent {
+	display: grid;
+	place-items: center;
 	font-family: "Roboto", sans-serif;
 	border: 1px solid grey;
 	border-left: none;

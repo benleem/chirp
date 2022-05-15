@@ -1,4 +1,4 @@
-import styles from "../../styles/Giphy/GiphyTile.module.css";
+import styles from "../../styles/GiphyModal/GiphyTile.module.css";
 
 const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
 	const handleClick = () => {
