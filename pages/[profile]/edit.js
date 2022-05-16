@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { verifyToken } from "../../hooks/server/verifyToken";
 import { getUserData } from "../../hooks/server/getUserData";
 
@@ -33,13 +35,17 @@ export const getServerSideProps = async (context) => {
 };
 
 const Edit = ({ token, userData, error }) => {
-	console.log(token);
-	console.log(userData);
+	const [formLoading, setFormLoading] = useState(false);
 
 	return (
 		<>
-			<EditProfileForm token={token} userData={userData} />
+			<EditProfileForm
+				token={token}
+				userData={userData}
+				setFormLoading={setFormLoading}
+			/>
 			<PreviewProfile userData={userData} />
+			{formLoading ? <p>Loading</p> : null}
 		</>
 	);
 };

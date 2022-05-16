@@ -43,6 +43,7 @@
 	grid-column-gap: 0px;
 	grid-row-gap: 0px;
 	place-items: center; */
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
