@@ -51,11 +51,7 @@ const UserCard = ({ profileData, renderButton }) => {
 					<div className={styles.backgroundWrapper}>
 						{userInfo ? (
 							<Image
-								src={
-									userInfo.backgroundUrl === ""
-										? "/img/sample-background.jpg"
-										: userInfo.backgroundUrl
-								}
+								src={userInfo.backgroundUrl}
 								alt="User background"
 								layout="responsive"
 								width="400px"

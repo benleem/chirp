@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, writeBatch } from "firebase/firestore";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import { updateEmail } from "firebase/auth";
 import Image from "next/image";
 
-import { db, auth } from "../../firebase/firebaseConfig";
+import { db, auth, storage } from "../../firebase/firebaseConfig";
+import { getUserPosts } from "../../hooks/server/getUserPosts";
 
 import styles from "../../styles/ProfileSettings/EditProfileForm.module.css";
 
 const EditProfileForm = ({ token, userData, setFormLoading }) => {
 	const router = useRouter();
-	const imageInputArea = useRef();
+	const profileImageInputArea = useRef();
+	const backgroundImageInputArea = useRef();
 
 	const [formValues, setFormValues] = useState({
 		displayName: "",
@@ -20,13 +23,65 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 	const [formErrors, setFormErrors] = useState({});
 	const [firebaseError, setFirebaseError] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
+	const [profileImg, setProfileImg] = useState();
+	const [backgroundImg, setBackgroundImg] = useState();
+
+	const handleFileChange = (e, imageType) => {
+		const selectedFile = e.target.files[0];
+		switch (imageType) {
+			case "profile":
+				if (selectedFile) {
+					let reader = new FileReader();
+					reader.readAsDataURL(selectedFile);
+					reader.onloadend = () => {
+						setProfileImg(reader.result);
+					};
+				}
+				break;
+			case "background":
+				if (selectedFile) {
+					let reader = new FileReader();
+					reader.readAsDataURL(selectedFile);
+					reader.onloadend = () => {
+						setBackgroundImg(reader.result);
+					};
+				}
+				break;
+		}
+	};
+
+	useEffect(() => {
+		console.log(profileImg);
+	}, [profileImg]);
 
 	const editUser = async () => {
-		const userRef = doc(db, `users/${token.uid}`);
 		try {
+			let profileImgUrl;
+			let backgroundImgUrl;
+
 			setFormLoading(true);
+
+			//update user images
+			if (profileImg) {
+				const imageRef = ref(storage, `profile/${token.uid}`);
+				const image = profileImg;
+				await uploadString(imageRef, image, "data_url");
+				profileImgUrl = await getDownloadURL(imageRef);
+			}
+			if (backgroundImg) {
+				const imageRef = ref(storage, `background/${token.uid}`);
+				const image = backgroundImg;
+				await uploadString(imageRef, image, "data_url");
+				backgroundImgUrl = await getDownloadURL(imageRef);
+			}
+
 			// update user doc
+			const userRef = doc(db, `users/${token.uid}`);
 			await updateDoc(userRef, {
+				backgroundUrl: backgroundImgUrl
+					? backgroundImgUrl
+					: userData.backgroundUrl,
+				imgUrl: profileImgUrl ? profileImgUrl : userData.imgUrl,
 				displayName: formValues.displayName,
 				description: formValues.description,
 			});
@@ -34,6 +89,17 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 			// update user email
 			await updateEmail(auth.currentUser, formValues.email);
 			setFormLoading(false);
+
+			// update user posts with updated info
+			const batch = writeBatch(db);
+			userData.posts.forEach((postId) => {
+				const postRef = doc(db, `posts/${postId}`);
+				batch.update(postRef, {
+					userImg: profileImgUrl ? profileImgUrl : userData.imgUrl,
+					displayName: formValues.displayName,
+				});
+			});
+			await batch.commit();
 
 			await router.replace(router.asPath);
 			window.scrollTo({ top: 0, behavior: "smooth" });
@@ -91,11 +157,53 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 
 	return (
 		<form className={styles.editProfileForm} onSubmit={(e) => handleSubmit(e)}>
-			<div className={styles.inputContainer}>
-				<div className={styles.leftColumn}>
+			<div className={styles.changeImages}>
+				<div className={styles.backgroundImage}>
+					<input
+						ref={backgroundImageInputArea}
+						className={styles.mediaUpload}
+						type="file"
+						name="imageUpload"
+						accept="image/png, image/jpeg"
+						onChange={(e) => handleFileChange(e, "background")}
+					/>
 					<div className={styles.imageContainer}>
 						<Image
-							src={userData.imgUrl}
+							src={backgroundImg ? backgroundImg : userData.backgroundUrl}
+							alt="User background"
+							layout="responsive"
+							width="400px"
+							height="200px"
+							objectFit="cover"
+							priority
+						/>
+						<div className={styles.mediaUploadButtonContainer}>
+							<button
+								className={styles.mediaUploadButton}
+								type="button"
+								onClick={() => backgroundImageInputArea.current.click()}
+							>
+								<img
+									className={styles.mediaUploadButtonImg}
+									src="/img/change-image.svg"
+									alt="Change image"
+								/>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div className={styles.profileImage}>
+					<input
+						ref={profileImageInputArea}
+						className={styles.mediaUpload}
+						type="file"
+						name="imageUpload"
+						accept="image/png, image/jpeg"
+						onChange={(e) => handleFileChange(e, "profile")}
+					/>
+					<div className={styles.imageContainer}>
+						<Image
+							src={profileImg ? profileImg : userData.imgUrl}
 							alt="User picture"
 							layout="fixed"
 							width="75px"
@@ -103,25 +211,20 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 							objectFit="cover"
 							priority
 						/>
+						<div className={styles.mediaUploadButtonContainer}>
+							<button
+								className={styles.mediaUploadButton}
+								type="button"
+								onClick={() => profileImageInputArea.current.click()}
+							>
+								<img
+									className={styles.mediaUploadButtonImg}
+									src="/img/change-image.svg"
+									alt="Change image"
+								/>
+							</button>
+						</div>
 					</div>
-				</div>
-				<div className={styles.rightColumn}>
-					<p className={styles.name}>{userData.displayName}</p>
-					<input
-						ref={imageInputArea}
-						className={styles.mediaUpload}
-						type="file"
-						name="imageUpload"
-						accept="image/*"
-						// onChange={(e) => handleFileChange(e)}
-					/>
-					<button
-						className={styles.mediaUploadButton}
-						type="button"
-						onClick={() => imageInputArea.current.click()}
-					>
-						Change Profile Picture
-					</button>
 				</div>
 			</div>
 			<div className={styles.inputContainer}>

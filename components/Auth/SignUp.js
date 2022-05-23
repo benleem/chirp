@@ -6,8 +6,9 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
+import { ref, getDownloadURL } from "firebase/storage";
 
-import { db } from "../../firebase/firebaseConfig";
+import { db, storage } from "../../firebase/firebaseConfig";
 
 import styles from "../../styles/Auth/AuthModal.module.css";
 
@@ -35,10 +36,13 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 			// 	photoURL: `https://avatars.dicebear.com/api/pixel-art-neutral/${user.uid}.svg`,
 			// });
 
+			const storageRef = ref(storage, `background/sample-background.jpg`);
+			const sampleBackground = await getDownloadURL(storageRef);
+
 			await setDoc(doc(db, "users", user.uid), {
 				displayName: formValues.displayName,
 				imgUrl: `https://avatars.dicebear.com/api/pixel-art-neutral/${user.uid}.svg`,
-				backgroundUrl: "",
+				backgroundUrl: sampleBackground,
 				createdAt: user.metadata.creationTime,
 				description: "",
 				posts: [],

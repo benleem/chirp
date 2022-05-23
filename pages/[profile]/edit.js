@@ -37,6 +37,8 @@ export const getServerSideProps = async (context) => {
 const Edit = ({ token, userData, error }) => {
 	const [formLoading, setFormLoading] = useState(false);
 
+	console.log(userData);
+
 	return (
 		<>
 			<EditProfileForm
@@ -44,7 +46,7 @@ const Edit = ({ token, userData, error }) => {
 				userData={userData}
 				setFormLoading={setFormLoading}
 			/>
-			<PreviewProfile userData={userData} />
+			{/* <PreviewProfile userData={userData} /> */}
 			{formLoading ? <p>Loading</p> : null}
 		</>
 	);
