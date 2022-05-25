@@ -8,7 +8,7 @@ import { getUserPosts } from "../../hooks/server/getUserPosts";
 
 import MainLayout from "../../components/Layouts/MainLayout";
 import FeedLayout from "../../components/Layouts/FeedLayout";
-import NoPosts from "../../components/Errors/NoPosts";
+import NoPosts from "../../components/NoPosts";
 import PostsContainer from "../../components/Feed/PostsContainer";
 import UserCard from "../../components/UserCard";
 

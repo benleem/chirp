@@ -8,6 +8,8 @@ import Image from "next/image";
 import { db, auth, storage } from "../../firebase/firebaseConfig";
 import { getUserPosts } from "../../hooks/server/getUserPosts";
 
+import FormError from "../FormState/FormError";
+
 import styles from "../../styles/ProfileSettings/EditProfileForm.module.css";
 
 const EditProfileForm = ({ token, userData, setFormLoading }) => {
@@ -49,10 +51,6 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 				break;
 		}
 	};
-
-	useEffect(() => {
-		console.log(profileImg);
-	}, [profileImg]);
 
 	const editUser = async () => {
 		try {
@@ -241,7 +239,7 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.displayName ? (
-					<p className={styles.formError}>{formErrors.displayName}</p>
+					<FormError error={formErrors.displayName} firebaseError={false} />
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
@@ -258,7 +256,7 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.description ? (
-					<p className={styles.formError}>{formErrors.description}</p>
+					<FormError error={formErrors.description} firebaseError={false} />
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
@@ -275,14 +273,14 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.email ? (
-					<p className={styles.formError}>{formErrors.email}</p>
+					<FormError error={formErrors.email} firebaseError={false} />
 				) : null}
 			</div>
 			<button className={styles.submitButton} type="submit">
 				Submit
 			</button>
 			{firebaseError ? (
-				<p className={styles.firebaseError}>{firebaseError}</p>
+				<FormError error={firebaseError} firebaseError={true} />
 			) : null}
 		</form>
 	);

@@ -7,9 +7,10 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { EditContext } from "../context/EditContext";
 import { useAuth } from "../hooks/client/useAuth";
 import { useUser } from "../hooks/client/useUser";
-
 import { db, storage } from "../firebase/firebaseConfig";
 
+import FormError from "./FormState/FormError";
+import FormLoading from "./FormState/FormLoading";
 import GiphyContainer from "./GiphyModal/GiphyContainer";
 
 import styles from "../styles/AddPostModal.module.css";
@@ -175,6 +176,7 @@ const AddPostModal = ({ setShowPostModal }) => {
 					}
 					onSubmit={(e) => handleSubmit(e)}
 				>
+					{formLoading ? <FormLoading /> : null}
 					<div className={styles.topContainer}>
 						<p className={styles.modalTitle}>Add Post</p>
 						<button
@@ -196,7 +198,7 @@ const AddPostModal = ({ setShowPostModal }) => {
 							defaultValue={editObject ? editObject.text : formValues.text}
 						/>
 						{formErrors.text ? (
-							<p className={styles.formError}>{formErrors.text}</p>
+							<FormError error={formErrors.text} firebaseError={false} />
 						) : null}
 					</div>
 					<div className={styles.mediaUploadContainer}>
@@ -245,19 +247,8 @@ const AddPostModal = ({ setShowPostModal }) => {
 					<button className={styles.submitButton} type="submit">
 						Post
 					</button>
-					{formLoading ? (
-						<div className={styles.formLoading}>
-							<motion.img
-								className={styles.formLoadingSpinner}
-								animate={{ rotate: 360 }}
-								transition={{ loop: Infinity, ease: "linear", duration: 3 }}
-								src="/img/hourglass-loading.svg"
-								alt="loading"
-							/>
-						</div>
-					) : null}
 					{firebaseError ? (
-						<p className={styles.firebaseError}>{firebaseError}</p>
+						<FormError error={firebaseError} firebaseError={true} />
 					) : null}
 				</form>
 			)}

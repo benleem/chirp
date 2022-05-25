@@ -129,16 +129,3 @@
 	font-size: 1rem;
 	margin-top: 0.5rem;
 }
-
-.formError {
-	color: red;
-	font-size: 0.8rem;
-	padding-top: 0.3rem;
-}
-
-.firebaseError {
-	color: red;
-	font-size: 0.8rem;
-	padding-top: 1rem;
-	text-align: center;
-}

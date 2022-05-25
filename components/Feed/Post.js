@@ -11,6 +11,8 @@ import { EditContext } from "../../context/EditContext";
 import { useAuth } from "../../hooks/client/useAuth";
 import { useUser } from "../../hooks/client/useUser";
 
+import FormLoading from "../FormState/FormLoading";
+
 import styles from "../../styles/Feed/Post.module.css";
 
 const Post = ({ postId, post, favorites }) => {
@@ -23,6 +25,7 @@ const Post = ({ postId, post, favorites }) => {
 	const [favoriteHover, setFavoriteHover] = useState(false);
 	const [editHover, setEditHover] = useState(false);
 	const [deleteHover, setDeleteHover] = useState(false);
+	const [deleteLoading, setDeleteLoading] = useState(false);
 
 	const ConvertTime = () => {
 		let date = new Date(post.timeStamp);
@@ -68,12 +71,13 @@ const Post = ({ postId, post, favorites }) => {
 		const userRef = doc(db, `users/${user.uid}`);
 
 		const deleteDocmuent = async () => {
+			setDeleteLoading(true);
 			await deleteDoc(docRef);
-
 			const updatedPosts = userInfo.posts.filter((post) => post !== postId);
 			await updateDoc(userRef, {
 				posts: updatedPosts,
 			});
+			setDeleteLoading(false);
 
 			await router.replace(router.asPath);
 			window.scrollTo({ top: 0, behavior: "smooth" });
@@ -86,40 +90,6 @@ const Post = ({ postId, post, favorites }) => {
 		}
 	};
 
-	// const deletePost = async () => {
-	// 	const docRef = doc(db, "posts", postId);
-	// 	const userRef = doc(db, `users/${user.uid}`);
-
-	// 	const deleteDocmuent = async () => {
-	// 		await deleteDoc(docRef);
-
-	// 		const updatedPosts = userInfo.posts.filter((post) => post !== postId);
-	// 		await updateDoc(userRef, {
-	// 			posts: updatedPosts,
-	// 		});
-
-	// 		await router.replace(router.asPath);
-	// 		window.scrollTo({ top: 0, behavior: "smooth" });
-	// 	};
-
-	// 	try {
-	// 		if (post.fileRef.includes("firebasestorage")) {
-	// 			const imgRef = ref(storage, post.fileRef);
-	// 			await deleteObject(imgRef);
-	// 		}
-	// 		deleteDocmuent();
-	// 	} catch (error) {
-	// 		if (error.code === "storage/object-not-found") {
-	// 			console.log(error.message);
-	// 			try {
-	// 				deleteDocmuent();
-	// 			} catch (error) {
-	// 				console.log(error.message);
-	// 			}
-	// 		}
-	// 	}
-	// };
-
 	const editPost = () => {
 		setEditActive(true);
 		setEditObject({ postId: postId, text: post.text, fileRef: post.fileRef });
@@ -127,6 +97,7 @@ const Post = ({ postId, post, favorites }) => {
 
 	return (
 		<div className={styles.post}>
+			{deleteLoading ? <FormLoading /> : null}
 			<div className={styles.imgContainer}>
 				<div className={styles.userImgWrapper}>
 					<Image

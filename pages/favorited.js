@@ -6,7 +6,7 @@ import { getFavoritedPosts } from "../hooks/server/getFavoritedPosts";
 import MainLayout from "../components/Layouts/MainLayout";
 import FeedLayout from "../components/Layouts/FeedLayout";
 import PostsContainer from "../components/Feed/PostsContainer";
-import NoPosts from "../components/Errors/NoPosts";
+import NoPosts from "../components/NoPosts";
 import FavoriteDeleted from "../components/Favorited/FavoriteDeleted";
 import UserCard from "../components/UserCard";
 

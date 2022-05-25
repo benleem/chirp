@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
 
+import FormError from "../FormState/FormError";
+
 import styles from "../../styles/Auth/AuthModal.module.css";
 
 const SignIn = ({ chooseForm, setChooseForm, auth }) => {
@@ -73,7 +75,7 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.email ? (
-					<p className={styles.formError}>{formErrors.email}</p>
+					<FormError error={formErrors.email} firebaseError={false} />
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
@@ -86,7 +88,7 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.password ? (
-					<p className={styles.formError}>{formErrors.password}</p>
+					<FormError error={formErrors.password} irebaseError={false} />
 				) : null}
 			</div>
 			<button className={styles.submitButton} type="submit">
@@ -101,7 +103,7 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 				Sign Up
 			</button>
 			{firebaseError ? (
-				<p className={styles.firebaseError}>{firebaseError}</p>
+				<FormError error={firebaseError} firebaseError={true} />
 			) : null}
 		</form>
 	);

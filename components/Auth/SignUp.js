@@ -10,6 +10,8 @@ import { ref, getDownloadURL } from "firebase/storage";
 
 import { db, storage } from "../../firebase/firebaseConfig";
 
+import FormError from "../FormState/FormError";
+
 import styles from "../../styles/Auth/AuthModal.module.css";
 
 const SignUp = ({ chooseForm, setChooseForm, auth }) => {
@@ -31,11 +33,6 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 			);
 			const user = userCredential.user;
 
-			// await updateProfile(user, { displayName: formValues.displayName });
-			// await updateProfile(user, {
-			// 	photoURL: `https://avatars.dicebear.com/api/pixel-art-neutral/${user.uid}.svg`,
-			// });
-
 			const storageRef = ref(storage, `background/sample-background.jpg`);
 			const sampleBackground = await getDownloadURL(storageRef);
 
@@ -48,10 +45,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				posts: [],
 				favorites: [],
 			});
-			// await addDoc(collection(db, `users/${user.uid}/messages`), {
-			// 	uid: "chirp",
-			// 	msg: "Welcome to chirp, take a look around",
-			// });
+
 			await sendEmailVerification(user);
 			router.push("/home");
 		} catch (error) {
@@ -121,7 +115,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.displayName ? (
-					<p className={styles.formError}>{formErrors.displayName}</p>
+					<FormError error={formErrors.displayName} firebaseError={false} />
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
@@ -134,7 +128,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.email ? (
-					<p className={styles.formError}>{formErrors.email}</p>
+					<FormError error={formErrors.email} firebaseError={false} />
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
@@ -147,7 +141,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.password ? (
-					<p className={styles.formError}>{formErrors.password}</p>
+					<FormError error={formErrors.password} firebaseError={false} />
 				) : null}
 			</div>
 			<button className={styles.submitButton} type="submit">
@@ -162,7 +156,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				Sign In
 			</button>
 			{firebaseError ? (
-				<p className={styles.firebaseError}>{firebaseError}</p>
+				<FormError error={firebaseError} firebaseError={true} />
 			) : null}
 		</form>
 	);

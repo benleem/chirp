@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import styles from "../../styles/NoPosts.module.css";
+import styles from "../styles/NoPosts.module.css";
 
 const NoPosts = ({ profileData }) => {
 	const router = useRouter();
