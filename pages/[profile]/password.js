@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { verifyToken } from "../../hooks/server/verifyToken";
 
 import MainLayout from "../../components/Layouts/MainLayout";
 import SettingsLayout from "../../components/Layouts/SettingsLayout";
+import ChangePasswordForm from "../../components/ProfileSettings/ChangePasswordForm";
+import FormLoading from "../../components/FormState/FormLoading";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -27,7 +30,14 @@ export const getServerSideProps = async (context) => {
 };
 
 const Settings = () => {
-	return <div>This is the change password page</div>;
+	const [formLoading, setFormLoading] = useState(false);
+
+	return (
+		<>
+			{formLoading ? <FormLoading /> : null}
+			<ChangePasswordForm setFormLoading={setFormLoading} />
+		</>
+	);
 };
 
 Settings.getLayout = function getLayout(page) {

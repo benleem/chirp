@@ -103,7 +103,6 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 			window.scrollTo({ top: 0, behavior: "smooth" });
 		} catch (error) {
 			setFormLoading(false);
-			const errorCode = error.code;
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);
 		}

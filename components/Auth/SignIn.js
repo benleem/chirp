@@ -66,7 +66,7 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 		>
 			<p className={styles.modalTitle}>Sign In</p>
 			<div className={styles.inputContainer}>
-				<p className={styles.inputTag}>Email</p>
+				<p className={styles.inputLabel}>Email</p>
 				<input
 					className={styles.inputField}
 					type="email"
@@ -79,7 +79,7 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
-				<p className={styles.inputTag}>Password</p>
+				<p className={styles.inputLabel}>Password</p>
 				<input
 					className={styles.inputField}
 					type="password"

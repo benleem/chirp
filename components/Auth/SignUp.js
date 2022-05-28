@@ -106,7 +106,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				<li>Display names and passwords cannot contain a space</li>
 			</ul>
 			<div className={styles.inputContainer}>
-				<p className={styles.inputTag}>Display Name</p>
+				<p className={styles.inputLabel}>Display Name</p>
 				<input
 					className={styles.inputField}
 					type="text"
@@ -119,7 +119,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
-				<p className={styles.inputTag}>Email</p>
+				<p className={styles.inputLabel}>Email</p>
 				<input
 					className={styles.inputField}
 					type="email"
@@ -132,7 +132,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
-				<p className={styles.inputTag}>Password</p>
+				<p className={styles.inputLabel}>Password</p>
 				<input
 					className={styles.inputField}
 					type="password"

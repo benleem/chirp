@@ -1,12 +1,16 @@
-.formError {
+.formError,
+.firebaseError,
+.firebaseErrorHeavyPadding {
 	color: red;
 	font-size: 0.8rem;
 	padding-top: 0.3rem;
 }
 
-.firebaseError {
-	color: red;
-	font-size: 0.8rem;
-	padding-top: 0.3rem;
+.firebaseError,
+.firebaseErrorHeavyPadding {
 	text-align: center;
+}
+
+.firebaseErrorHeavyPadding {
+	padding-top: 1rem;
 }
