@@ -5,6 +5,7 @@ import { getUserData } from "../../hooks/server/getUserData";
 
 import MainLayout from "../../components/Layouts/MainLayout";
 import SettingsLayout from "../../components/Layouts/SettingsLayout";
+import Reauthenticate from "../../components/ProfileSettings/Reauthenticate";
 import EditProfileForm from "../../components/ProfileSettings/EditProfileForm";
 import FormLoading from "../../components/FormState/FormLoading";
 
@@ -36,15 +37,24 @@ export const getServerSideProps = async (context) => {
 
 const Edit = ({ token, userData, error }) => {
 	const [formLoading, setFormLoading] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 	return (
 		<>
 			{formLoading ? <FormLoading /> : null}
-			<EditProfileForm
-				token={token}
-				userData={userData}
-				setFormLoading={setFormLoading}
-			/>
+			{isAuthenticated ? (
+				<EditProfileForm
+					token={token}
+					userData={userData}
+					setFormLoading={setFormLoading}
+				/>
+			) : (
+				<Reauthenticate
+					email={token.email}
+					setFormLoading={setFormLoading}
+					setIsAuthenticated={setIsAuthenticated}
+				/>
+			)}
 		</>
 	);
 };

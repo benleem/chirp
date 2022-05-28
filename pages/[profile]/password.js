@@ -3,6 +3,7 @@ import { verifyToken } from "../../hooks/server/verifyToken";
 
 import MainLayout from "../../components/Layouts/MainLayout";
 import SettingsLayout from "../../components/Layouts/SettingsLayout";
+import Reauthenticate from "../../components/ProfileSettings/Reauthenticate";
 import ChangePasswordForm from "../../components/ProfileSettings/ChangePasswordForm";
 import FormLoading from "../../components/FormState/FormLoading";
 
@@ -13,7 +14,7 @@ export const getServerSideProps = async (context) => {
 
 		if (token.uid === profileId) {
 			return {
-				props: { token, profileId, message: "User has access to this page" },
+				props: { token },
 			};
 		} else {
 			context.res.writeHead(302, { Location: `/${profileId}` });
@@ -29,13 +30,22 @@ export const getServerSideProps = async (context) => {
 	}
 };
 
-const Settings = () => {
+const Settings = ({ token }) => {
 	const [formLoading, setFormLoading] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 	return (
 		<>
 			{formLoading ? <FormLoading /> : null}
-			<ChangePasswordForm setFormLoading={setFormLoading} />
+			{isAuthenticated ? (
+				<ChangePasswordForm setFormLoading={setFormLoading} />
+			) : (
+				<Reauthenticate
+					email={token.email}
+					setFormLoading={setFormLoading}
+					setIsAuthenticated={setIsAuthenticated}
+				/>
+			)}
 		</>
 	);
 };
