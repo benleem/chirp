@@ -55,8 +55,8 @@ const AddPostModal = ({ setShowPostModal }) => {
 		textArea.current.style.height = "min-content";
 		textArea.current.style.height = `${e.target.scrollHeight}px`;
 
-		const { name, value } = e.target;
-		setFormValues({ ...formValues, [name]: value });
+		const { id, value } = e.target;
+		setFormValues({ ...formValues, [id]: value });
 	};
 
 	// const handleFileChange = (e) => {
@@ -190,12 +190,12 @@ const AddPostModal = ({ setShowPostModal }) => {
 					</div>
 					<div className={styles.inputContainer}>
 						<textarea
-							className={styles.textInput}
 							ref={textArea}
-							onChange={(e) => handleTextChange(e)}
+							className={styles.textInput}
+							id="text"
 							placeholder="What's chirpin?"
-							name="text"
 							defaultValue={editObject ? editObject.text : formValues.text}
+							onChange={(e) => handleTextChange(e)}
 						/>
 						{formErrors.text ? (
 							<FormError error={formErrors.text} firebaseError={false} />

@@ -28,8 +28,8 @@ const Reauthenticate = ({ email, setFormLoading, setIsAuthenticated }) => {
 	};
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormValues({ ...formValues, [name]: value });
+		const { id, value } = e.target;
+		setFormValues({ ...formValues, [id]: value });
 	};
 
 	const handleSubmit = (e) => {
@@ -45,7 +45,7 @@ const Reauthenticate = ({ email, setFormLoading, setIsAuthenticated }) => {
 				</label>
 				<input
 					className={styles.inputField}
-					name="password"
+					id="password"
 					type="password"
 					placeholder="Example123!"
 					onChange={(e) => handleChange(e)}

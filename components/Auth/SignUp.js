@@ -57,8 +57,8 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 	};
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormValues({ ...formValues, [name]: value });
+		const { id, value } = e.target;
+		setFormValues({ ...formValues, [id]: value });
 	};
 
 	const handleSubmit = (e) => {
@@ -107,11 +107,13 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				<li>Display names and passwords cannot contain a space</li>
 			</ul>
 			<div className={styles.inputContainer}>
-				<p className={styles.inputLabel}>Display Name</p>
+				<label className={styles.inputLabel} htmlFor="displayName">
+					Display Name
+				</label>
 				<input
 					className={styles.inputField}
+					id="displayName"
 					type="text"
-					name="displayName"
 					placeholder="coolperson123"
 					onChange={(e) => handleChange(e)}
 				/>
@@ -120,11 +122,13 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
-				<p className={styles.inputLabel}>Email</p>
+				<label className={styles.inputLabel} htmlFor="email">
+					Email
+				</label>
 				<input
 					className={styles.inputField}
+					id="email"
 					type="email"
-					name="email"
 					placeholder="example@email.com"
 					onChange={(e) => handleChange(e)}
 				/>
@@ -133,11 +137,13 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				) : null}
 			</div>
 			<div className={styles.inputContainer}>
-				<p className={styles.inputLabel}>Password</p>
+				<label className={styles.inputLabel} htmlFor="password">
+					Password
+				</label>
 				<input
 					className={styles.inputField}
+					id="password"
 					type="password"
-					name="password"
 					placeholder="Example123!"
 					onChange={(e) => handleChange(e)}
 				/>

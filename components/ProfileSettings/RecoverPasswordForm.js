@@ -28,8 +28,8 @@ const RecoverPasswordForm = () => {
 	};
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormValues({ ...formValues, [name]: value });
+		const { id, value } = e.target;
+		setFormValues({ ...formValues, [id]: value });
 	};
 
 	const handleSubmit = (e) => {
@@ -59,7 +59,7 @@ const RecoverPasswordForm = () => {
 				</div>
 				<input
 					className={styles.inputField}
-					name="email"
+					id="email"
 					type="email"
 					onChange={(e) => handleChange(e)}
 				/>

@@ -29,8 +29,8 @@ const ChangePasswordForm = ({ setFormLoading }) => {
 	};
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormValues({ ...formValues, [name]: value });
+		const { id, value } = e.target;
+		setFormValues({ ...formValues, [id]: value });
 	};
 
 	const handleSubmit = (e) => {
@@ -58,12 +58,7 @@ const ChangePasswordForm = ({ setFormLoading }) => {
 		if (Object.keys(formErrors).length === 0 && isSubmitted === true) {
 			changePassword();
 		}
-		console.log(formErrors);
 	}, [formErrors]);
-
-	useEffect(() => {
-		console.log(formValues);
-	}, [formValues]);
 
 	return (
 		<form
@@ -76,7 +71,7 @@ const ChangePasswordForm = ({ setFormLoading }) => {
 				</label>
 				<input
 					className={styles.inputField}
-					name="password"
+					id="password"
 					type="password"
 					placeholder="Example123!"
 					onChange={(e) => handleChange(e)}
@@ -91,7 +86,7 @@ const ChangePasswordForm = ({ setFormLoading }) => {
 				</label>
 				<input
 					className={styles.inputField}
-					name="confirm"
+					id="confirm"
 					type="password"
 					placeholder="Example123!"
 					onChange={(e) => handleChange(e)}

@@ -109,8 +109,8 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 	};
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormValues({ ...formValues, [name]: value });
+		const { id, value } = e.target;
+		setFormValues({ ...formValues, [id]: value });
 	};
 
 	const handleSubmit = (e) => {
@@ -159,8 +159,8 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 					<input
 						ref={backgroundImageInputArea}
 						className={styles.mediaUpload}
+						id="imageUpload"
 						type="file"
-						name="imageUpload"
 						accept="image/png, image/jpeg"
 						onChange={(e) => handleFileChange(e, "background")}
 					/>
@@ -193,8 +193,8 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 					<input
 						ref={profileImageInputArea}
 						className={styles.mediaUpload}
+						id="imageUpload"
 						type="file"
-						name="imageUpload"
 						accept="image/png, image/jpeg"
 						onChange={(e) => handleFileChange(e, "profile")}
 					/>
@@ -230,11 +230,10 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 				</label>
 				<input
 					className={styles.inputField}
+					id="displayName"
 					type="text"
-					name="displayName"
 					autoComplete="off"
 					defaultValue={userData.displayName}
-					// placeholder="example@email.com"
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.displayName ? (
@@ -247,11 +246,10 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 				</label>
 				<input
 					className={styles.inputField}
+					id="description"
 					type="text"
-					name="description"
 					autoComplete="off"
 					defaultValue={userData.description}
-					// placeholder="example@email.com"
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.description ? (
@@ -264,11 +262,10 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 				</label>
 				<input
 					className={styles.inputField}
+					id="email"
 					type="email"
-					name="email"
 					autoComplete="off"
 					defaultValue={token.email}
-					// placeholder="example@email.com"
 					onChange={(e) => handleChange(e)}
 				/>
 				{formErrors.email ? (
