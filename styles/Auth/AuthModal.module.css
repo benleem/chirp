@@ -87,6 +87,13 @@
 	margin: 1rem 0;
 }
 
+.forgotPassword {
+	color: #35ce8d;
+	text-align: center;
+	font-size: 0.9rem;
+	margin: auto;
+}
+
 .query,
 .answer {
 	color: grey;
@@ -94,12 +101,14 @@
 	text-align: center;
 }
 
+.query {
+	margin: 0.3rem 0;
+}
+
 .answer {
-	padding-top: 0.3rem;
 	color: #35ce8d;
 	width: fit-content;
 	margin: auto;
-	margin-top: 0.3rem;
 	padding: 0;
 	background-color: white;
 	border: none;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import FormError from "../FormState/FormError";
 
@@ -94,6 +95,9 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 			<button className={styles.submitButton} type="submit">
 				Sign In
 			</button>
+			<Link href="/recover">
+				<a className={styles.forgotPassword}>Forgot password?</a>
+			</Link>
 			<p className={styles.query}>Don't have an account?</p>
 			<button
 				type="button"

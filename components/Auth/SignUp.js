@@ -7,6 +7,7 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { ref, getDownloadURL } from "firebase/storage";
+import Link from "next/link";
 
 import { db, storage } from "../../firebase/firebaseConfig";
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import Link from "next/link";
 
 import { auth } from "../../firebase/firebaseConfig";
 
@@ -56,6 +57,11 @@ const Reauthenticate = ({ email, setFormLoading, setIsAuthenticated }) => {
 			{firebaseError ? (
 				<FormError error={firebaseError} firebaseError={true} />
 			) : null}
+			<div className={styles.forgotPasswordContainer}>
+				<Link href="/recover">
+					<a className={styles.forgotPassword}>Forgot password?</a>
+				</Link>
+			</div>
 		</form>
 	);
 };

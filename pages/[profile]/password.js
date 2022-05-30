@@ -30,7 +30,7 @@ export const getServerSideProps = async (context) => {
 	}
 };
 
-const Settings = ({ token }) => {
+const Password = ({ token }) => {
 	const [formLoading, setFormLoading] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -50,7 +50,7 @@ const Settings = ({ token }) => {
 	);
 };
 
-Settings.getLayout = function getLayout(page) {
+Password.getLayout = function getLayout(page) {
 	return (
 		<MainLayout>
 			<SettingsLayout>{page}</SettingsLayout>
@@ -58,4 +58,4 @@ Settings.getLayout = function getLayout(page) {
 	);
 };
 
-export default Settings;
+export default Password;
