@@ -19,8 +19,14 @@ const AddPostModal = ({ setShowPostModal }) => {
 	const user = useAuth();
 	const userInfo = useUser();
 	const router = useRouter();
-	const { editActive, setEditActive, setEditObject, editObject } =
-		useContext(EditContext);
+	const {
+		editActive,
+		setEditActive,
+		setEditObject,
+		editObject,
+		editedPosts,
+		setEditedPosts,
+	} = useContext(EditContext);
 
 	const form = useRef();
 	const textArea = useRef();
@@ -126,6 +132,14 @@ const AddPostModal = ({ setShowPostModal }) => {
 		const postRef = doc(db, `posts/${editObject.postId}`);
 
 		try {
+			const editArray = editedPosts;
+			const editPostIndex = editArray.findIndex(
+				(post) => post.id == editObject.postId
+			);
+			editArray[editPostIndex].data.text = formValues.text;
+			editArray[editPostIndex].data.fileRef = file;
+			setEditedPosts(editArray);
+
 			setFormLoading(true);
 			await updateDoc(postRef, {
 				text: formValues.text,
@@ -135,11 +149,12 @@ const AddPostModal = ({ setShowPostModal }) => {
 			setShowPostModal(false);
 			setEditActive(false);
 			setEditObject(null);
-			if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
-				await router.replace(router.asPath, router.asPath, {
-					scroll: false,
-				});
-			}
+
+			// if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
+			// 	await router.replace(router.asPath, router.asPath, {
+			// 		scroll: false,
+			// 	});
+			// }
 		} catch (error) {
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);

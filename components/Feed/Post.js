@@ -25,7 +25,8 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	const user = useAuth();
 	const userInfo = useUser();
 	const router = useRouter();
-	const { setEditActive, setEditObject } = useContext(EditContext);
+	const { setEditActive, setEditObject, editedPosts, setEditedPosts } =
+		useContext(EditContext);
 
 	const [favoriteHover, setFavoriteHover] = useState(false);
 	const [editHover, setEditHover] = useState(false);
@@ -104,6 +105,7 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	const editPost = () => {
 		setEditActive(true);
 		setEditObject({ postId: postId, text: post.text, fileRef: post.fileRef });
+		setEditedPosts(posts);
 	};
 
 	return (
