@@ -9,7 +9,7 @@ import Post from "./Post";
 
 import styles from "../../styles/Feed/PostsContainer.module.css";
 
-const PostsContainer = ({ uid, posts, setPosts, favorites }) => {
+const PostsContainer = ({ uid, posts, setPosts, favorites, setFavorites }) => {
 	const router = useRouter();
 
 	const [checkHasMore, setCheckHasMore] = useState(true);
@@ -22,6 +22,7 @@ const PostsContainer = ({ uid, posts, setPosts, favorites }) => {
 				router.pathname,
 				uid
 			);
+			console.log(newBatch);
 			if (newBatch.length < 1) {
 				setCheckHasMore(false);
 			} else {
@@ -41,18 +42,16 @@ const PostsContainer = ({ uid, posts, setPosts, favorites }) => {
 				next={getNewBatch}
 				hasMore={checkHasMore}
 				loader={<h4>Loading...</h4>}
-				endMessage={
-					<p style={{ textAlign: "center" }}>
-						<b>Yay! You have seen it all</b>
-					</p>
-				}
 			>
 				{posts?.map((post) => (
 					<Post
 						key={post.id}
 						postId={post.id}
 						post={post.data}
+						posts={posts}
+						setPosts={setPosts}
 						favorites={favorites}
+						setFavorites={setFavorites}
 					/>
 				))}
 			</InfiniteScroll>

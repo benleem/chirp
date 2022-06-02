@@ -104,10 +104,16 @@ const AddPostModal = ({ setShowPostModal }) => {
 			setFormLoading(false);
 			setShowPostModal(false);
 			if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
-				window.scrollTo({ top: 0, behavior: "smooth" });
-				router.replace(router.asPath, router.asPath, {
-					scroll: false,
-				});
+				const scroll = () => {
+					window.scrollTo({ top: 0, behavior: "smooth" });
+				};
+				const reloadData = () => {
+					router.replace(router.asPath, router.asPath, {
+						scroll: false,
+					});
+				};
+				scroll();
+				reloadData();
 			}
 		} catch (error) {
 			const errorMessage = error.message;

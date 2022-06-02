@@ -21,7 +21,7 @@ import FormLoading from "../FormState/FormLoading";
 
 import styles from "../../styles/Feed/Post.module.css";
 
-const Post = ({ postId, post, favorites }) => {
+const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	const user = useAuth();
 	const userInfo = useUser();
 	const router = useRouter();
@@ -51,12 +51,22 @@ const Post = ({ postId, post, favorites }) => {
 	const handleFavorite = async () => {
 		try {
 			if (favorites.favoritePostIds.includes(postId)) {
+				setFavorites({
+					favoritesData: favorites.favoritesData,
+					favoritePostIds: favorites.favoritePostIds.filter(
+						(favorite) => favorite !== postId
+					),
+				});
 				const favoriteExists = favorites.favoritesData.filter(
 					(favorite) => favorite.data.postId === postId
 				);
 				const deleteFavorite = favoriteExists[0];
 				await deleteDoc(doc(db, "favorites", deleteFavorite.id));
 			} else {
+				setFavorites({
+					favoritesData: favorites.favoritesData,
+					favoritePostIds: [...favorites.favoritePostIds, postId],
+				});
 				await addDoc(collection(db, "favorites"), {
 					userId: user.uid,
 					postId: postId,
@@ -81,9 +91,11 @@ const Post = ({ postId, post, favorites }) => {
 			});
 			setDeleteLoading(false);
 
-			await router.replace(router.asPath, router.asPath, {
-				scroll: false,
-			});
+			setPosts(posts.filter((post) => post.id !== postId));
+
+			// await router.replace(router.asPath, router.asPath, {
+			// 	scroll: false,
+			// });
 		} catch (error) {
 			console.log(error.message);
 		}
