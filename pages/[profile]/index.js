@@ -72,10 +72,6 @@ const Profile = ({
 	const [favorites, setFavorites] = useState(initialFavorites);
 
 	useEffect(() => {
-		liveFavorites(uid, setFavorites);
-	}, []);
-
-	useEffect(() => {
 		setPosts(profilePosts);
 	}, [profilePosts]);
 
@@ -99,6 +95,7 @@ const Profile = ({
 						posts={posts}
 						setPosts={setPosts}
 						favorites={favorites}
+						setFavorites={setFavorites}
 					/>
 					{uid === profileId ? (
 						<UserCard renderButton={true} />

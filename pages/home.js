@@ -41,10 +41,6 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 	const [posts, setPosts] = useState(initialPosts);
 	const [favorites, setFavorites] = useState(initialFavorites);
 
-	// useEffect(() => {
-	// 	liveFavorites(uid, setFavorites);
-	// }, []);
-
 	useEffect(() => {
 		setPosts(initialPosts);
 	}, [initialPosts]);
