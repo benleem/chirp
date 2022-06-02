@@ -43,6 +43,7 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 
 	useEffect(() => {
 		setPosts(initialPosts);
+		console.log(favorites);
 	}, [initialPosts]);
 
 	const ControlErrors = () => {

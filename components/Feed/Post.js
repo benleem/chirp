@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import {
+	setDoc,
 	addDoc,
 	deleteDoc,
 	doc,
@@ -52,12 +53,16 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	const handleFavorite = async () => {
 		try {
 			if (favorites.favoritePostIds.includes(postId)) {
+				console.log(favorites);
 				setFavorites({
-					favoritesData: favorites.favoritesData,
+					favoritesData: favorites.favoritesData.filter(
+						(favorite) => favorite.data.postId != postId
+					),
 					favoritePostIds: favorites.favoritePostIds.filter(
 						(favorite) => favorite !== postId
 					),
 				});
+
 				const favoriteExists = favorites.favoritesData.filter(
 					(favorite) => favorite.data.postId === postId
 				);
@@ -65,13 +70,21 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 				await deleteDoc(doc(db, "favorites", deleteFavorite.id));
 			} else {
 				setFavorites({
-					favoritesData: favorites.favoritesData,
+					favoritesData: [
+						...favorites.favoritesData,
+						{
+							id: `${user.uid}${postId}`,
+							data: {
+								userId: user.uid,
+								postId: postId,
+							},
+						},
+					],
 					favoritePostIds: [...favorites.favoritePostIds, postId],
 				});
-				await addDoc(collection(db, "favorites"), {
+				await setDoc(doc(db, "favorites", `${user.uid}${postId}`), {
 					userId: user.uid,
 					postId: postId,
-					timeStamp: Date.now(),
 				});
 			}
 		} catch (error) {

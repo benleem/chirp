@@ -5,8 +5,7 @@ import { db } from "../../firebase/firebaseConfig";
 export const getFavorited = async (uid) => {
 	const favoritesQuery = query(
 		collection(db, "favorites"),
-		where("userId", "==", uid),
-		orderBy("timeStamp", "desc")
+		where("userId", "==", uid)
 	);
 
 	const favoritesData = await getDocs(favoritesQuery);
