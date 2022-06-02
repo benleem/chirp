@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import {
 	createUserWithEmailAndPassword,
-	updateProfile,
 	sendEmailVerification,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { ref, getDownloadURL } from "firebase/storage";
-import Link from "next/link";
 
 import { db, storage } from "../../firebase/firebaseConfig";
 
@@ -43,14 +41,13 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				backgroundUrl: sampleBackground,
 				createdAt: user.metadata.creationTime,
 				description: "",
-				posts: [],
-				favorites: [],
+				posts: 0,
+				favorites: 0,
 			});
 
 			await sendEmailVerification(user);
 			router.push("/home");
 		} catch (error) {
-			const errorCode = error.code;
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);
 		}

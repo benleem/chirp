@@ -2,8 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { deleteObject, getDownloadURL, ref } from "firebase/storage";
+import {
+	addDoc,
+	deleteDoc,
+	doc,
+	updateDoc,
+	collection,
+	serverTimestamp,
+} from "firebase/firestore";
 import { motion } from "framer-motion";
 
 import { db, storage } from "../../firebase/firebaseConfig";
@@ -21,7 +27,6 @@ const Post = ({ postId, post, favorites }) => {
 	const router = useRouter();
 	const { setEditActive, setEditObject } = useContext(EditContext);
 
-	const [commentHover, setCommentHover] = useState(false);
 	const [favoriteHover, setFavoriteHover] = useState(false);
 	const [editHover, setEditHover] = useState(false);
 	const [deleteHover, setDeleteHover] = useState(false);
@@ -44,21 +49,18 @@ const Post = ({ postId, post, favorites }) => {
 	};
 
 	const handleFavorite = async () => {
-		const userRef = doc(db, `users/${user.uid}`);
 		try {
-			if (favorites.includes(postId)) {
-				const updatedFavorites = favorites.filter(
-					(favorite) => favorite !== postId
+			if (favorites.favoritePostIds.includes(postId)) {
+				const favoriteExists = favorites.favoritesData.filter(
+					(favorite) => favorite.data.postId === postId
 				);
-				await updateDoc(userRef, {
-					favorites: updatedFavorites,
-				});
-				if (router.pathname === "/favorited") {
-					router.replace(router.asPath);
-				}
+				const deleteFavorite = favoriteExists[0];
+				await deleteDoc(doc(db, "favorites", deleteFavorite.id));
 			} else {
-				await updateDoc(userRef, {
-					favorites: [...favorites, postId],
+				await addDoc(collection(db, "favorites"), {
+					userId: user.uid,
+					postId: postId,
+					timeStamp: Date.now(),
 				});
 			}
 		} catch (error) {
@@ -70,7 +72,7 @@ const Post = ({ postId, post, favorites }) => {
 		const docRef = doc(db, "posts", postId);
 		const userRef = doc(db, `users/${user.uid}`);
 
-		const deleteDocmuent = async () => {
+		try {
 			setDeleteLoading(true);
 			await deleteDoc(docRef);
 			const updatedPosts = userInfo.posts.filter((post) => post !== postId);
@@ -79,12 +81,9 @@ const Post = ({ postId, post, favorites }) => {
 			});
 			setDeleteLoading(false);
 
-			await router.replace(router.asPath);
-			window.scrollTo({ top: 0, behavior: "smooth" });
-		};
-
-		try {
-			deleteDocmuent();
+			await router.replace(router.asPath, router.asPath, {
+				scroll: false,
+			});
 		} catch (error) {
 			console.log(error.message);
 		}
@@ -127,33 +126,11 @@ const Post = ({ postId, post, favorites }) => {
 					<div className={styles.interactLeft}>
 						<button
 							className={styles.interactButton}
-							onMouseEnter={() => setCommentHover(true)}
-							onMouseLeave={() => setCommentHover(false)}
-						>
-							{commentHover ? (
-								<motion.img
-									animate={{
-										opacity: 1,
-									}}
-									className={styles.interactButtonImg}
-									src="/img/comment-hover.svg"
-									alt=""
-								/>
-							) : (
-								<motion.img
-									className={styles.interactButtonImg}
-									src="/img/comment.svg"
-									alt=""
-								/>
-							)}
-						</button>
-						<button
-							className={styles.interactButton}
 							onClick={handleFavorite}
 							onMouseEnter={() => setFavoriteHover(true)}
 							onMouseLeave={() => setFavoriteHover(false)}
 						>
-							{favorites.includes(postId) || favoriteHover ? (
+							{favorites.favoritePostIds.includes(postId) || favoriteHover ? (
 								<img
 									className={styles.interactButtonImg}
 									src="/img/favorite-post-hover.svg"

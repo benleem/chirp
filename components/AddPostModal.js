@@ -104,8 +104,10 @@ const AddPostModal = ({ setShowPostModal }) => {
 			setFormLoading(false);
 			setShowPostModal(false);
 			if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
-				await router.replace(router.asPath);
 				window.scrollTo({ top: 0, behavior: "smooth" });
+				router.replace(router.asPath, router.asPath, {
+					scroll: false,
+				});
 			}
 		} catch (error) {
 			const errorMessage = error.message;
@@ -128,8 +130,9 @@ const AddPostModal = ({ setShowPostModal }) => {
 			setEditActive(false);
 			setEditObject(null);
 			if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
-				await router.replace(router.asPath);
-				window.scrollTo({ top: 0, behavior: "smooth" });
+				await router.replace(router.asPath, router.asPath, {
+					scroll: false,
+				});
 			}
 		} catch (error) {
 			const errorMessage = error.message;

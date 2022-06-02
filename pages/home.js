@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react";
-import { query, doc, onSnapshot } from "firebase/firestore";
 
-import { db } from "../firebase/firebaseConfig";
 import { verifyToken } from "../hooks/server/verifyToken";
-import { getUserData } from "../hooks/server/getUserData";
 import { getPosts } from "../hooks/server/getPosts";
+import { liveFavorites } from "../hooks/client/liveFavorites";
 
 import MainLayout from "../components/Layouts/MainLayout";
 import FeedLayout from "../components/Layouts/FeedLayout";
 import NoPosts from "../components/NoPosts";
 import PostsContainer from "../components/Feed/PostsContainer";
+import { getFavorited } from "../hooks/server/getFavorited";
 
 export const getServerSideProps = async (context) => {
 	try {
 		const { uid } = await verifyToken(context);
 
 		try {
-			const posts = await getPosts();
-			const userData = await getUserData(uid);
+			const initialPosts = await getPosts();
+			const favorites = await getFavorited(uid);
 
 			return {
 				props: {
-					posts,
+					initialPosts,
 					uid,
-					initialFavorites: userData.favorites,
+					initialFavorites: favorites,
 				},
 			};
 		} catch (error) {
@@ -38,22 +37,17 @@ export const getServerSideProps = async (context) => {
 	}
 };
 
-const Home = ({ posts, error, uid, initialFavorites }) => {
+const Home = ({ initialPosts, error, uid, initialFavorites }) => {
+	const [posts, setPosts] = useState(initialPosts);
 	const [favorites, setFavorites] = useState(initialFavorites);
 
-	const getFavorites = async () => {
-		const userQuery = query(doc(db, `users/${uid}`));
-
-		onSnapshot(userQuery, (doc) => {
-			const userInfo = doc.data();
-			const favorites = userInfo.favorites;
-			setFavorites(favorites);
-		});
-	};
+	useEffect(() => {
+		liveFavorites(uid, setFavorites);
+	}, []);
 
 	useEffect(() => {
-		getFavorites();
-	}, []);
+		setPosts(initialPosts);
+	}, [initialPosts]);
 
 	const ControlErrors = () => {
 		if (error) {
@@ -61,7 +55,13 @@ const Home = ({ posts, error, uid, initialFavorites }) => {
 		} else if (posts.length === 0) {
 			return <NoPosts />;
 		} else {
-			return <PostsContainer posts={posts} favorites={favorites} />;
+			return (
+				<PostsContainer
+					posts={posts}
+					setPosts={setPosts}
+					favorites={favorites}
+				/>
+			);
 		}
 	};
 

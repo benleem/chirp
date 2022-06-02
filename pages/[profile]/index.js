@@ -5,12 +5,16 @@ import { db } from "../../firebase/firebaseConfig";
 import { verifyToken } from "../../hooks/server/verifyToken";
 import { getUserData } from "../../hooks/server/getUserData";
 import { getUserPosts } from "../../hooks/server/getUserPosts";
+import { getFavorited } from "../../hooks/server/getFavorited";
+import { liveFavorites } from "../../hooks/client/liveFavorites";
+import { infiniteScrollFetch } from "../../hooks/client/infiniteScrollFetch";
 
 import MainLayout from "../../components/Layouts/MainLayout";
 import FeedLayout from "../../components/Layouts/FeedLayout";
 import NoPosts from "../../components/NoPosts";
 import PostsContainer from "../../components/Feed/PostsContainer";
 import UserCard from "../../components/UserCard";
+import { useRouter } from "next/router";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -19,11 +23,10 @@ export const getServerSideProps = async (context) => {
 
 		try {
 			const profileData = await getUserData(profileId);
-			const userData = await getUserData(uid);
-			const initialFavorites = userData.favorites;
+			const initialFavorites = await getFavorited(uid);
 
 			if (profileData && profileData.posts.length > 0) {
-				const profilePosts = await getUserPosts(profileData);
+				const profilePosts = await getUserPosts(profileId);
 
 				return {
 					props: {
@@ -65,23 +68,16 @@ const Profile = ({
 	profilePosts,
 	error,
 }) => {
+	const [posts, setPosts] = useState(profilePosts);
 	const [favorites, setFavorites] = useState(initialFavorites);
 
-	const getFavorites = async () => {
-		const userQuery = query(doc(db, `users/${uid}`));
-
-		onSnapshot(userQuery, (doc) => {
-			const userInfo = doc.data();
-			const favorites = userInfo.favorites;
-			setFavorites(favorites);
-		});
-	};
+	useEffect(() => {
+		liveFavorites(uid, setFavorites);
+	}, []);
 
 	useEffect(() => {
-		if (favorites) {
-			getFavorites();
-		}
-	}, []);
+		setPosts(profilePosts);
+	}, [profilePosts]);
 
 	const ControlErrors = () => {
 		if (error) {
@@ -98,7 +94,12 @@ const Profile = ({
 		} else {
 			return (
 				<>
-					<PostsContainer posts={profilePosts} favorites={favorites} />
+					<PostsContainer
+						uid={uid}
+						posts={posts}
+						setPosts={setPosts}
+						favorites={favorites}
+					/>
 					{uid === profileId ? (
 						<UserCard renderButton={true} />
 					) : (

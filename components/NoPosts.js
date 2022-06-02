@@ -26,26 +26,7 @@ const NoPosts = ({ profileData }) => {
 						</p>
 					</div>
 				);
-			case "/favorited":
-				return (
-					<div className={styles.noPosts}>
-						<p className={styles.title}>You don't have any favorites!</p>
-						<video
-							className={styles.mp4Gif}
-							autoPlay="autoplay"
-							loop
-							muted
-							playsInline
-							src="https://media.giphy.com/media/d2lcHJTG5Tscg/giphy.mp4"
-						/>
-						<p className={styles.altTitle}>Save posts for later.</p>
-						<p className={styles.details}>
-							When you see a post you like, click the heart button. It'll be
-							waiting for you here!
-						</p>
-					</div>
-				);
-			default:
+			case "/[profile]":
 				return (
 					<div className={styles.noPosts}>
 						<p className={styles.title}>

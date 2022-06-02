@@ -2,25 +2,24 @@ import {
 	query,
 	collection,
 	where,
-	documentId,
 	limit,
 	getDocs,
+	orderBy,
 } from "firebase/firestore";
 
 import { db } from "../../firebase/firebaseConfig";
 
-export const getUserPosts = async (userData) => {
-	const posts = [];
+export const getUserPosts = async (uid) => {
 	const postsQuery = query(
 		collection(db, "posts"),
-		where(documentId(), "in", userData.posts),
+		where("userId", "==", uid),
+		orderBy("timeStamp", "desc"),
 		limit(10)
 	);
 	const postsData = await getDocs(postsQuery);
-	postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
-	const orderedPosts = posts.sort(
-		(a, b) => b.data.timeStamp - a.data.timeStamp
-	);
+	const posts = postsData.docs.map((doc) => {
+		return { id: doc.id, data: doc.data() };
+	});
 
-	return orderedPosts;
+	return posts;
 };

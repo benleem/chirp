@@ -28,22 +28,6 @@ const NavbarRight = ({
 						</button>
 					</li>
 					<li className={styles.navListItem}>
-						<Link href="/favorited">
-							<a
-								className={styles.navListAnchor}
-								onClick={() => setShowDropdown(false)}
-							>
-								<img
-									src="/img/favorite.svg"
-									alt="Favorited"
-									height={40}
-									width={40}
-								/>
-								<p className={styles.toolTip}>Favorited</p>
-							</a>
-						</Link>
-					</li>
-					<li className={styles.navListItem}>
 						<button
 							className={styles.navListButton}
 							onClick={() => setShowDropdown(!showDropdown)}
