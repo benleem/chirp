@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
-import { query, doc, onSnapshot } from "firebase/firestore";
 
-import { db } from "../../firebase/firebaseConfig";
 import { verifyToken } from "../../hooks/server/verifyToken";
 import { getUserData } from "../../hooks/server/getUserData";
 import { getUserPosts } from "../../hooks/server/getUserPosts";
 import { getFavorited } from "../../hooks/server/getFavorited";
-import { liveFavorites } from "../../hooks/client/liveFavorites";
-import { infiniteScrollFetch } from "../../hooks/client/infiniteScrollFetch";
 
 import MainLayout from "../../components/Layouts/MainLayout";
 import FeedLayout from "../../components/Layouts/FeedLayout";
 import NoPosts from "../../components/NoPosts";
 import PostsContainer from "../../components/Feed/PostsContainer";
 import UserCard from "../../components/UserCard";
-import { useRouter } from "next/router";
 
 export const getServerSideProps = async (context) => {
 	try {

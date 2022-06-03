@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { verifyToken } from "../hooks/server/verifyToken";
 import { getPosts } from "../hooks/server/getPosts";
-import { liveFavorites } from "../hooks/client/liveFavorites";
 
 import MainLayout from "../components/Layouts/MainLayout";
 import FeedLayout from "../components/Layouts/FeedLayout";
@@ -43,7 +42,6 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 
 	useEffect(() => {
 		setPosts(initialPosts);
-		console.log(favorites);
 	}, [initialPosts]);
 
 	const ControlErrors = () => {

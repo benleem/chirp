@@ -65,36 +65,13 @@ const AddPostModal = ({ setShowPostModal }) => {
 		setFormValues({ ...formValues, [id]: value });
 	};
 
-	// const handleFileChange = (e) => {
-	// 	const selectedFile = e.target.files[0];
-	// 	setFileToUpload(selectedFile);
-	// 	if (selectedFile) {
-	// 		let reader = new FileReader();
-	// 		reader.readAsDataURL(selectedFile);
-	// 		reader.onloadend = () => {
-	// 			setFile(reader.result);
-	// 		};
-	// 	}
-	// };
-
 	const removeFile = () => {
 		setFile(null);
-		// imageInputArea.current.value = null;
 	};
 
 	const addPost = async () => {
 		try {
 			setFormLoading(true);
-			// let fileUrl = "";
-			// if (file) {
-			// 	if (file.includes("giphy.com")) {
-			// 		fileUrl = file;
-			// 	} else {
-			// 		const storageRef = ref(storage, `post/${fileToUpload.name}`);
-			// 		await uploadBytes(storageRef, fileToUpload);
-			// 		fileUrl = await getDownloadURL(storageRef);
-			// 	}
-			// }
 			const docRef = await addDoc(collection(db, "posts"), {
 				userId: user.uid,
 				displayName: userInfo.displayName,
@@ -228,21 +205,6 @@ const AddPostModal = ({ setShowPostModal }) => {
 					<div className={styles.mediaUploadContainer}>
 						<p>Media</p>
 						<div className={styles.mediaInputFields}>
-							{/* <input
-								ref={imageInputArea}
-								className={styles.mediaUpload}
-								type="file"
-								name="imageUpload"
-								accept="image/*"
-								onChange={(e) => handleFileChange(e)}
-							/>
-							<button
-								className={styles.mediaUploadButton}
-								type="button"
-								onClick={() => imageInputArea.current.click()}
-							>
-								<img src="/img/image-upload.svg" alt="upload image" />
-							</button> */}
 							<button
 								className={styles.mediaUploadButton}
 								type="button"

@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { useAuth } from "../../hooks/client/useAuth";
 import { infiniteScrollFetch } from "../../hooks/client/infiniteScrollFetch";
 
 import Post from "./Post";
@@ -22,7 +21,6 @@ const PostsContainer = ({ uid, posts, setPosts, favorites, setFavorites }) => {
 				router.pathname,
 				uid
 			);
-			console.log(newBatch);
 			if (newBatch.length < 1) {
 				setCheckHasMore(false);
 			} else {

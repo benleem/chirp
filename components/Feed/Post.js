@@ -1,19 +1,15 @@
-import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
 	setDoc,
-	addDoc,
 	deleteDoc,
 	doc,
 	updateDoc,
-	collection,
 	serverTimestamp,
 } from "firebase/firestore";
-import { motion } from "framer-motion";
 
-import { db, storage } from "../../firebase/firebaseConfig";
+import { db } from "../../firebase/firebaseConfig";
 import { EditContext } from "../../context/EditContext";
 import { useAuth } from "../../hooks/client/useAuth";
 import { useUser } from "../../hooks/client/useUser";
@@ -25,8 +21,7 @@ import styles from "../../styles/Feed/Post.module.css";
 const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	const user = useAuth();
 	const userInfo = useUser();
-	const router = useRouter();
-	const { setEditActive, setEditObject, editedPosts, setEditedPosts } =
+	const { setEditActive, setEditObject, setEditedPosts } =
 		useContext(EditContext);
 
 	const [favoriteHover, setFavoriteHover] = useState(false);
@@ -52,39 +47,14 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 
 	const handleFavorite = async () => {
 		try {
-			if (favorites.favoritePostIds.includes(postId)) {
-				console.log(favorites);
-				setFavorites({
-					favoritesData: favorites.favoritesData.filter(
-						(favorite) => favorite.data.postId != postId
-					),
-					favoritePostIds: favorites.favoritePostIds.filter(
-						(favorite) => favorite !== postId
-					),
-				});
-
-				const favoriteExists = favorites.favoritesData.filter(
-					(favorite) => favorite.data.postId === postId
-				);
-				const deleteFavorite = favoriteExists[0];
-				await deleteDoc(doc(db, "favorites", deleteFavorite.id));
+			if (favorites.includes(postId)) {
+				setFavorites(favorites.filter((favorite) => favorite !== postId));
+				await deleteDoc(doc(db, `users/${user.uid}/favorites/${postId}`));
 			} else {
-				setFavorites({
-					favoritesData: [
-						...favorites.favoritesData,
-						{
-							id: `${user.uid}${postId}`,
-							data: {
-								userId: user.uid,
-								postId: postId,
-							},
-						},
-					],
-					favoritePostIds: [...favorites.favoritePostIds, postId],
-				});
-				await setDoc(doc(db, "favorites", `${user.uid}${postId}`), {
-					userId: user.uid,
+				setFavorites([...favorites, postId]);
+				await setDoc(doc(db, `users/${user.uid}/favorites/${postId}`), {
 					postId: postId,
+					timeStamp: serverTimestamp(),
 				});
 			}
 		} catch (error) {
@@ -106,10 +76,6 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 			setDeleteLoading(false);
 
 			setPosts(posts.filter((post) => post.id !== postId));
-
-			// await router.replace(router.asPath, router.asPath, {
-			// 	scroll: false,
-			// });
 		} catch (error) {
 			console.log(error.message);
 		}
@@ -157,7 +123,7 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 							onMouseEnter={() => setFavoriteHover(true)}
 							onMouseLeave={() => setFavoriteHover(false)}
 						>
-							{favorites.favoritePostIds.includes(postId) || favoriteHover ? (
+							{favorites.includes(postId) || favoriteHover ? (
 								<img
 									className={styles.interactButtonImg}
 									src="/img/favorite-post-hover.svg"

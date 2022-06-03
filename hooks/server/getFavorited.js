@@ -4,21 +4,17 @@ import { db } from "../../firebase/firebaseConfig";
 
 export const getFavorited = async (uid) => {
 	const favoritesQuery = query(
-		collection(db, "favorites"),
-		where("userId", "==", uid)
+		collection(db, `users/${uid}/favorites`),
+		orderBy("timeStamp", "desc")
 	);
 
 	const favoritesData = await getDocs(favoritesQuery);
 	const favorites = favoritesData.docs.map((doc) => {
-		return { id: doc.id, data: doc.data() };
+		return doc.data();
+	});
+	const favoritesNoTimestamp = favorites.map((favorite) => {
+		return favorite.postId;
 	});
 
-	const favoritesObject = {
-		favoritesData: favorites,
-		favoritePostIds: favorites.map((favorite) => {
-			return favorite.data.postId;
-		}),
-	};
-
-	return favoritesObject;
+	return favoritesNoTimestamp;
 };
