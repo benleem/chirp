@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import { GiphyFetch } from "@giphy/js-fetch-api";
 
+import InfiniteScroll from "react-infinite-scroll-component";
 import GiphyTile from "./GiphyTile";
 
 import styles from "../../styles/GiphyModal/GiphyContainer.module.css";
@@ -10,29 +11,66 @@ import styles from "../../styles/GiphyModal/GiphyContainer.module.css";
 const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 	const gf = new GiphyFetch(`${process.env.NEXT_PUBLIC_GIPHY_KEY}`);
 
-	const [gifs, setGifs] = useState([]);
+	const giphyContainer = useRef();
+
+	const [gifsArray, setGifsArray] = useState([]);
 	const [gifSearch, setGifSearch] = useState("");
+	const [isSearching, setIsSearching] = useState(false);
+	const [checkHasMore, setCheckHasMore] = useState(true);
 
 	const trendingGifs = async () => {
 		const { data: gifs } = await gf.trending({
-			limit: 25,
-			offset: 25,
+			limit: 10,
+			offset: 0,
 			rating: "pg-13",
 		});
-		setGifs(gifs);
+		setGifsArray(gifs);
 	};
 
 	const searchGifs = async () => {
 		const { data: gifs } = await gf.search(gifSearch, {
 			sort: "relevant",
 			lang: "es",
-			limit: 25,
+			limit: 10,
 			type: "gifs",
+			offset: 0,
 		});
 		if (gifs.length < 1) {
+			setIsSearching(false);
 			trendingGifs();
 		} else {
-			setGifs(gifs);
+			setGifsArray(gifs);
+		}
+	};
+
+	const newGifsBatch = async () => {
+		const gifsOffset = gifsArray.length;
+		const gifs = await checkIfSearching(gifsOffset);
+		if (gifs.length < 1) {
+			setCheckHasMore(false);
+		} else {
+			setGifsArray([...gifsArray, ...gifs]);
+			setCheckHasMore(true);
+		}
+	};
+
+	const checkIfSearching = async (gifsOffset) => {
+		if (isSearching === true) {
+			const { data: gifs } = await gf.search(gifSearch, {
+				sort: "relevant",
+				lang: "es",
+				limit: 5,
+				type: "gifs",
+				offset: gifsOffset,
+			});
+			return gifs;
+		} else if (isSearching === false) {
+			const { data: gifs } = await gf.trending({
+				limit: 5,
+				rating: "pg-13",
+				offset: gifsOffset,
+			});
+			return gifs;
 		}
 	};
 
@@ -42,6 +80,8 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		giphyContainer.current.scrollTop = 0;
+		setIsSearching(true);
 		searchGifs();
 	};
 
@@ -49,8 +89,14 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 		trendingGifs();
 	}, []);
 
+	useEffect(() => {
+		console.log(gifsArray);
+	}, [gifsArray]);
+
 	return (
 		<motion.div
+			ref={giphyContainer}
+			id="giphyContainer"
 			className={styles.giphyContainer}
 			initial={{ x: "100%", opacity: 0 }}
 			animate={{ x: 0, opacity: 1 }}
@@ -77,15 +123,24 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 					/>
 				</form>
 			</div>
-			{gifs.map((gif, index) => (
-				<GiphyTile
-					key={gif.id + index}
-					gif={gif}
-					showGiphy={showGiphy}
-					setShowGiphy={setShowGiphy}
-					setFile={setFile}
-				/>
-			))}
+			<InfiniteScroll
+				dataLength={gifsArray.length}
+				next={newGifsBatch}
+				hasMore={checkHasMore}
+				loader={<h4>Loading...</h4>}
+				scrollableTarget="giphyContainer"
+				scrollThreshold={0.9}
+			>
+				{gifsArray.map((gif, index) => (
+					<GiphyTile
+						key={gif.id + index}
+						gif={gif}
+						showGiphy={showGiphy}
+						setShowGiphy={setShowGiphy}
+						setFile={setFile}
+					/>
+				))}
+			</InfiniteScroll>
 		</motion.div>
 	);
 };

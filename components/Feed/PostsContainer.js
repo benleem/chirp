@@ -24,8 +24,7 @@ const PostsContainer = ({ uid, posts, setPosts, favorites, setFavorites }) => {
 			if (newBatch.length < 1) {
 				setCheckHasMore(false);
 			} else {
-				const newPosts = posts.concat(newBatch);
-				setPosts(newPosts);
+				setPosts([...posts, ...newBatch]);
 				setCheckHasMore(true);
 			}
 		} catch (error) {
