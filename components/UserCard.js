@@ -89,9 +89,9 @@ const UserCard = ({ profileData, renderButton }) => {
 						<ConvertTime />
 						<div className={styles.userActivity}>
 							<p className={styles.favorites}>
-								Favorited: {userInfo?.favorites.length}
+								Favorited: {userInfo?.favorites}
 							</p>
-							<p className={styles.posts}>Posts: {userInfo?.posts.length}</p>
+							<p className={styles.posts}>Posts: {userInfo?.posts}</p>
 						</div>
 						{renderButton === true ? (
 							<Link href={`/${user?.uid}/edit`}>

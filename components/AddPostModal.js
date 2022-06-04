@@ -1,13 +1,18 @@
 import { useContext, useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { motion } from "framer-motion";
-import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+	collection,
+	addDoc,
+	doc,
+	updateDoc,
+	setDoc,
+	increment,
+} from "firebase/firestore";
 
 import { EditContext } from "../context/EditContext";
 import { useAuth } from "../hooks/client/useAuth";
 import { useUser } from "../hooks/client/useUser";
-import { db, storage } from "../firebase/firebaseConfig";
+import { db } from "../firebase/firebaseConfig";
 
 import FormError from "./FormState/FormError";
 import FormLoading from "./FormState/FormLoading";
@@ -30,7 +35,6 @@ const AddPostModal = ({ setShowPostModal }) => {
 
 	const form = useRef();
 	const textArea = useRef();
-	// const imageInputArea = useRef();
 
 	const [formValues, setFormValues] = useState({
 		text: "",
@@ -39,7 +43,6 @@ const AddPostModal = ({ setShowPostModal }) => {
 	const [firebaseError, setFirebaseError] = useState("");
 	const [formLoading, setFormLoading] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
-	// const [fileToUpload, setFileToUpload] = useState();
 	const [file, setFile] = useState("");
 	const [showGiphy, setShowGiphy] = useState(false);
 
@@ -70,9 +73,12 @@ const AddPostModal = ({ setShowPostModal }) => {
 	};
 
 	const addPost = async () => {
+		const postsCollectionRef = collection(db, "posts");
+		const userRef = doc(db, `users/${user.uid}`);
+
 		try {
 			setFormLoading(true);
-			const docRef = await addDoc(collection(db, "posts"), {
+			const docRef = await addDoc(postsCollectionRef, {
 				userId: user.uid,
 				displayName: userInfo.displayName,
 				userImg: userInfo.imgUrl,
@@ -80,23 +86,20 @@ const AddPostModal = ({ setShowPostModal }) => {
 				fileRef: file,
 				timeStamp: Date.now(),
 			});
-			const userRef = doc(db, `users/${user.uid}`);
+			const userPostsRef = doc(db, `users/${user.uid}/posts/${docRef.id}`);
+			await setDoc(userPostsRef, {
+				postId: docRef.id,
+			});
 			await updateDoc(userRef, {
-				posts: [...userInfo.posts, docRef.id],
+				posts: increment(1),
 			});
 			setFormLoading(false);
 			setShowPostModal(false);
 			if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
-				const scroll = () => {
-					window.scrollTo({ top: 0, behavior: "smooth" });
-				};
-				const reloadData = () => {
-					router.replace(router.asPath, router.asPath, {
-						scroll: false,
-					});
-				};
-				scroll();
-				reloadData();
+				window.scrollTo({ top: 0, behavior: "smooth" });
+				router.replace(router.asPath, router.asPath, {
+					scroll: false,
+				});
 			}
 		} catch (error) {
 			const errorMessage = error.message;
@@ -126,12 +129,6 @@ const AddPostModal = ({ setShowPostModal }) => {
 			setShowPostModal(false);
 			setEditActive(false);
 			setEditObject(null);
-
-			// if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
-			// 	await router.replace(router.asPath, router.asPath, {
-			// 		scroll: false,
-			// 	});
-			// }
 		} catch (error) {
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);

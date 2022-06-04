@@ -20,7 +20,7 @@ export const getServerSideProps = async (context) => {
 			const profileData = await getUserData(profileId);
 			const initialFavorites = await getFavorited(uid);
 
-			if (profileData && profileData.posts.length > 0) {
+			if (profileData) {
 				const profilePosts = await getUserPosts(profileId);
 
 				return {
@@ -30,16 +30,6 @@ export const getServerSideProps = async (context) => {
 						profileData,
 						profileId,
 						profilePosts,
-					},
-				};
-			} else if (profileData && profileData.posts.length < 1) {
-				return {
-					props: {
-						uid,
-						initialFavorites,
-						profileData,
-						profileId,
-						profilePosts: [],
 					},
 				};
 			} else {
@@ -75,7 +65,7 @@ const Profile = ({
 			return <p>Something went wrong...</p>;
 		} else if (profileData === null) {
 			return <p>This page doesn't exist</p>;
-		} else if (profilePosts.length < 1) {
+		} else if (posts.length < 1) {
 			return (
 				<>
 					<NoPosts profileData={profileData} />

@@ -12,7 +12,7 @@ import FormError from "../FormState/FormError";
 
 import styles from "../../styles/ProfileSettings/EditProfileForm.module.css";
 
-const EditProfileForm = ({ token, userData, setFormLoading }) => {
+const EditProfileForm = ({ token, userData, userPosts, setFormLoading }) => {
 	const router = useRouter();
 	const profileImageInputArea = useRef();
 	const backgroundImageInputArea = useRef();
@@ -90,7 +90,7 @@ const EditProfileForm = ({ token, userData, setFormLoading }) => {
 
 			// update user posts with updated info
 			const batch = writeBatch(db);
-			userData.posts.forEach((postId) => {
+			userPosts.forEach((postId) => {
 				const postRef = doc(db, `posts/${postId}`);
 				batch.update(postRef, {
 					userImg: profileImgUrl ? profileImgUrl : userData.imgUrl,

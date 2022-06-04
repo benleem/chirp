@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { verifyToken } from "../../hooks/server/verifyToken";
 import { getUserData } from "../../hooks/server/getUserData";
+import { getUserPostsIds } from "../../hooks/server/getUserPostsIds";
 
 import MainLayout from "../../components/Layouts/MainLayout";
 import SettingsLayout from "../../components/Layouts/SettingsLayout";
@@ -17,7 +18,8 @@ export const getServerSideProps = async (context) => {
 		if (token.uid === profileId) {
 			try {
 				const userData = await getUserData(token.uid);
-				return { props: { token, userData } };
+				const userPosts = await getUserPostsIds(token.uid);
+				return { props: { token, userData, userPosts } };
 			} catch (error) {
 				return { props: { error: error.message } };
 			}
@@ -35,7 +37,7 @@ export const getServerSideProps = async (context) => {
 	}
 };
 
-const Edit = ({ token, userData, error }) => {
+const Edit = ({ token, userData, userPosts, error }) => {
 	const [formLoading, setFormLoading] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -46,6 +48,7 @@ const Edit = ({ token, userData, error }) => {
 				<EditProfileForm
 					token={token}
 					userData={userData}
+					userPosts={userPosts}
 					setFormLoading={setFormLoading}
 				/>
 			) : (

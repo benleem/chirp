@@ -6,13 +6,13 @@ import {
 	deleteDoc,
 	doc,
 	updateDoc,
+	increment,
 	serverTimestamp,
 } from "firebase/firestore";
 
 import { db } from "../../firebase/firebaseConfig";
 import { EditContext } from "../../context/EditContext";
 import { useAuth } from "../../hooks/client/useAuth";
-import { useUser } from "../../hooks/client/useUser";
 
 import FormLoading from "../FormState/FormLoading";
 
@@ -20,7 +20,6 @@ import styles from "../../styles/Feed/Post.module.css";
 
 const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	const user = useAuth();
-	const userInfo = useUser();
 	const { setEditActive, setEditObject, setEditedPosts } =
 		useContext(EditContext);
 
@@ -46,15 +45,27 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	};
 
 	const handleFavorite = async () => {
+		const userRef = doc(db, `users/${user.uid}`);
+		const docRef = doc(db, `users/${user.uid}/favorites/${postId}`);
+
 		try {
+			let updatedFavorites;
 			if (favorites.includes(postId)) {
-				setFavorites(favorites.filter((favorite) => favorite !== postId));
-				await deleteDoc(doc(db, `users/${user.uid}/favorites/${postId}`));
+				updatedFavorites = favorites.filter((favorite) => favorite !== postId);
+				setFavorites(updatedFavorites);
+				await deleteDoc(docRef);
+				await updateDoc(userRef, {
+					favorites: increment(-1),
+				});
 			} else {
-				setFavorites([...favorites, postId]);
-				await setDoc(doc(db, `users/${user.uid}/favorites/${postId}`), {
+				updatedFavorites = [...favorites, postId];
+				setFavorites(updatedFavorites);
+				await setDoc(docRef, {
 					postId: postId,
 					timeStamp: serverTimestamp(),
+				});
+				await updateDoc(userRef, {
+					favorites: increment(1),
 				});
 			}
 		} catch (error) {
@@ -63,19 +74,22 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	};
 
 	const deletePost = async () => {
-		const docRef = doc(db, "posts", postId);
 		const userRef = doc(db, `users/${user.uid}`);
+		const postRef = doc(db, "posts", postId);
+		const userPostRef = doc(db, `users/${user.uid}/posts/${postId}`);
 
 		try {
+			const updatedPosts = posts.filter((post) => post.id !== postId);
+
 			setDeleteLoading(true);
-			await deleteDoc(docRef);
-			const updatedPosts = userInfo.posts.filter((post) => post !== postId);
+			await deleteDoc(postRef);
+			await deleteDoc(userPostRef);
 			await updateDoc(userRef, {
-				posts: updatedPosts,
+				posts: increment(-1),
 			});
 			setDeleteLoading(false);
 
-			setPosts(posts.filter((post) => post.id !== postId));
+			setPosts(updatedPosts);
 		} catch (error) {
 			console.log(error.message);
 		}
