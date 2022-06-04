@@ -56,6 +56,14 @@ const Profile = ({
 	const [posts, setPosts] = useState(profilePosts);
 	const [favorites, setFavorites] = useState(initialFavorites);
 
+	const CheckUser = () => {
+		if (uid === profileId) {
+			return <UserCard renderButton={true} />;
+		} else {
+			return <UserCard profileData={profileData} renderButton={false} />;
+		}
+	};
+
 	useEffect(() => {
 		setPosts(profilePosts);
 	}, [profilePosts]);
@@ -69,7 +77,7 @@ const Profile = ({
 			return (
 				<>
 					<NoPosts profileData={profileData} />
-					<UserCard profileData={profileData} renderButton={true} />
+					<CheckUser />
 				</>
 			);
 		} else {
@@ -82,11 +90,7 @@ const Profile = ({
 						favorites={favorites}
 						setFavorites={setFavorites}
 					/>
-					{uid === profileId ? (
-						<UserCard renderButton={true} />
-					) : (
-						<UserCard profileData={profileData} renderButton={false} />
-					)}
+					<CheckUser />
 				</>
 			);
 		}
