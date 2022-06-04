@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -8,10 +8,16 @@ import Post from "./Post";
 
 import styles from "../../styles/Feed/PostsContainer.module.css";
 
-const PostsContainer = ({ uid, posts, setPosts, favorites, setFavorites }) => {
+const PostsContainer = ({
+	uid,
+	posts,
+	setPosts,
+	favorites,
+	setFavorites,
+	checkHasMore,
+	setCheckHasMore,
+}) => {
 	const router = useRouter();
-
-	const [checkHasMore, setCheckHasMore] = useState(true);
 
 	const getNewBatch = async () => {
 		const latestPostId = posts[posts.length - 1].id;
@@ -31,6 +37,10 @@ const PostsContainer = ({ uid, posts, setPosts, favorites, setFavorites }) => {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		console.log(checkHasMore);
+	}, [checkHasMore]);
 
 	return (
 		<div className={styles.postsContainer}>

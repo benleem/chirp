@@ -37,11 +37,13 @@ export const getServerSideProps = async (context) => {
 };
 
 const Home = ({ initialPosts, error, uid, initialFavorites }) => {
-	const [posts, setPosts] = useState(initialPosts);
 	const [favorites, setFavorites] = useState(initialFavorites);
+	const [posts, setPosts] = useState(initialPosts);
+	const [checkHasMore, setCheckHasMore] = useState(true);
 
 	useEffect(() => {
 		setPosts(initialPosts);
+		setCheckHasMore(true);
 	}, [initialPosts]);
 
 	const ControlErrors = () => {
@@ -56,6 +58,8 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 					setPosts={setPosts}
 					favorites={favorites}
 					setFavorites={setFavorites}
+					checkHasMore={checkHasMore}
+					setCheckHasMore={setCheckHasMore}
 				/>
 			);
 		}

@@ -53,8 +53,9 @@ const Profile = ({
 	profilePosts,
 	error,
 }) => {
-	const [posts, setPosts] = useState(profilePosts);
 	const [favorites, setFavorites] = useState(initialFavorites);
+	const [posts, setPosts] = useState(profilePosts);
+	const [checkHasMore, setCheckHasMore] = useState(true);
 
 	const CheckUser = () => {
 		if (uid === profileId) {
@@ -66,6 +67,7 @@ const Profile = ({
 
 	useEffect(() => {
 		setPosts(profilePosts);
+		setCheckHasMore(true);
 	}, [profilePosts]);
 
 	const ControlErrors = () => {
@@ -89,6 +91,8 @@ const Profile = ({
 						setPosts={setPosts}
 						favorites={favorites}
 						setFavorites={setFavorites}
+						checkHasMore={checkHasMore}
+						setCheckHasMore={setCheckHasMore}
 					/>
 					<CheckUser />
 				</>

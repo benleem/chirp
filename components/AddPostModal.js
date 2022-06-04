@@ -95,12 +95,11 @@ const AddPostModal = ({ setShowPostModal }) => {
 			});
 			setFormLoading(false);
 			setShowPostModal(false);
-			if (router.pathname === "/home" || router.asPath === `/${user.uid}`) {
-				window.scrollTo({ top: 0, behavior: "smooth" });
-				router.replace(router.asPath, router.asPath, {
-					scroll: false,
-				});
-			}
+			// window.scrollTo({ top: 0, behavior: "smooth" });
+			// router.replace(router.asPath, router.asPath, {
+			// 	scroll: false,
+			// });
+			router.replace(router.asPath, router.asPath);
 		} catch (error) {
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);
