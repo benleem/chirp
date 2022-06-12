@@ -19,6 +19,11 @@
 	margin-right: 0.5rem;
 }
 
+.imgWrapper {
+	display: block;
+	width: 100%;
+}
+
 .userImgWrapper {
 	display: block;
 	height: 2.1rem;

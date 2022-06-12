@@ -132,7 +132,15 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 				<p className={styles.postText}>{post.text}</p>
 				{post.fileRef ? (
 					<>
-						<img className={styles.postImg} src={post.fileRef} alt="" />
+						<div className={styles.imgWrapper}>
+							<Image
+								src={post.fileRef}
+								alt="Post gif"
+								layout="responsive"
+								width={post.fileWidth}
+								height={post.fileHeight}
+							/>
+						</div>
 					</>
 				) : null}
 				<div className={styles.interactContainer}>
