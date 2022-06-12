@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { doc, updateDoc, writeBatch } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
-import { updateEmail } from "firebase/auth";
 import Image from "next/image";
 
 import { db, auth, storage } from "../../firebase/firebaseConfig";
@@ -20,7 +19,6 @@ const EditProfileForm = ({ token, userData, userPosts, setFormLoading }) => {
 	const [formValues, setFormValues] = useState({
 		displayName: "",
 		description: "",
-		email: "",
 	});
 	const [formErrors, setFormErrors] = useState({});
 	const [firebaseError, setFirebaseError] = useState("");
@@ -83,9 +81,6 @@ const EditProfileForm = ({ token, userData, userPosts, setFormLoading }) => {
 				displayName: formValues.displayName,
 				description: formValues.description,
 			});
-
-			// update user email
-			await updateEmail(auth.currentUser, formValues.email);
 			setFormLoading(false);
 
 			// update user posts with updated info
@@ -124,13 +119,6 @@ const EditProfileForm = ({ token, userData, userPosts, setFormLoading }) => {
 		if (!values.displayName || values.displayName.includes(" ")) {
 			errors.displayName = "Please enter a valid display name";
 		}
-		if (
-			!values.email ||
-			!values.email.includes("@") ||
-			values.email.includes(" ")
-		) {
-			errors.email = "Please enter a valid email";
-		}
 		if (!values.description) {
 			errors.description = "Please enter a valid description";
 		}
@@ -148,7 +136,6 @@ const EditProfileForm = ({ token, userData, userPosts, setFormLoading }) => {
 			...formValues,
 			displayName: userData.displayName,
 			description: userData.description,
-			email: token.email,
 		});
 	}, []);
 
@@ -254,22 +241,6 @@ const EditProfileForm = ({ token, userData, userPosts, setFormLoading }) => {
 				/>
 				{formErrors.description ? (
 					<FormError error={formErrors.description} firebaseError={false} />
-				) : null}
-			</div>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="email">
-					Email
-				</label>
-				<input
-					className={styles.inputField}
-					id="email"
-					type="email"
-					autoComplete="off"
-					defaultValue={token.email}
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.email ? (
-					<FormError error={formErrors.email} firebaseError={false} />
 				) : null}
 			</div>
 			<button className={styles.submitButton} type="submit">

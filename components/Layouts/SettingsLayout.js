@@ -44,6 +44,17 @@ const SettingsLayout = ({ children }) => {
 							Change Password
 						</a>
 					</Link>
+					<Link href={`/${user?.uid}/email`}>
+						<a
+							className={
+								selectedPage === "email"
+									? styles.linkBorderLeft
+									: styles.settingsLink
+							}
+						>
+							Change Email
+						</a>
+					</Link>
 				</div>
 			</section>
 			<section className={styles.settingsContent}>{children}</section>
