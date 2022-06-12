@@ -7,6 +7,11 @@
 	display: block;
 }
 
+.imgWrapper {
+	display: block;
+	width: 100%;
+}
+
 .gif {
 	width: 100%;
 	display: block;

@@ -13,14 +13,16 @@ const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
 	};
 
 	return (
-		<button type="button" className={styles.giphyTile}>
-			<Image
-				src={gif?.images.downsized.url}
-				alt="Gif selection"
-				layout="responsive"
-				width={gif?.images.downsized.width}
-				height={gif?.images.downsized.height}
-			/>
+		<button type="button" className={styles.giphyTile} onClick={handleClick}>
+			<div className={styles.imgWrapper}>
+				<Image
+					src={gif?.images.downsized.url}
+					alt="Gif selection"
+					layout="responsive"
+					width={gif?.images.downsized.width}
+					height={gif?.images.downsized.height}
+				/>
+			</div>
 		</button>
 	);
 };
