@@ -97,7 +97,13 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 
 	const editPost = () => {
 		setEditActive(true);
-		setEditObject({ postId: postId, text: post.text, fileRef: post.fileRef });
+		setEditObject({
+			postId: postId,
+			text: post.text,
+			fileRef: post.fileRef,
+			fileHeight: post.fileHeight,
+			fileWidth: post.fileWidth,
+		});
 		setEditedPosts(posts);
 	};
 

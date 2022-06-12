@@ -6,19 +6,20 @@ import styles from "../../styles/Layouts/FeedLayout.module.css";
 
 const FeedLayout = ({ children }) => {
 	const router = useRouter();
+	console.log(router.pathname);
 
 	return (
 		<>
 			<section
 				className={
-					router.pathname === "/home" || router.pathname === "/favorited"
+					router.pathname !== "/[profile]"
 						? styles.feedSection
 						: styles.profileFeed
 				}
 			>
 				{children}
 			</section>
-			{router.pathname === "/home" || router.pathname === "/favorited" ? (
+			{router.pathname !== "/[profile]" ? (
 				<UserCard renderButton={true} />
 			) : null}
 		</>

@@ -43,7 +43,7 @@ const AddPostModal = ({ setShowPostModal }) => {
 	const [firebaseError, setFirebaseError] = useState("");
 	const [formLoading, setFormLoading] = useState(false);
 	const [isSubmitted, setIsSubmitted] = useState(false);
-	const [file, setFile] = useState("");
+	const [file, setFile] = useState();
 	const [showGiphy, setShowGiphy] = useState(false);
 
 	const handleSubmit = (e) => {
@@ -69,7 +69,7 @@ const AddPostModal = ({ setShowPostModal }) => {
 	};
 
 	const removeFile = () => {
-		setFile(null);
+		setFile();
 	};
 
 	const addPost = async () => {
@@ -83,7 +83,9 @@ const AddPostModal = ({ setShowPostModal }) => {
 				displayName: userInfo.displayName,
 				userImg: userInfo.imgUrl,
 				text: formValues.text,
-				fileRef: file,
+				fileRef: file ? file.src : "",
+				fileHeight: file ? file.height : "",
+				fileWidth: file ? file.width : "",
 				timeStamp: Date.now(),
 			});
 			const userPostsRef = doc(db, `users/${user.uid}/posts/${docRef.id}`);
@@ -116,13 +118,17 @@ const AddPostModal = ({ setShowPostModal }) => {
 				(post) => post.id == editObject.postId
 			);
 			editArray[editPostIndex].data.text = formValues.text;
-			editArray[editPostIndex].data.fileRef = file;
+			editArray[editPostIndex].data.fileRef = file.src;
+			editArray[editPostIndex].data.fileHeight = file.height;
+			editArray[editPostIndex].data.fileWidth = file.width;
 			setEditedPosts(editArray);
 
 			setFormLoading(true);
 			await updateDoc(postRef, {
 				text: formValues.text,
-				fileRef: file,
+				fileRef: file ? file.src : "",
+				fileHeight: file ? file.height : "",
+				fileWidth: file ? file.width : "",
 			});
 			setFormLoading(false);
 			setShowPostModal(false);
@@ -140,9 +146,14 @@ const AddPostModal = ({ setShowPostModal }) => {
 		if (editObject) {
 			setFormValues({ ...formValues, text: editObject.text });
 			if (editObject.fileRef) {
-				setFile(editObject.fileRef);
+				setFile({
+					src: editObject.fileRef,
+					height: editObject.fileHeight,
+					width: editObject.fileWidth,
+				});
 			}
 		}
+		console.log(editObject);
 	}, [editObject]);
 
 	// check errors, if none run addPost
@@ -162,6 +173,10 @@ const AddPostModal = ({ setShowPostModal }) => {
 			form.current.scrollTop = 0;
 		}
 	}, [formLoading]);
+
+	// useEffect(() => {
+	// 	console.log(file);
+	// }, [file]);
 
 	return (
 		<div className={styles.addPostModalContainer}>
@@ -214,7 +229,7 @@ const AddPostModal = ({ setShowPostModal }) => {
 						<div className={styles.mediaPreviewContainer}>
 							<img
 								className={styles.mediaPreviewFile}
-								src={file}
+								src={file.src}
 								alt="preview"
 							/>
 							<button

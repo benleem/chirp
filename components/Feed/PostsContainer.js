@@ -27,7 +27,8 @@ const PostsContainer = ({
 				router.pathname,
 				uid
 			);
-			if (newBatch.length < 1) {
+			console.log(newBatch);
+			if (newBatch.length < 1 || newBatch === undefined) {
 				setCheckHasMore(false);
 			} else {
 				setPosts([...posts, ...newBatch]);

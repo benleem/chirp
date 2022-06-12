@@ -16,7 +16,6 @@ const NavbarContainer = () => {
 
 	const router = useRouter();
 
-	const [isSearching, setIsSearching] = useState(false);
 	const [showDropdown, setShowDropdown] = useState(false);
 	const [showPostModal, setShowPostModal] = useState(false);
 
@@ -32,14 +31,9 @@ const NavbarContainer = () => {
 				<>
 					<div className={styles.navContainer}>
 						<nav className={styles.navBar}>
-							<NavbarLeft
-								isSearching={isSearching}
-								setIsSearching={setIsSearching}
-								setShowDropdown={setShowDropdown}
-							/>
-							<NavbarCenter isSearching={isSearching} />
+							<NavbarLeft setShowDropdown={setShowDropdown} />
+							<NavbarCenter />
 							<NavbarRight
-								isSearching={isSearching}
 								showDropdown={showDropdown}
 								setShowDropdown={setShowDropdown}
 								showPostModal={showPostModal}
