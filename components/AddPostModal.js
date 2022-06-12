@@ -118,9 +118,9 @@ const AddPostModal = ({ setShowPostModal }) => {
 				(post) => post.id == editObject.postId
 			);
 			editArray[editPostIndex].data.text = formValues.text;
-			editArray[editPostIndex].data.fileRef = file.src;
-			editArray[editPostIndex].data.fileHeight = file.height;
-			editArray[editPostIndex].data.fileWidth = file.width;
+			editArray[editPostIndex].data.fileRef = file ? file.src : "";
+			editArray[editPostIndex].data.fileHeight = file ? file.height : "";
+			editArray[editPostIndex].data.fileWidth = file ? file.width : "";
 			setEditedPosts(editArray);
 
 			setFormLoading(true);
