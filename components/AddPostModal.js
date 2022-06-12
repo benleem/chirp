@@ -153,7 +153,6 @@ const AddPostModal = ({ setShowPostModal }) => {
 				});
 			}
 		}
-		console.log(editObject);
 	}, [editObject]);
 
 	// check errors, if none run addPost
@@ -173,10 +172,6 @@ const AddPostModal = ({ setShowPostModal }) => {
 			form.current.scrollTop = 0;
 		}
 	}, [formLoading]);
-
-	// useEffect(() => {
-	// 	console.log(file);
-	// }, [file]);
 
 	return (
 		<div className={styles.addPostModalContainer}>

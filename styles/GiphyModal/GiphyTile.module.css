@@ -1,13 +1,13 @@
-.giphyTile{
-    width: 100%;
-    border: none;
-    background:none; 
-    padding: 0;
-    cursor: pointer;
-    display: block;
+.giphyTile {
+	width: 100%;
+	border: none;
+	background: none;
+	padding: 0;
+	cursor: pointer;
+	display: block;
 }
 
-.gif{
-    width: 100%;
-    display: block;
+.gif {
+	width: 100%;
+	display: block;
 }

@@ -27,7 +27,6 @@ const PostsContainer = ({
 				router.pathname,
 				uid
 			);
-			console.log(newBatch);
 			if (newBatch.length < 1 || newBatch === undefined) {
 				setCheckHasMore(false);
 			} else {
@@ -38,10 +37,6 @@ const PostsContainer = ({
 			console.log(error);
 		}
 	};
-
-	useEffect(() => {
-		console.log(checkHasMore);
-	}, [checkHasMore]);
 
 	return (
 		<div className={styles.postsContainer}>

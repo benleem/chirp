@@ -6,7 +6,6 @@ import styles from "../../styles/Layouts/FeedLayout.module.css";
 
 const FeedLayout = ({ children }) => {
 	const router = useRouter();
-	console.log(router.pathname);
 
 	return (
 		<>

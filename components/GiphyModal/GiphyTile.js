@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import styles from "../../styles/GiphyModal/GiphyTile.module.css";
 
 const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
@@ -12,11 +14,12 @@ const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
 
 	return (
 		<button type="button" className={styles.giphyTile}>
-			<img
-				className={styles.gif}
+			<Image
 				src={gif?.images.downsized.url}
-				alt="gif"
-				onClick={handleClick}
+				alt="Gif selection"
+				layout="responsive"
+				width={gif?.images.downsized.width}
+				height={gif?.images.downsized.height}
 			/>
 		</button>
 	);

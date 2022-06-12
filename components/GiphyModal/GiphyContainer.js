@@ -89,10 +89,6 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 		trendingGifs();
 	}, []);
 
-	useEffect(() => {
-		console.log(gifsArray);
-	}, [gifsArray]);
-
 	return (
 		<motion.div
 			ref={giphyContainer}
