@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-	createUserWithEmailAndPassword,
-	sendEmailVerification,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { ref, getDownloadURL } from "firebase/storage";
@@ -45,7 +42,6 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				favorites: 0,
 			});
 
-			await sendEmailVerification(user);
 			router.push("/home");
 		} catch (error) {
 			const errorMessage = error.message;

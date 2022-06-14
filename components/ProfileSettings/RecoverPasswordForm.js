@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { sendPasswordResetEmail } from "firebase/auth";
+import { confirmPasswordReset, sendPasswordResetEmail } from "firebase/auth";
 
 import { auth } from "../../firebase/firebaseConfig";
 
@@ -19,6 +19,7 @@ const RecoverPasswordForm = () => {
 		try {
 			setFormLoading(true);
 			await sendPasswordResetEmail(auth, formValues.email);
+			confirmPasswordReset;
 			setFormLoading(false);
 		} catch (error) {
 			setFormLoading(false);
@@ -32,14 +33,10 @@ const RecoverPasswordForm = () => {
 		setFormValues({ ...formValues, [id]: value });
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		resetPassword();
+		await resetPassword();
 	};
-
-	useEffect(() => {
-		console.log(formValues.email);
-	}, [formValues]);
 
 	return (
 		<section className={styles.recoverPasswordFormContainer}>
