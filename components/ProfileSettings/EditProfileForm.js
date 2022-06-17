@@ -140,7 +140,11 @@ const EditProfileForm = ({ token, userData, userPosts, setFormLoading }) => {
 	}, []);
 
 	return (
-		<form className={styles.editProfileForm} onSubmit={(e) => handleSubmit(e)}>
+		<form
+			className={styles.editProfileForm}
+			onSubmit={(e) => handleSubmit(e)}
+			noValidate
+		>
 			<div className={styles.changeImages}>
 				<div className={styles.backgroundImage}>
 					<input

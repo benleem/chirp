@@ -67,7 +67,11 @@ const ChangeEmailForm = ({ setFormLoading }) => {
 	}, []);
 
 	return (
-		<form className={styles.changeEmailForm} onSubmit={(e) => handleSubmit(e)}>
+		<form
+			className={styles.changeEmailForm}
+			onSubmit={(e) => handleSubmit(e)}
+			noValidate
+		>
 			<div className={styles.inputContainer}>
 				<label className={styles.inputLabel} htmlFor="email">
 					New email

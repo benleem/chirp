@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useRouter } from "next/router";
 
@@ -11,6 +11,7 @@ import FormError from "../FormState/FormError";
 import styles from "../../styles/ProfileSettings/RecoverForm.module.css";
 
 const RecoverPasswordForm = () => {
+	const emailInput = useRef();
 	const router = useRouter();
 
 	const [formValues, setFormValues] = useState({
@@ -42,6 +43,10 @@ const RecoverPasswordForm = () => {
 		await resetPassword();
 	};
 
+	useEffect(() => {
+		emailInput.current.focus();
+	}, []);
+
 	return (
 		<section className={styles.recoverFormContainer}>
 			<form
@@ -59,6 +64,7 @@ const RecoverPasswordForm = () => {
 					</p>
 				</div>
 				<input
+					ref={emailInput}
 					className={styles.inputField}
 					id="email"
 					type="email"

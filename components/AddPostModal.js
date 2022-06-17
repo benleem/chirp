@@ -186,6 +186,7 @@ const AddPostModal = ({ setShowPostModal }) => {
 						formLoading ? styles.addPostModalDisableScroll : styles.addPostModal
 					}
 					onSubmit={(e) => handleSubmit(e)}
+					noValidate
 				>
 					{formLoading ? <FormLoading /> : null}
 					{user ? (

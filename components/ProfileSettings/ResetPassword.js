@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	confirmPasswordReset,
 	EmailAuthProvider,
@@ -14,6 +14,7 @@ import FormLoading from "../FormState/FormLoading";
 import styles from "../../styles/ProfileSettings/RecoverForm.module.css";
 
 const ResetPassword = ({ query }) => {
+	const passwordInput = useRef();
 	const router = useRouter();
 
 	const [formValues, setFormValues] = useState({
@@ -78,6 +79,10 @@ const ResetPassword = ({ query }) => {
 		}
 	}, [formErrors]);
 
+	useEffect(() => {
+		passwordInput.current.focus();
+	}, []);
+
 	return (
 		<section className={styles.recoverFormContainer}>
 			<form
@@ -96,6 +101,7 @@ const ResetPassword = ({ query }) => {
 				</div>
 				<div className={styles.inputContainer}>
 					<input
+						ref={passwordInput}
 						className={styles.inputField}
 						id="password"
 						type="password"

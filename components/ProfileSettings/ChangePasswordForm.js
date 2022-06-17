@@ -70,6 +70,7 @@ const ChangePasswordForm = ({ setFormLoading }) => {
 		<form
 			className={styles.changePasswordForm}
 			onSubmit={(e) => handleSubmit(e)}
+			noValidate
 		>
 			<div className={styles.inputContainer}>
 				<label className={styles.inputLabel} htmlFor="password">

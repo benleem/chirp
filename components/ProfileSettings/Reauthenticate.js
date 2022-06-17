@@ -44,7 +44,11 @@ const Reauthenticate = ({ email, setFormLoading, setIsAuthenticated }) => {
 	}, []);
 
 	return (
-		<form className={styles.reauthenticate} onSubmit={(e) => handleSubmit(e)}>
+		<form
+			className={styles.reauthenticate}
+			onSubmit={(e) => handleSubmit(e)}
+			noValidate
+		>
 			<div className={styles.inputContainer}>
 				<label className={styles.inputLabel} htmlFor="password">
 					Confirm Password
