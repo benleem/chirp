@@ -173,6 +173,10 @@ const AddPostModal = ({ setShowPostModal }) => {
 		}
 	}, [formLoading]);
 
+	useEffect(() => {
+		textArea.current.focus();
+	}, []);
+
 	return (
 		<div className={styles.addPostModalContainer}>
 			{showGiphy ? null : (

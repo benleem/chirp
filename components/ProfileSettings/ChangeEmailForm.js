@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { updateEmail } from "firebase/auth";
 
 import { auth } from "../../firebase/firebaseConfig";
@@ -8,6 +8,8 @@ import FormError from "../FormState/FormError";
 import styles from "../../styles/ProfileSettings/ChangeEmailForm.module.css";
 
 const ChangeEmailForm = ({ setFormLoading }) => {
+	const emailInput = useRef();
+
 	const [formValues, setFormValues] = useState({
 		email: "",
 		confirm: "",
@@ -60,6 +62,10 @@ const ChangeEmailForm = ({ setFormLoading }) => {
 		}
 	}, [formErrors]);
 
+	useEffect(() => {
+		emailInput.current.focus();
+	}, []);
+
 	return (
 		<form className={styles.changeEmailForm} onSubmit={(e) => handleSubmit(e)}>
 			<div className={styles.inputContainer}>
@@ -67,6 +73,7 @@ const ChangeEmailForm = ({ setFormLoading }) => {
 					New email
 				</label>
 				<input
+					ref={emailInput}
 					className={styles.inputField}
 					id="email"
 					type="email"

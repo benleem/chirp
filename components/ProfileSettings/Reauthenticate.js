@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 
@@ -9,6 +9,8 @@ import FormError from "../FormState/FormError";
 import styles from "../../styles/ProfileSettings/Reauthenticate.module.css";
 
 const Reauthenticate = ({ email, setFormLoading, setIsAuthenticated }) => {
+	const passwordInput = useRef();
+
 	const [formValues, setFormValues] = useState({
 		password: "",
 	});
@@ -37,6 +39,10 @@ const Reauthenticate = ({ email, setFormLoading, setIsAuthenticated }) => {
 		confirmPassword();
 	};
 
+	useEffect(() => {
+		passwordInput.current.focus();
+	}, []);
+
 	return (
 		<form className={styles.reauthenticate} onSubmit={(e) => handleSubmit(e)}>
 			<div className={styles.inputContainer}>
@@ -44,6 +50,7 @@ const Reauthenticate = ({ email, setFormLoading, setIsAuthenticated }) => {
 					Confirm Password
 				</label>
 				<input
+					ref={passwordInput}
 					className={styles.inputField}
 					id="password"
 					type="password"

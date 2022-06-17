@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import FormError from "../FormState/FormError";
 import styles from "../../styles/Auth/AuthModal.module.css";
 
 const SignIn = ({ chooseForm, setChooseForm, auth }) => {
+	const emailInput = useRef();
 	const router = useRouter();
 	const [formValues, setFormValues] = useState({
 		email: "",
@@ -59,6 +60,10 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 		}
 	}, [formErrors]);
 
+	useEffect(() => {
+		emailInput.current.focus();
+	}, []);
+
 	return (
 		<form
 			className={styles.authModal}
@@ -71,6 +76,7 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 					Email
 				</label>
 				<input
+					ref={emailInput}
 					className={styles.inputField}
 					id="email"
 					type="email"

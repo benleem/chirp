@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { updatePassword } from "firebase/auth";
 
 import { auth } from "../../firebase/firebaseConfig";
@@ -8,6 +8,8 @@ import FormError from "../FormState/FormError";
 import styles from "../../styles/ProfileSettings/ChangePasswordForm.module.css";
 
 const ChangePasswordForm = ({ setFormLoading }) => {
+	const passwordInput = useRef();
+
 	const [formValues, setFormValues] = useState({
 		password: "",
 		confirm: "",
@@ -60,6 +62,10 @@ const ChangePasswordForm = ({ setFormLoading }) => {
 		}
 	}, [formErrors]);
 
+	useEffect(() => {
+		passwordInput.current.focus();
+	}, []);
+
 	return (
 		<form
 			className={styles.changePasswordForm}
@@ -70,6 +76,7 @@ const ChangePasswordForm = ({ setFormLoading }) => {
 					New password
 				</label>
 				<input
+					ref={passwordInput}
 					className={styles.inputField}
 					id="password"
 					type="password"

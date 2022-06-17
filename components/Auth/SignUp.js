@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
@@ -11,6 +11,7 @@ import FormError from "../FormState/FormError";
 import styles from "../../styles/Auth/AuthModal.module.css";
 
 const SignUp = ({ chooseForm, setChooseForm, auth }) => {
+	const nameInput = useRef();
 	const router = useRouter();
 	const [formValues, setFormValues] = useState({
 		displayName: "",
@@ -88,6 +89,10 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 		}
 	}, [formErrors]);
 
+	useEffect(() => {
+		nameInput.current.focus();
+	}, []);
+
 	return (
 		<form
 			className={styles.authModal}
@@ -104,6 +109,7 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 					Display Name
 				</label>
 				<input
+					ref={nameInput}
 					className={styles.inputField}
 					id="displayName"
 					type="text"
