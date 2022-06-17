@@ -6,7 +6,8 @@ import { auth } from "../../firebase/firebaseConfig";
 
 import FormLoading from "../FormState/FormLoading";
 
-import styles from "../../styles/ProfileSettings/RecoverEmail.module.css";
+// import styles from "../../styles/ProfileSettings/RecoverEmail.module.css";
+import styles from "../../styles/ProfileSettings/RecoverForm.module.css";
 
 const RecoverEmail = ({ query }) => {
 	const router = useRouter();
@@ -29,16 +30,12 @@ const RecoverEmail = ({ query }) => {
 		}
 	};
 
-	useEffect(() => {
-		console.log(firebaseError);
-	}, [firebaseError]);
-
 	return (
-		<div className={styles.recoverEmailContainer}>
-			<div className={styles.recoverEmail}>
+		<div className={styles.recoverFormContainer}>
+			<div className={styles.recoverForm}>
 				{formLoading ? <FormLoading /> : null}
 				<div className={styles.topContainer}>
-					<img className={styles.lock} src="/img/mail.svg" alt="lock" />
+					<img className={styles.img} src="/img/mail.svg" alt="lock" />
 					<p className={styles.query}>Your email has changed</p>
 					<p className={styles.prompt}>
 						If you did not change your email, click the button below. This will

@@ -24,6 +24,7 @@ const NavbarRight = ({
 					<p className={styles.toolTip}>Add post</p>
 				</button>
 			</li>
+
 			<li className={styles.navListItem}>
 				<button
 					className={styles.navListButton}

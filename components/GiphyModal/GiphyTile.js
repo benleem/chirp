@@ -3,7 +3,6 @@ import Image from "next/image";
 import styles from "../../styles/GiphyModal/GiphyTile.module.css";
 
 const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
-	console.log(gif);
 	const handleClick = () => {
 		setFile({
 			src: gif?.images.downsized.url,

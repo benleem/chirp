@@ -184,64 +184,82 @@ const AddPostModal = ({ setShowPostModal }) => {
 					onSubmit={(e) => handleSubmit(e)}
 				>
 					{formLoading ? <FormLoading /> : null}
-					<div className={styles.topContainer}>
-						<p className={styles.modalTitle}>Add Post</p>
-						<button
-							className={styles.closeButton}
-							onClick={() => {
-								setShowPostModal(false);
-								setEditActive(false);
-								setEditObject(null);
-							}}
-						></button>
-					</div>
-					<div className={styles.inputContainer}>
-						<textarea
-							ref={textArea}
-							className={styles.textInput}
-							id="text"
-							placeholder="What's chirpin?"
-							defaultValue={editObject ? editObject.text : formValues.text}
-							onChange={(e) => handleTextChange(e)}
-						/>
-						{formErrors.text ? (
-							<FormError error={formErrors.text} firebaseError={false} />
-						) : null}
-					</div>
-					<div className={styles.mediaUploadContainer}>
-						<p>Media</p>
-						<div className={styles.mediaInputFields}>
-							<button
-								className={styles.mediaUploadButton}
-								type="button"
-								onClick={() => setShowGiphy(!showGiphy)}
-							>
-								<img src="/img/gif-upload.svg" alt="upload gif" />
+					{user ? (
+						<>
+							<div className={styles.topContainer}>
+								<p className={styles.modalTitle}>Add Post</p>
+								<button
+									className={styles.closeButton}
+									onClick={() => {
+										setShowPostModal(false);
+										setEditActive(false);
+										setEditObject(null);
+									}}
+								></button>
+							</div>
+							<div className={styles.inputContainer}>
+								<textarea
+									ref={textArea}
+									className={styles.textInput}
+									id="text"
+									placeholder="What's chirpin?"
+									defaultValue={editObject ? editObject.text : formValues.text}
+									onChange={(e) => handleTextChange(e)}
+								/>
+								{formErrors.text ? (
+									<FormError error={formErrors.text} firebaseError={false} />
+								) : null}
+							</div>
+							<div className={styles.mediaUploadContainer}>
+								<p>Media</p>
+								<div className={styles.mediaInputFields}>
+									<button
+										className={styles.mediaUploadButton}
+										type="button"
+										onClick={() => setShowGiphy(!showGiphy)}
+									>
+										<img src="/img/gif-upload.svg" alt="upload gif" />
+									</button>
+								</div>
+							</div>
+							{file ? (
+								<div className={styles.mediaPreviewContainer}>
+									<img
+										className={styles.mediaPreviewFile}
+										src={file.src}
+										alt="preview"
+									/>
+									<button
+										className={styles.mediaPreviewButton}
+										type="button"
+										onClick={() => removeFile()}
+									>
+										Remove Media
+									</button>
+								</div>
+							) : null}
+							<button className={styles.submitButton} type="submit">
+								Post
 							</button>
-						</div>
-					</div>
-					{file ? (
-						<div className={styles.mediaPreviewContainer}>
-							<img
-								className={styles.mediaPreviewFile}
-								src={file.src}
-								alt="preview"
-							/>
+							{firebaseError ? (
+								<FormError error={firebaseError} firebaseError={true} />
+							) : null}
+						</>
+					) : (
+						<div className={styles.noUser}>
+							<p className={styles.modalTitle}>
+								Please sign in to use this feature
+							</p>
 							<button
-								className={styles.mediaPreviewButton}
-								type="button"
-								onClick={() => removeFile()}
-							>
-								Remove Media
-							</button>
+								className={styles.closeButton}
+								onClick={() => {
+									setShowPostModal(false);
+									setEditActive(false);
+									setEditObject(null);
+								}}
+							></button>
 						</div>
-					) : null}
-					<button className={styles.submitButton} type="submit">
-						Post
-					</button>
-					{firebaseError ? (
-						<FormError error={firebaseError} firebaseError={true} />
-					) : null}
+					)}
 				</form>
 			)}
 			{showGiphy ? (

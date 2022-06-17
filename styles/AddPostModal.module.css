@@ -200,3 +200,9 @@
 .submitButton:hover {
 	background-color: #259076;
 }
+
+.noUser {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

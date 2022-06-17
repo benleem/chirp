@@ -1,0 +1,82 @@
+.recoverFormContainer {
+	width: 100%;
+	height: calc(100vh - 72px);
+	display: grid;
+	place-items: center;
+}
+
+.recoverForm {
+	position: relative;
+	max-width: 300px;
+	width: 100%;
+	background-color: white;
+	padding: 1rem;
+	border-radius: 10px;
+	border: 1px solid #e8e8e8;
+}
+
+.topContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.img {
+	border: 3px solid black;
+	border-radius: 50%;
+	height: 100px;
+	width: 100px;
+	padding: 10px;
+}
+
+.query {
+	color: black;
+	font-size: 1rem;
+	padding: 0.5rem 0;
+}
+
+.prompt {
+	text-align: center;
+	font-size: 0.9rem;
+	color: grey;
+}
+
+.inputField:first-of-type {
+	margin-top: 1rem;
+}
+
+.inputField {
+	font-size: 1rem;
+	width: 100%;
+	padding: 0.5rem;
+	border-radius: 8px;
+	outline: 2px solid #e8e8e8;
+	border: none;
+	color: grey;
+	font-family: "Roboto", sans-serif;
+	font-size: 0.9rem;
+	background-color: white;
+	/* margin: 1rem 0; */
+}
+
+.inputField:focus {
+	outline: 2px solid #35ce8d;
+}
+
+.submitButton {
+	cursor: pointer;
+	width: 100%;
+	background-color: #35ce8d;
+	color: white;
+	border: none;
+	padding: 0.5rem 0;
+	border-radius: 8px;
+	font-family: "Roboto", sans-serif;
+	font-size: 1rem;
+	transition: background-color 0.3s ease-in-out;
+	margin-top: 1rem;
+}
+
+.submitButton:hover {
+	background-color: #259076;
+}

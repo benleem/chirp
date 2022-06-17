@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { confirmPasswordReset, sendPasswordResetEmail } from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { useRouter } from "next/router";
 
 import { auth } from "../../firebase/firebaseConfig";
 
 import FormLoading from "../FormState/FormLoading";
 import FormError from "../FormState/FormError";
 
-import styles from "../../styles/ProfileSettings/RecoverPasswordForm.module.css";
+// import styles from "../../styles/ProfileSettings/RecoverPasswordForm.module.css";
+import styles from "../../styles/ProfileSettings/RecoverForm.module.css";
 
 const RecoverPasswordForm = () => {
+	const router = useRouter();
+
 	const [formValues, setFormValues] = useState({
 		email: "",
 	});
@@ -19,8 +23,8 @@ const RecoverPasswordForm = () => {
 		try {
 			setFormLoading(true);
 			await sendPasswordResetEmail(auth, formValues.email);
-			confirmPasswordReset;
 			setFormLoading(false);
+			router.push("/home");
 		} catch (error) {
 			setFormLoading(false);
 			const errorMessage = error.message;
@@ -39,15 +43,15 @@ const RecoverPasswordForm = () => {
 	};
 
 	return (
-		<section className={styles.recoverPasswordFormContainer}>
+		<section className={styles.recoverFormContainer}>
 			<form
-				className={styles.recoverPasswordForm}
+				className={styles.recoverForm}
 				onSubmit={(e) => handleSubmit(e)}
 				noValidate
 			>
 				{formLoading ? <FormLoading /> : null}
 				<div className={styles.topContainer}>
-					<img className={styles.lock} src="/img/lock.svg" alt="lock" />
+					<img className={styles.img} src="/img/lock.svg" alt="lock" />
 					<p className={styles.query}>Forgot your password?</p>
 					<p className={styles.prompt}>
 						Enter the email associated with your account, and we'll send a link
