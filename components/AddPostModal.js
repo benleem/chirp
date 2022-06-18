@@ -8,6 +8,7 @@ import {
 	setDoc,
 	increment,
 } from "firebase/firestore";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { EditContext } from "../context/EditContext";
 import { useAuth } from "../hooks/client/useAuth";
@@ -20,7 +21,7 @@ import GiphyContainer from "./GiphyModal/GiphyContainer";
 
 import styles from "../styles/AddPostModal.module.css";
 
-const AddPostModal = ({ setShowPostModal }) => {
+const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	const user = useAuth();
 	const userInfo = useUser();
 	const router = useRouter();
@@ -45,6 +46,12 @@ const AddPostModal = ({ setShowPostModal }) => {
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [file, setFile] = useState();
 	const [showGiphy, setShowGiphy] = useState(false);
+
+	const handleClose = async () => {
+		await setEditObject(null);
+		await setEditActive(false);
+		setShowPostModal(false);
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -174,18 +181,38 @@ const AddPostModal = ({ setShowPostModal }) => {
 	}, [formLoading]);
 
 	useEffect(() => {
-		textArea.current.focus();
+		if (user) {
+			textArea.current.focus();
+		}
 	}, []);
 
 	return (
-		<div className={styles.addPostModalContainer}>
-			{showGiphy ? null : (
-				<form
+		<motion.div
+			className={styles.addPostModalContainer}
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
+			transition={{
+				duration: 0.3,
+			}}
+		>
+			{showGiphy ? (
+				<GiphyContainer
+					showGiphy={showGiphy}
+					setShowGiphy={setShowGiphy}
+					setFile={setFile}
+				/>
+			) : (
+				<motion.form
 					ref={form}
 					className={
 						formLoading ? styles.addPostModalDisableScroll : styles.addPostModal
 					}
 					onSubmit={(e) => handleSubmit(e)}
+					exit={{ y: "-100vh", opacity: 0 }}
+					transition={{
+						duration: 0.3,
+					}}
 					noValidate
 				>
 					{formLoading ? <FormLoading /> : null}
@@ -195,6 +222,7 @@ const AddPostModal = ({ setShowPostModal }) => {
 								<p className={styles.modalTitle}>Add Post</p>
 								<button
 									className={styles.closeButton}
+									type="button"
 									onClick={() => {
 										setShowPostModal(false);
 										setEditActive(false);
@@ -257,24 +285,13 @@ const AddPostModal = ({ setShowPostModal }) => {
 							</p>
 							<button
 								className={styles.closeButton}
-								onClick={() => {
-									setShowPostModal(false);
-									setEditActive(false);
-									setEditObject(null);
-								}}
+								onClick={handleClose}
 							></button>
 						</div>
 					)}
-				</form>
+				</motion.form>
 			)}
-			{showGiphy ? (
-				<GiphyContainer
-					showGiphy={showGiphy}
-					setShowGiphy={setShowGiphy}
-					setFile={setFile}
-				/>
-			) : null}
-		</div>
+		</motion.div>
 	);
 };
 

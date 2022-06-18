@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { EditContext } from "../../context/EditContext";
 
@@ -41,9 +41,14 @@ const NavbarContainer = () => {
 							/>
 						</nav>
 					</div>
-					{showPostModal ? (
-						<AddPostModal setShowPostModal={setShowPostModal} />
-					) : null}
+					<AnimatePresence initial={false} exitBeforeEnter={true}>
+						{showPostModal ? (
+							<AddPostModal
+								showPostModal={showPostModal}
+								setShowPostModal={setShowPostModal}
+							/>
+						) : null}
+					</AnimatePresence>
 				</>
 			)}
 		</>
