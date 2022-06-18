@@ -86,7 +86,7 @@ const Profile = ({
 			return (
 				<>
 					<PostsContainer
-						uid={uid}
+						uid={profileId}
 						posts={posts}
 						setPosts={setPosts}
 						favorites={favorites}
