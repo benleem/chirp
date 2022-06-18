@@ -1,8 +1,11 @@
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 import styles from "../../styles/GiphyModal/GiphyTile.module.css";
 
 const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
+	const tileBackground = useRef();
+
 	const handleClick = () => {
 		setFile({
 			src: gif?.images.downsized.url,
@@ -11,8 +14,30 @@ const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
 		});
 		setShowGiphy(!showGiphy);
 	};
+
+	const randomBackground = () => {
+		const colors = [255, 255, 255];
+		const randomColor = colors.map((color) => {
+			const randomNumber = Math.floor(Math.random() * (255 - 0) + 0);
+			return randomNumber;
+		});
+		// const randomColor = colors[Math.floor(Math.random() * colors.length)];
+		console.log(randomColor);
+		// tileBackground.current.style.backgroundColor = randomColor;
+		tileBackground.current.style.backgroundColor = `rgb(${randomColor})`;
+	};
+
+	useEffect(() => {
+		randomBackground();
+	}, []);
+
 	return (
-		<button type="button" className={styles.giphyTile} onClick={handleClick}>
+		<button
+			ref={tileBackground}
+			type="button"
+			className={styles.giphyTile}
+			onClick={handleClick}
+		>
 			<div className={styles.imgWrapper}>
 				<Image
 					src={gif?.images.downsized.url}

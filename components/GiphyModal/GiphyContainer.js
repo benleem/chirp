@@ -12,6 +12,7 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 	const gf = new GiphyFetch(`${process.env.NEXT_PUBLIC_GIPHY_KEY}`);
 
 	const giphyContainer = useRef();
+	const searchInput = useRef();
 
 	const [gifsArray, setGifsArray] = useState([]);
 	const [gifSearch, setGifSearch] = useState("");
@@ -87,6 +88,7 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 
 	useEffect(() => {
 		trendingGifs();
+		searchInput.current.focus();
 	}, []);
 
 	return (
@@ -116,6 +118,7 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 						<img className={styles.searchImage} src="/img/search.svg" alt="" />
 					</button>
 					<input
+						ref={searchInput}
 						className={styles.searchGiphy}
 						type="text"
 						name="giphySearch"
