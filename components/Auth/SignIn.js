@@ -4,6 +4,9 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import FormError from "../FormState/FormError";
+import InputField from "../FormState/InputField";
+import SubmitButton from "../FormState/SubmitButton";
+import ForgotPassword from "../FormState/ForgotPassword";
 
 import styles from "../../styles/Auth/AuthModal.module.css";
 
@@ -71,43 +74,26 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 			noValidate
 		>
 			<p className={styles.modalTitle}>Sign In</p>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="email">
-					Email
-				</label>
-				<input
-					ref={emailInput}
-					className={styles.inputField}
-					id="email"
-					type="email"
-					placeholder="example@email.com"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.email ? (
-					<FormError error={formErrors.email} firebaseError={false} />
-				) : null}
-			</div>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="password">
-					Password
-				</label>
-				<input
-					className={styles.inputField}
-					id="password"
-					type="password"
-					placeholder="Example123!"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.password ? (
-					<FormError error={formErrors.password} irebaseError={false} />
-				) : null}
-			</div>
-			<button className={styles.submitButton} type="submit">
-				Sign In
-			</button>
-			<Link href="/recover">
-				<a className={styles.forgotPassword}>Forgot password?</a>
-			</Link>
+			<InputField
+				label="Email"
+				reference={emailInput}
+				id="email"
+				type="email"
+				placeholder="example@email.com"
+				formError={formErrors.email}
+				handleChange={handleChange}
+			/>
+			<InputField
+				label="Password"
+				id="password"
+				type="password"
+				placeholder="Example123!"
+				addMargin={true}
+				formError={formErrors.password}
+				handleChange={handleChange}
+			/>
+			<SubmitButton text="Sign in" />
+			<ForgotPassword />
 			<p className={styles.query}>Don't have an account?</p>
 			<button
 				type="button"

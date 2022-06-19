@@ -5,6 +5,9 @@ import Link from "next/link";
 import { auth } from "../../firebase/firebaseConfig";
 
 import FormError from "../FormState/FormError";
+import InputField from "../FormState/InputField";
+import SubmitButton from "../FormState/SubmitButton";
+import ForgotPassword from "../FormState/ForgotPassword";
 
 import styles from "../../styles/ProfileSettings/Reauthenticate.module.css";
 
@@ -49,30 +52,20 @@ const Reauthenticate = ({ email, setFormLoading, setIsAuthenticated }) => {
 			onSubmit={(e) => handleSubmit(e)}
 			noValidate
 		>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="password">
-					Confirm Password
-				</label>
-				<input
-					ref={passwordInput}
-					className={styles.inputField}
-					id="password"
-					type="password"
-					placeholder="Example123!"
-					onChange={(e) => handleChange(e)}
-				/>
-			</div>
-			<button className={styles.submitButton} type="submit">
-				Submit
-			</button>
+			<InputField
+				label="Confirm Password"
+				reference={passwordInput}
+				id="password"
+				type="password"
+				placeholder="Example123!"
+				addMargin={true}
+				handleChange={handleChange}
+			/>
+			<SubmitButton text="Submit" />
 			{firebaseError ? (
 				<FormError error={firebaseError} firebaseError={true} />
 			) : null}
-			<div className={styles.forgotPasswordContainer}>
-				<Link href="/recover">
-					<a className={styles.forgotPassword}>Forgot password?</a>
-				</Link>
-			</div>
+			<ForgotPassword addPadding={true} />
 		</form>
 	);
 };

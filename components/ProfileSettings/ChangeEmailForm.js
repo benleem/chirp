@@ -4,6 +4,8 @@ import { updateEmail } from "firebase/auth";
 import { auth } from "../../firebase/firebaseConfig";
 
 import FormError from "../FormState/FormError";
+import InputField from "../FormState/InputField";
+import SubmitButton from "../FormState/SubmitButton";
 
 import styles from "../../styles/ProfileSettings/ChangeEmailForm.module.css";
 
@@ -72,40 +74,25 @@ const ChangeEmailForm = ({ setFormLoading }) => {
 			onSubmit={(e) => handleSubmit(e)}
 			noValidate
 		>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="email">
-					New email
-				</label>
-				<input
-					ref={emailInput}
-					className={styles.inputField}
-					id="email"
-					type="email"
-					placeholder="example@email.com"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.email ? (
-					<FormError error={formErrors.email} firebaseError={false} />
-				) : null}
-			</div>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="confirm">
-					Confirm email
-				</label>
-				<input
-					className={styles.inputField}
-					id="confirm"
-					type="email"
-					placeholder="example@email.com"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.confirm ? (
-					<FormError error={formErrors.confirm} firebaseError={false} />
-				) : null}
-			</div>
-			<button className={styles.submitButton} type="submit">
-				Submit
-			</button>
+			<InputField
+				label="New Email"
+				reference={emailInput}
+				id="email"
+				type="email"
+				placeholder="example@email.com"
+				formError={formErrors.email}
+				handleChange={handleChange}
+			/>
+			<InputField
+				label="Confirm Email"
+				id="confirm"
+				type="email"
+				placeholder="example@email.com"
+				addMargin={true}
+				formError={formErrors.confirm}
+				handleChange={handleChange}
+			/>
+			<SubmitButton text="Submit" />
 			{firebaseError ? (
 				<FormError error={firebaseError} firebaseError={true} />
 			) : null}

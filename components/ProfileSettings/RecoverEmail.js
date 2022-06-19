@@ -5,6 +5,7 @@ import { applyActionCode, signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebaseConfig";
 
 import FormLoading from "../FormState/FormLoading";
+import ActionButton from "../FormState/ActionButton";
 
 // import styles from "../../styles/ProfileSettings/RecoverEmail.module.css";
 import styles from "../../styles/ProfileSettings/RecoverForm.module.css";
@@ -35,7 +36,7 @@ const RecoverEmail = ({ query }) => {
 			<div className={styles.recoverForm}>
 				{formLoading ? <FormLoading /> : null}
 				<div className={styles.topContainer}>
-					<img className={styles.img} src="/img/mail.svg" alt="lock" />
+					<img className={styles.img} src="/img/mail.svg" alt="recover" />
 					<p className={styles.query}>Your email has changed</p>
 					<p className={styles.prompt}>
 						If you did not change your email, click the button below. This will
@@ -43,9 +44,11 @@ const RecoverEmail = ({ query }) => {
 						signed out so you can sign in with your appopriate email.
 					</p>
 				</div>
-				<button className={styles.submitButton} onClick={recoverEmail}>
-					Recover Email
-				</button>
+				<ActionButton
+					text="Recover Email"
+					action={recoverEmail}
+					addMargin={true}
+				/>
 				{firebaseError ? (
 					<FormError error={firebaseError} firebaseError={true} />
 				) : null}

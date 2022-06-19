@@ -4,6 +4,8 @@ import { updatePassword } from "firebase/auth";
 import { auth } from "../../firebase/firebaseConfig";
 
 import FormError from "../FormState/FormError";
+import InputField from "../FormState/InputField";
+import SubmitButton from "../FormState/SubmitButton";
 
 import styles from "../../styles/ProfileSettings/ChangePasswordForm.module.css";
 
@@ -72,40 +74,25 @@ const ChangePasswordForm = ({ setFormLoading }) => {
 			onSubmit={(e) => handleSubmit(e)}
 			noValidate
 		>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="password">
-					New password
-				</label>
-				<input
-					ref={passwordInput}
-					className={styles.inputField}
-					id="password"
-					type="password"
-					placeholder="Example123!"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.password ? (
-					<FormError error={formErrors.password} firebaseError={false} />
-				) : null}
-			</div>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="confirm">
-					Confirm password
-				</label>
-				<input
-					className={styles.inputField}
-					id="confirm"
-					type="password"
-					placeholder="Example123!"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.confirm ? (
-					<FormError error={formErrors.confirm} firebaseError={false} />
-				) : null}
-			</div>
-			<button className={styles.submitButton} type="submit">
-				Submit
-			</button>
+			<InputField
+				label="New Password"
+				reference={passwordInput}
+				id="password"
+				type="password"
+				placeholder="Example123!"
+				formError={formErrors.password}
+				handleChange={handleChange}
+			/>
+			<InputField
+				label="Confirm Password"
+				id="confirm"
+				type="password"
+				placeholder="Example123!"
+				addMargin={true}
+				formError={formErrors.confirm}
+				handleChange={handleChange}
+			/>
+			<SubmitButton text="Submit" />
 			{firebaseError ? (
 				<FormError error={firebaseError} firebaseError={true} />
 			) : null}

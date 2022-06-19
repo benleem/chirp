@@ -7,6 +7,8 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase/firebaseConfig";
 
 import FormError from "../FormState/FormError";
+import InputField from "../FormState/InputField";
+import SubmitButton from "../FormState/SubmitButton";
 
 import styles from "../../styles/Auth/AuthModal.module.css";
 
@@ -104,56 +106,34 @@ const SignUp = ({ chooseForm, setChooseForm, auth }) => {
 				<li>Passwords must contain 6 or more characters</li>
 				<li>Display names and passwords cannot contain a space</li>
 			</ul>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="displayName">
-					Display Name
-				</label>
-				<input
-					ref={nameInput}
-					className={styles.inputField}
-					id="displayName"
-					type="text"
-					placeholder="coolperson123"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.displayName ? (
-					<FormError error={formErrors.displayName} firebaseError={false} />
-				) : null}
-			</div>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="email">
-					Email
-				</label>
-				<input
-					className={styles.inputField}
-					id="email"
-					type="email"
-					placeholder="example@email.com"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.email ? (
-					<FormError error={formErrors.email} firebaseError={false} />
-				) : null}
-			</div>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="password">
-					Password
-				</label>
-				<input
-					className={styles.inputField}
-					id="password"
-					type="password"
-					placeholder="Example123!"
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.password ? (
-					<FormError error={formErrors.password} firebaseError={false} />
-				) : null}
-			</div>
-			<button className={styles.submitButton} type="submit">
-				Sign Up
-			</button>
-			<p className={styles.query}>Already have an account?</p>
+			<InputField
+				label="Display Name"
+				reference={nameInput}
+				id="displayName"
+				type="text"
+				placeholder="coolperson123"
+				formError={formErrors.displayName}
+				handleChange={handleChange}
+			/>
+			<InputField
+				label="Email"
+				id="email"
+				type="email"
+				placeholder="example@email.com"
+				formError={formErrors.email}
+				handleChange={handleChange}
+			/>
+			<InputField
+				label="Password"
+				id="password"
+				type="password"
+				placeholder="Example123!"
+				addMargin={true}
+				formError={formErrors.password}
+				handleChange={handleChange}
+			/>
+			<SubmitButton text="Sign Up" />
+			<p className={styles.signUpQuery}>Already have an account?</p>
 			<button
 				type="button"
 				className={styles.answer}

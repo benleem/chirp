@@ -1,0 +1,21 @@
+.button,
+.buttonMargin {
+	cursor: pointer;
+	width: 100%;
+	background-color: #35ce8d;
+	color: white;
+	border: none;
+	padding: 0.5rem;
+	border-radius: 8px;
+	font-family: "Roboto", sans-serif;
+	font-size: 1rem;
+	transition: background-color 0.3s ease-in-out;
+}
+
+.buttonMargin {
+	margin-top: 0.8rem;
+}
+
+.button:hover {
+	background-color: #259076;
+}

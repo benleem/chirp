@@ -6,6 +6,8 @@ import { auth } from "../../firebase/firebaseConfig";
 
 import FormLoading from "../FormState/FormLoading";
 import FormError from "../FormState/FormError";
+import InputField from "../FormState/InputField";
+import SubmitButton from "../FormState/SubmitButton";
 
 // import styles from "../../styles/ProfileSettings/RecoverPasswordForm.module.css";
 import styles from "../../styles/ProfileSettings/RecoverForm.module.css";
@@ -63,16 +65,14 @@ const RecoverPasswordForm = () => {
 						to reset your password.
 					</p>
 				</div>
-				<input
-					ref={emailInput}
-					className={styles.inputField}
+				<InputField
+					reference={emailInput}
 					id="email"
 					type="email"
-					onChange={(e) => handleChange(e)}
+					addMargin={true}
+					handleChange={handleChange}
 				/>
-				<button className={styles.submitButton} type="submit">
-					Submit
-				</button>
+				<SubmitButton text="Submit" />
 				{firebaseError ? (
 					<FormError error={firebaseError} firebaseError={true} />
 				) : null}

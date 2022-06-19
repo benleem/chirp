@@ -146,6 +146,7 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 				<div className={styles.interactContainer}>
 					<div className={styles.interactLeft}>
 						<button
+							id="favorite"
 							className={styles.interactButton}
 							onClick={handleFavorite}
 							onMouseEnter={() => setFavoriteHover(true)}
@@ -155,13 +156,13 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 								<img
 									className={styles.interactButtonImg}
 									src="/img/favorite-post-hover.svg"
-									alt=""
+									alt="favorite"
 								/>
 							) : (
 								<img
 									className={styles.interactButtonImg}
 									src="/img/favorite-post.svg"
-									alt=""
+									alt="favorite"
 								/>
 							)}
 						</button>
@@ -169,6 +170,7 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 					{post.userId === user?.uid ? (
 						<div className={styles.interactRight}>
 							<button
+								id="edit"
 								className={styles.interactButton}
 								onClick={editPost}
 								onMouseEnter={() => setEditHover(true)}
@@ -178,17 +180,18 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 									<img
 										className={styles.interactButtonImg}
 										src="/img/edit-hover.svg"
-										alt=""
+										alt="edit"
 									/>
 								) : (
 									<img
 										className={styles.interactButtonImg}
 										src="/img/edit.svg"
-										alt=""
+										alt="edit"
 									/>
 								)}
 							</button>
 							<button
+								id="delete"
 								className={styles.interactButton}
 								onClick={deletePost}
 								onMouseEnter={() => setDeleteHover(true)}
@@ -198,13 +201,13 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 									<img
 										className={styles.interactButtonImg}
 										src="/img/delete-hover.svg"
-										alt=""
+										alt="delete"
 									/>
 								) : (
 									<img
 										className={styles.interactButtonImg}
 										src="/img/delete.svg"
-										alt=""
+										alt="delete"
 									/>
 								)}
 							</button>

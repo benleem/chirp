@@ -8,6 +8,8 @@ import { db, auth, storage } from "../../firebase/firebaseConfig";
 import { getUserPosts } from "../../hooks/server/getUserPosts";
 
 import FormError from "../FormState/FormError";
+import InputField from "../FormState/InputField";
+import SubmitButton from "../FormState/SubmitButton";
 
 import styles from "../../styles/ProfileSettings/EditProfileForm.module.css";
 
@@ -215,41 +217,26 @@ const EditProfileForm = ({ token, userData, userPosts, setFormLoading }) => {
 					</div>
 				</div>
 			</div>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="displayName">
-					Display Name
-				</label>
-				<input
-					className={styles.inputField}
-					id="displayName"
-					type="text"
-					autoComplete="off"
-					defaultValue={userData.displayName}
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.displayName ? (
-					<FormError error={formErrors.displayName} firebaseError={false} />
-				) : null}
-			</div>
-			<div className={styles.inputContainer}>
-				<label className={styles.inputLabel} htmlFor="description">
-					Description
-				</label>
-				<input
-					className={styles.inputField}
-					id="description"
-					type="text"
-					autoComplete="off"
-					defaultValue={userData.description}
-					onChange={(e) => handleChange(e)}
-				/>
-				{formErrors.description ? (
-					<FormError error={formErrors.description} firebaseError={false} />
-				) : null}
-			</div>
-			<button className={styles.submitButton} type="submit">
-				Submit
-			</button>
+			<InputField
+				label="Display Name"
+				id="displayName"
+				type="text"
+				autoComplete="off"
+				defaultValue={userData.displayName}
+				formError={formErrors.displayName}
+				handleChange={handleChange}
+			/>
+			<InputField
+				label="Description"
+				id="description"
+				type="text"
+				autoComplete="off"
+				addMargin={true}
+				defaultValue={userData.description}
+				formError={formErrors.description}
+				handleChange={handleChange}
+			/>
+			<SubmitButton text="Submit" />
 			{firebaseError ? (
 				<FormError error={firebaseError} firebaseError={true} />
 			) : null}

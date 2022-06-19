@@ -17,6 +17,8 @@ import { db } from "../firebase/firebaseConfig";
 
 import FormError from "./FormState/FormError";
 import FormLoading from "./FormState/FormLoading";
+import InputField from "./FormState/InputField";
+import SubmitButton from "./FormState/SubmitButton";
 import GiphyContainer from "./GiphyModal/GiphyContainer";
 
 import styles from "../styles/AddPostModal.module.css";
@@ -271,9 +273,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 									</button>
 								</div>
 							) : null}
-							<button className={styles.submitButton} type="submit">
-								Post
-							</button>
+							<SubmitButton text="Post" />
 							{firebaseError ? (
 								<FormError error={firebaseError} firebaseError={true} />
 							) : null}

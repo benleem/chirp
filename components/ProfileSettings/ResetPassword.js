@@ -10,6 +10,8 @@ import { auth } from "../../firebase/firebaseConfig";
 
 import FormError from "../FormState/FormError";
 import FormLoading from "../FormState/FormLoading";
+import InputField from "../FormState/InputField";
+import SubmitButton from "../FormState/SubmitButton";
 
 import styles from "../../styles/ProfileSettings/RecoverForm.module.css";
 
@@ -99,32 +101,21 @@ const ResetPassword = ({ query }) => {
 						characters with capital letters, numbers, and characters.
 					</p>
 				</div>
-				<div className={styles.inputContainer}>
-					<input
-						ref={passwordInput}
-						className={styles.inputField}
-						id="password"
-						type="password"
-						onChange={(e) => handleChange(e)}
-					/>
-					{formErrors.password ? (
-						<FormError error={formErrors.password} firebaseError={false} />
-					) : null}
-				</div>
-				<div className={styles.inputContainer}>
-					<input
-						className={styles.inputField}
-						id="confirm"
-						type="password"
-						onChange={(e) => handleChange(e)}
-					/>
-					{formErrors.confirm ? (
-						<FormError error={formErrors.confirm} firebaseError={false} />
-					) : null}
-				</div>
-				<button className={styles.submitButton} type="submit">
-					Submit
-				</button>
+				<InputField
+					reference={passwordInput}
+					id="password"
+					type="password"
+					formError={formErrors.password}
+					handleChange={handleChange}
+				/>
+				<InputField
+					id="confirm"
+					type="password"
+					formError={formErrors.confirm}
+					addMargin={true}
+					handleChange={handleChange}
+				/>
+				<SubmitButton text="Submit" />
 				{firebaseError ? (
 					<FormError error={firebaseError} firebaseError={true} />
 				) : null}
