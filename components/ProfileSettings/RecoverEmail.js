@@ -5,6 +5,7 @@ import { applyActionCode, signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebaseConfig";
 
 import FormLoading from "../FormState/FormLoading";
+import RecoverTop from "../FormState/RecoverTop";
 import ActionButton from "../FormState/ActionButton";
 
 // import styles from "../../styles/ProfileSettings/RecoverEmail.module.css";
@@ -32,18 +33,16 @@ const RecoverEmail = ({ query }) => {
 	};
 
 	return (
-		<div className={styles.recoverFormContainer}>
+		<section className={styles.recoverFormContainer}>
 			<div className={styles.recoverForm}>
 				{formLoading ? <FormLoading /> : null}
-				<div className={styles.topContainer}>
-					<img className={styles.img} src="/img/mail.svg" alt="recover" />
-					<p className={styles.query}>Your email has changed</p>
-					<p className={styles.prompt}>
-						If you did not change your email, click the button below. This will
-						revert your email back to your last email used. You will also be
-						signed out so you can sign in with your appopriate email.
-					</p>
-				</div>
+				<RecoverTop
+					img="/img/mail.svg"
+					query="Your email has changed"
+					prompt="If you did not change your email, click the button below. This will
+					revert your email back to your last email used. You will also be
+					signed out so you can sign in with your appopriate email."
+				/>
 				<ActionButton
 					text="Recover Email"
 					action={recoverEmail}
@@ -53,7 +52,7 @@ const RecoverEmail = ({ query }) => {
 					<FormError error={firebaseError} firebaseError={true} />
 				) : null}
 			</div>
-		</div>
+		</section>
 	);
 };
 

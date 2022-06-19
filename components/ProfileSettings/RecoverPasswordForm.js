@@ -6,6 +6,7 @@ import { auth } from "../../firebase/firebaseConfig";
 
 import FormLoading from "../FormState/FormLoading";
 import FormError from "../FormState/FormError";
+import RecoverTop from "../FormState/RecoverTop";
 import InputField from "../FormState/InputField";
 import SubmitButton from "../FormState/SubmitButton";
 
@@ -57,14 +58,12 @@ const RecoverPasswordForm = () => {
 				noValidate
 			>
 				{formLoading ? <FormLoading /> : null}
-				<div className={styles.topContainer}>
-					<img className={styles.img} src="/img/lock.svg" alt="lock" />
-					<p className={styles.query}>Forgot your password?</p>
-					<p className={styles.prompt}>
-						Enter the email associated with your account, and we'll send a link
-						to reset your password.
-					</p>
-				</div>
+				<RecoverTop
+					img="/img/lock.svg"
+					query="Forgot your password?"
+					prompt="Enter the email associated with your account, and we'll send a link
+						to reset your password."
+				/>
 				<InputField
 					reference={emailInput}
 					id="email"

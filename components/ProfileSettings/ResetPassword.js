@@ -10,6 +10,7 @@ import { auth } from "../../firebase/firebaseConfig";
 
 import FormError from "../FormState/FormError";
 import FormLoading from "../FormState/FormLoading";
+import RecoverTop from "../FormState/RecoverTop";
 import InputField from "../FormState/InputField";
 import SubmitButton from "../FormState/SubmitButton";
 
@@ -93,14 +94,12 @@ const ResetPassword = ({ query }) => {
 				noValidate
 			>
 				{formLoading ? <FormLoading /> : null}
-				<div className={styles.topContainer}>
-					<img className={styles.img} src="/img/lock.svg" alt="lock" />
-					<p className={styles.query}>Forgot your password?</p>
-					<p className={styles.prompt}>
-						Enter your new password, then confirm it. It should be at least 6
-						characters with capital letters, numbers, and characters.
-					</p>
-				</div>
+				<RecoverTop
+					img="/img/lock.svg"
+					query="Forgot your password?"
+					prompt="Enter your new password, then confirm it. It should be at least 6
+					characters with capital letters, numbers, and characters."
+				/>
 				<InputField
 					reference={passwordInput}
 					id="password"
