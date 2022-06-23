@@ -115,6 +115,11 @@
 	background-color: #259076;
 }
 
+.loadingCard {
+	width: 100%;
+	text-align: center;
+}
+
 /* .topCard {
 	width: 100%;
 	background: hsla(155, 61%, 51%, 1);

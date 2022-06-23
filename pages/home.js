@@ -47,9 +47,7 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 	}, [initialPosts]);
 
 	const ControlErrors = () => {
-		if (error) {
-			return <p>Something went wrong...</p>;
-		} else if (posts.length < 1) {
+		if (error || posts.length < 1) {
 			return <NoPosts />;
 		} else {
 			return (

@@ -18,7 +18,7 @@ const GiphyTile = ({ gif, showGiphy, setShowGiphy, setFile }) => {
 	const randomBackground = () => {
 		const colors = [255, 255, 255];
 		const randomColor = colors.map((color) => {
-			const randomNumber = Math.floor(Math.random() * (255 - 0) + 0);
+			const randomNumber = Math.floor(Math.random() * (color - 0) + 0);
 			return randomNumber;
 		});
 		tileBackground.current.style.backgroundColor = `rgb(${randomColor})`;

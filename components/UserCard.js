@@ -1,11 +1,14 @@
-import { useEffect } from "react";
-import { Router, useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { useUser } from "../hooks/client/useUser";
 import { useAuth } from "../hooks/client/useAuth";
+
 import ActionButton from "./FormState/ActionButton";
+import FormLoading from "./FormState/FormLoading";
 
 import styles from "../styles/UserCard.module.css";
 
@@ -48,6 +51,7 @@ const UserCard = ({ profileData, renderButton }) => {
 						: styles.userCard
 				}
 			>
+				{userInfo ? null : <FormLoading />}
 				<div className={styles.cardTop}>
 					<div className={styles.backgroundWrapper}>
 						{userInfo ? (
@@ -60,7 +64,17 @@ const UserCard = ({ profileData, renderButton }) => {
 								objectFit="cover"
 								priority
 							/>
-						) : null}
+						) : (
+							<Image
+								src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNUnVD2HwAEOQIsUqZEvgAAAABJRU5ErkJggg=="
+								alt="User background"
+								layout="responsive"
+								width="400px"
+								height="200px"
+								objectFit="cover"
+								priority
+							/>
+						)}
 					</div>
 				</div>
 				<div className={styles.cardBottom}>
@@ -76,29 +90,45 @@ const UserCard = ({ profileData, renderButton }) => {
 									objectFit="cover"
 									priority
 								/>
-							) : null}
+							) : (
+								<Image
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mM0Pdf7HwAFYQKRMA/4fQAAAABJRU5ErkJggg=="
+									alt="User picture"
+									layout="fixed"
+									width="75px"
+									height="75px"
+									objectFit="cover"
+									priority
+								/>
+							)}
 						</div>
 					</div>
 					<div className={styles.userDetails}>
-						<p className={styles.displayName}>
-							<span className={styles.symbol}>@</span>
-							{userInfo?.displayName}
-						</p>
-						{userInfo?.description ? (
-							<p className={styles.description}>{userInfo?.description}</p>
-						) : null}
-						<ConvertTime />
-						<div className={styles.userActivity}>
-							<p className={styles.favorites}>
-								Favorited: {userInfo?.favorites}
-							</p>
-							<p className={styles.posts}>Posts: {userInfo?.posts}</p>
-						</div>
-						{renderButton === true ? (
-							<Link href={`/${user?.uid}/edit`}>
-								<a className={styles.editButton}>Edit profile</a>
-							</Link>
-						) : null}
+						{userInfo ? (
+							<>
+								<p className={styles.displayName}>
+									<span className={styles.symbol}>@</span>
+									{userInfo?.displayName}
+								</p>
+								{userInfo?.description ? (
+									<p className={styles.description}>{userInfo?.description}</p>
+								) : null}
+								<ConvertTime />
+								<div className={styles.userActivity}>
+									<p className={styles.favorites}>
+										Favorited: {userInfo?.favorites}
+									</p>
+									<p className={styles.posts}>Posts: {userInfo?.posts}</p>
+								</div>
+								{renderButton === true ? (
+									<Link href={`/${user?.uid}/edit`}>
+										<a className={styles.editButton}>Edit profile</a>
+									</Link>
+								) : null}
+							</>
+						) : (
+							<p className={styles.loadingCard}>User card data loading...</p>
+						)}
 					</div>
 				</div>
 			</div>

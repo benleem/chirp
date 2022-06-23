@@ -75,7 +75,7 @@ const Profile = ({
 			return <p>Something went wrong...</p>;
 		} else if (profileData === null) {
 			return <p>This page doesn't exist</p>;
-		} else if (posts.length < 1) {
+		} else if (error || posts.length < 1) {
 			return (
 				<>
 					<NoPosts profileData={profileData} />
