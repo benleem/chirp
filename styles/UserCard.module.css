@@ -16,6 +16,7 @@
 	top: 72px;
 	background-color: white;
 	font-family: "Roboto", sans-serif;
+	color: black;
 }
 
 .userCardPreview {
@@ -58,10 +59,11 @@
 	padding-bottom: 1rem;
 }
 
-.displayName {
+.displayName,
+.displayNameLoading {
 	font-size: 1rem;
 	font-weight: 600;
-	padding-bottom: 0.3rem;
+	margin-bottom: 0.3rem;
 }
 
 .symbol {
@@ -72,22 +74,36 @@
 	letter-spacing: 0.05rem;
 }
 
-.description {
+.description,
+.descriptionLoading {
 	font-size: 0.95rem;
 	line-height: 1.5;
-	padding-bottom: 0.3rem;
+	margin-bottom: 0.3rem;
 }
 
 .joined,
-.userActivity {
+.joinedLoading,
+.userActivity,
+.userActivityLoading {
 	font-weight: 300;
 	color: grey;
 	font-size: 0.85rem;
 }
 
-.userActivity {
-	padding-top: 0.2rem;
+.userActivity,
+.userActivityLoading {
+	margin-top: 0.2rem;
 	display: flex;
+}
+
+.displayNameLoading,
+.descriptionLoading,
+.joinedLoading,
+.userActivityLoading {
+	color: #35ce8d;
+	width: fit-content;
+	border-radius: 5px;
+	background-color: #35ce8d;
 }
 
 .posts {

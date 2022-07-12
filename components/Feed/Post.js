@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -41,7 +41,13 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 			year: "numeric",
 		});
 
-		return <p className={styles.postTime}>{time}</p>;
+		return (
+			<>
+				<p suppressHydrationWarning className={styles.postTime}>
+					{time}
+				</p>
+			</>
+		);
 	};
 
 	const handleFavorite = async () => {
@@ -131,17 +137,15 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 				</div>
 				<p className={styles.postText}>{post.text}</p>
 				{post.fileRef ? (
-					<>
-						<div className={styles.imgWrapper}>
-							<Image
-								src={post.fileRef}
-								alt="Post gif"
-								layout="responsive"
-								width={post.fileWidth}
-								height={post.fileHeight}
-							/>
-						</div>
-					</>
+					<div className={styles.imgWrapper}>
+						<Image
+							src={post.fileRef}
+							alt="Post gif"
+							layout="responsive"
+							width={post.fileWidth}
+							height={post.fileHeight}
+						/>
+					</div>
 				) : null}
 				<div className={styles.interactContainer}>
 					<div className={styles.interactLeft}>

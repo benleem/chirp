@@ -65,11 +65,6 @@ const Profile = ({
 		}
 	};
 
-	useEffect(() => {
-		setPosts(profilePosts);
-		setCheckHasMore(true);
-	}, [profilePosts]);
-
 	const ControlErrors = () => {
 		if (error) {
 			return <p>Something went wrong...</p>;
@@ -99,6 +94,11 @@ const Profile = ({
 			);
 		}
 	};
+
+	useEffect(() => {
+		setPosts(profilePosts);
+		setCheckHasMore(true);
+	}, [profilePosts]);
 
 	return <ControlErrors />;
 };

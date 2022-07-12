@@ -127,7 +127,23 @@ const UserCard = ({ profileData, renderButton }) => {
 								) : null}
 							</>
 						) : (
-							<p className={styles.loadingCard}>User card data loading...</p>
+							<>
+								<p className={styles.displayNameLoading}>
+									<span className={styles.symbol}>@</span>
+									User
+								</p>
+								<p className={styles.descriptionLoading}>User description</p>
+								<p className={styles.joinedLoading}>Joined: June 1, 2022</p>
+								<div className={styles.userActivityLoading}>
+									<p className={styles.favorites}>Favorited: 0</p>
+									<p className={styles.posts}>Posts: 0</p>
+								</div>
+								{renderButton === true ? (
+									<Link href={`/${user?.uid}/edit`}>
+										<a className={styles.editButton}>Edit profile</a>
+									</Link>
+								) : null}
+							</>
 						)}
 					</div>
 				</div>

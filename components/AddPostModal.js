@@ -182,11 +182,23 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 		}
 	}, [formLoading]);
 
+	// change height of textbox to match new lines, set focus
 	useEffect(() => {
 		if (user) {
+			textArea.current.style.height = `${textArea.current.scrollHeight}px`;
+
+			const end = textArea.current.value.length;
+			textArea.current.setSelectionRange(end, end);
 			textArea.current.focus();
 		}
 	}, []);
+
+	// keep text box height after picking a gif or backing out of gif menu
+	useEffect(() => {
+		if (showGiphy === false) {
+			textArea.current.style.height = `${textArea.current.scrollHeight}px`;
+		}
+	}, [showGiphy]);
 
 	return (
 		<motion.div
