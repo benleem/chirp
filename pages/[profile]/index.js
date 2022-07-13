@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Error from "next/error";
 
 import { verifyToken } from "../../hooks/server/verifyToken";
 import { getUserData } from "../../hooks/server/getUserData";
@@ -7,7 +8,8 @@ import { getFavorited } from "../../hooks/server/getFavorited";
 
 import MainLayout from "../../components/Layouts/MainLayout";
 import FeedLayout from "../../components/Layouts/FeedLayout";
-import NoPosts from "../../components/NoPosts";
+import NoPosts from "../../components/PageErrors/NoPosts";
+import PageError from "../../components/PageErrors/PageError";
 import PostsContainer from "../../components/Feed/PostsContainer";
 import UserCard from "../../components/UserCard";
 
@@ -67,10 +69,20 @@ const Profile = ({
 
 	const ControlErrors = () => {
 		if (error) {
-			return <p>Something went wrong...</p>;
+			return (
+				<PageError
+					title="Something went wrong"
+					text="A network request couldn't be completed. Return home or refresh the page."
+				/>
+			);
 		} else if (profileData === null) {
-			return <p>This page doesn't exist</p>;
-		} else if (error || posts.length < 1) {
+			return (
+				<PageError
+					title="Page not found"
+					text="Sorry, we couldn't find that page. Return home or change the url."
+				/>
+			);
+		} else if (posts.length < 1) {
 			return (
 				<>
 					<NoPosts profileData={profileData} />

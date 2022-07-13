@@ -5,7 +5,7 @@ import { getPosts } from "../hooks/server/getPosts";
 
 import MainLayout from "../components/Layouts/MainLayout";
 import FeedLayout from "../components/Layouts/FeedLayout";
-import NoPosts from "../components/NoPosts";
+import NoPosts from "../components/PageErrors/NoPosts";
 import PostsContainer from "../components/Feed/PostsContainer";
 import { getFavorited } from "../hooks/server/getFavorited";
 

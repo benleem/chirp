@@ -1,0 +1,36 @@
+.badUrl {
+	width: 100%;
+	height: calc(100vh - 72px);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.errorTitle {
+	font-size: 1.2rem;
+	font-weight: 500;
+}
+
+.errorText {
+	font-size: 0.95rem;
+	margin: 0.5rem 0;
+	font-weight: 400;
+	text-align: center;
+}
+
+.errorButton {
+	background-color: #35ce8d;
+	color: white;
+	padding: 0.5rem;
+	border-radius: 8px;
+	font-family: "Roboto", sans-serif;
+	font-size: 1rem;
+	transition: background-color 0.3s ease-in-out;
+	font-size: 1.1rem;
+	font-weight: 500;
+}
+
+.errorButton:hover {
+	background-color: #259076;
+}
