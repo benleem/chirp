@@ -23,7 +23,7 @@ const NavButton = ({
 				}
 			}}
 		>
-			<img src={imgUrl} alt={alt} height={40} width={40} />
+			<img src={imgUrl} alt={alt} />
 			<p className={styles.toolTip}>{toolTip}</p>
 		</button>
 	);
