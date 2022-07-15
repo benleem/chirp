@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { infiniteScrollFetch } from "../../hooks/client/infiniteScrollFetch";
 
 import Post from "./Post";
+import ScrollLoading from "./ScrollLoading";
 
 import styles from "../../styles/Feed/PostsContainer.module.css";
 
@@ -41,10 +42,11 @@ const PostsContainer = ({
 	return (
 		<div className={styles.postsContainer}>
 			<InfiniteScroll
-				dataLength={posts.length} //This is important field to render the next data
+				dataLength={posts.length}
 				next={getNewBatch}
 				hasMore={checkHasMore}
-				loader={<h4>Loading...</h4>}
+				loader={<ScrollLoading />}
+				e
 			>
 				{posts?.map((post) => (
 					<Post

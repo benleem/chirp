@@ -9,12 +9,14 @@ import {
 	increment,
 	serverTimestamp,
 } from "firebase/firestore";
+import { AnimatePresence } from "framer-motion";
 
 import { db } from "../../firebase/firebaseConfig";
 import { EditContext } from "../../context/EditContext";
 import { useAuth } from "../../hooks/client/useAuth";
 
 import FormLoading from "../FormState/FormLoading";
+import InteractionError from "./InteractionError";
 
 import styles from "../../styles/Feed/Post.module.css";
 
@@ -27,6 +29,13 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	const [editHover, setEditHover] = useState(false);
 	const [deleteHover, setDeleteHover] = useState(false);
 	const [deleteLoading, setDeleteLoading] = useState(false);
+	const [firebaseError, setFirebaseError] = useState("");
+
+	const errorCountdown = (seconds) => {
+		setTimeout(function () {
+			setFirebaseError(null);
+		}, seconds * 1000);
+	};
 
 	const ConvertTime = () => {
 		let date = new Date(post.timeStamp);
@@ -75,7 +84,9 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 				});
 			}
 		} catch (error) {
-			console.log(error);
+			const errorMessage = error.message;
+			setFirebaseError(errorMessage);
+			errorCountdown(1.5);
 		}
 	};
 
@@ -97,7 +108,10 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 
 			setPosts(updatedPosts);
 		} catch (error) {
-			console.log(error.message);
+			setDeleteLoading(false);
+			const errorMessage = error.message;
+			setFirebaseError(errorMessage);
+			errorCountdown(1.5);
 		}
 	};
 
@@ -116,6 +130,9 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 	return (
 		<div className={styles.post}>
 			{deleteLoading ? <FormLoading /> : null}
+			<AnimatePresence>
+				{firebaseError ? <InteractionError /> : null}
+			</AnimatePresence>
 			<div className={styles.imgContainer}>
 				<div className={styles.userImgWrapper}>
 					<Image

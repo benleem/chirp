@@ -195,7 +195,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 
 	// keep text box height after picking a gif or backing out of gif menu
 	useEffect(() => {
-		if (showGiphy === false) {
+		if (user && showGiphy === false) {
 			textArea.current.style.height = `${textArea.current.scrollHeight}px`;
 		}
 	}, [showGiphy]);

@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 import FormError from "../FormState/FormError";
 import InputField from "../FormState/InputField";
