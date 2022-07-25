@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { getDoc, query, doc } from "firebase/firestore";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import { db } from "../../firebase/firebaseConfig";
 import { infiniteScrollFetch } from "../../hooks/client/infiniteScrollFetch";
 
 import Post from "./Post";
@@ -19,6 +21,7 @@ const PostsContainer = ({
 	setCheckHasMore,
 }) => {
 	const router = useRouter();
+	const [deletedFavorites, setDeletedFavorites] = useState([]);
 
 	const getNewBatch = async () => {
 		const latestPostId = posts[posts.length - 1].id;
@@ -38,6 +41,33 @@ const PostsContainer = ({
 			console.log(error);
 		}
 	};
+
+	const checkFavorites = () => {
+		const queuedFavorites = [];
+		favorites.map(async (favorite) => {
+			const postQuery = query(doc(db, `posts/${favorite}`));
+			try {
+				const currentFavorite = await getDoc(postQuery);
+				if (currentFavorite.data() === undefined) {
+					queuedFavorites.push(favorite);
+					setDeletedFavorites(queuedFavorites);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		});
+	};
+
+	useEffect(() => {
+		checkFavorites();
+	}, []);
+
+	useEffect(() => {
+		console.log(deletedFavorites);
+		if (deletedFavorites.length > 0) {
+			console.log("Favorite(s) have been deleted and need to be removed");
+		}
+	}, [deletedFavorites]);
 
 	return (
 		<div className={styles.postsContainer}>
