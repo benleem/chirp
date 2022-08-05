@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import { db } from "../../firebase/firebaseConfig";
 import { infiniteScrollFetch } from "../../hooks/client/infiniteScrollFetch";
+import { splitArray } from "../../hooks/client/splitArray";
 
 import Post from "./Post";
 import ScrollLoading from "./ScrollLoading";
@@ -58,14 +59,25 @@ const PostsContainer = ({
 		});
 	};
 
+	const deleteFavorites = () => {
+		if (deletedFavorites.length > 0) {
+			const batchedFavorites = splitArray(deletedFavorites, 10);
+			// try {
+			// } catch (error) {
+			// 	console.log(error);
+			// }
+			console.log(batchedFavorites);
+			console.log("Favorite(s) have been deleted and need to be removed");
+		}
+	};
+
 	useEffect(() => {
 		checkFavorites();
 	}, []);
 
 	useEffect(() => {
-		console.log(deletedFavorites);
 		if (deletedFavorites.length > 0) {
-			console.log("Favorite(s) have been deleted and need to be removed");
+			deleteFavorites();
 		}
 	}, [deletedFavorites]);
 
