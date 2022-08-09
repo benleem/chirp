@@ -52,6 +52,7 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 		} else {
 			return (
 				<PostsContainer
+					uid={uid}
 					posts={posts}
 					setPosts={setPosts}
 					favorites={favorites}

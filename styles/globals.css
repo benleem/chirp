@@ -22,6 +22,8 @@ body {
 		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 	background-color: #f0f2f5;
 	height: 100%;
+	width: 100%;
+	overflow-x: hidden;
 }
 
 a {
