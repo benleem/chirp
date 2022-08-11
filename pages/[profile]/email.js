@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { verifyToken } from "../../hooks/server/verifyToken";
 
+import Head from "next/head";
 import MainLayout from "../../components/Layouts/MainLayout";
 import SettingsLayout from "../../components/Layouts/SettingsLayout";
 import FormLoading from "../../components/FormState/FormLoading";
@@ -35,6 +36,13 @@ const Email = ({ token }) => {
 
 	return (
 		<>
+			<Head>
+				<title>Change Email - Chirp</title>
+				<meta
+					name="description"
+					content="Change email associated with account"
+				/>
+			</Head>
 			{formLoading ? <FormLoading /> : null}
 			{isAuthenticated ? (
 				<ChangeEmailForm setFormLoading={setFormLoading} />

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import MainLayout from "../components/Layouts/MainLayout";
 import RecoverEmail from "../components/ProfileSettings/RecoverEmail";
 import RecoverPasswordForm from "../components/ProfileSettings/RecoverPasswordForm";
@@ -12,11 +13,44 @@ export const getServerSideProps = async (context) => {
 const Recover = ({ query }) => {
 	switch (query.mode) {
 		case "recoverEmail":
-			return <RecoverEmail query={query} />;
+			return (
+				<>
+					<Head>
+						<title>Recover Email - Chirp</title>
+						<meta
+							name="description"
+							content="Recover email associated with account"
+						/>
+					</Head>
+					<RecoverEmail query={query} />
+				</>
+			);
 		case "resetPassword":
-			return <ResetPassword query={query} />;
+			return (
+				<>
+					<Head>
+						<title>Reset Password - Chirp</title>
+						<meta
+							name="description"
+							content="Reset password associated with account"
+						/>
+					</Head>
+					<ResetPassword query={query} />
+				</>
+			);
 		default:
-			return <RecoverPasswordForm />;
+			return (
+				<>
+					<Head>
+						<title>Recover Password - Chirp</title>
+						<meta
+							name="description"
+							content="Recover password associated with account"
+						/>
+					</Head>
+					<RecoverPasswordForm />
+				</>
+			);
 	}
 };
 

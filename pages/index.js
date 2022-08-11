@@ -4,6 +4,7 @@ import nookies from "nookies";
 import { auth } from "../firebase/firebaseConfig";
 import { adminAuth } from "../firebase/firebaseAdmin";
 
+import Head from "next/head";
 import SignUp from "../components/Auth/SignUp";
 import SignIn from "../components/Auth/SignIn";
 
@@ -29,21 +30,30 @@ const Auth = () => {
 	const [chooseForm, setChooseForm] = useState(false);
 
 	return (
-		<div className={styles.modalContainer}>
-			{chooseForm ? (
-				<SignUp
-					chooseForm={chooseForm}
-					setChooseForm={setChooseForm}
-					auth={auth}
+		<>
+			<Head>
+				<title>Auth - Chirp</title>
+				<meta
+					name="description"
+					content="Login or sign up to see what all the chirp is about "
 				/>
-			) : (
-				<SignIn
-					chooseForm={chooseForm}
-					setChooseForm={setChooseForm}
-					auth={auth}
-				/>
-			)}
-		</div>
+			</Head>
+			<div className={styles.modalContainer}>
+				{chooseForm ? (
+					<SignUp
+						chooseForm={chooseForm}
+						setChooseForm={setChooseForm}
+						auth={auth}
+					/>
+				) : (
+					<SignIn
+						chooseForm={chooseForm}
+						setChooseForm={setChooseForm}
+						auth={auth}
+					/>
+				)}
+			</div>
+		</>
 	);
 };
 

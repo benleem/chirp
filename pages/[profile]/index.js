@@ -6,6 +6,7 @@ import { getUserData } from "../../hooks/server/getUserData";
 import { getUserPosts } from "../../hooks/server/getUserPosts";
 import { getFavorited } from "../../hooks/server/getFavorited";
 
+import Head from "next/head";
 import MainLayout from "../../components/Layouts/MainLayout";
 import FeedLayout from "../../components/Layouts/FeedLayout";
 import NoPosts from "../../components/PageErrors/NoPosts";
@@ -110,9 +111,25 @@ const Profile = ({
 	useEffect(() => {
 		setPosts(profilePosts);
 		setCheckHasMore(true);
+		console.log(profileData);
 	}, [profilePosts]);
 
-	return <ControlErrors />;
+	return (
+		<>
+			<Head>
+				<title>@{profileData.displayName} - Chirp</title>
+				<meta
+					name="description"
+					content={
+						profileData.description
+							? `${profileData.description}`
+							: `See what ${profileData.displayName} has been up to`
+					}
+				/>
+			</Head>
+			<ControlErrors />
+		</>
+	);
 };
 
 Profile.getLayout = function getLayout(page) {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { verifyToken } from "../../hooks/server/verifyToken";
 
+import Head from "next/head";
 import MainLayout from "../../components/Layouts/MainLayout";
 import SettingsLayout from "../../components/Layouts/SettingsLayout";
 import Reauthenticate from "../../components/ProfileSettings/Reauthenticate";
@@ -36,6 +37,13 @@ const Password = ({ token }) => {
 
 	return (
 		<>
+			<Head>
+				<title>Change Password - Chirp</title>
+				<meta
+					name="description"
+					content="Change password associated with account"
+				/>
+			</Head>
 			{formLoading ? <FormLoading /> : null}
 			{isAuthenticated ? (
 				<ChangePasswordForm setFormLoading={setFormLoading} />

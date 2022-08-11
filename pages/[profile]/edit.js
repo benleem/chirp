@@ -4,6 +4,7 @@ import { verifyToken } from "../../hooks/server/verifyToken";
 import { getUserData } from "../../hooks/server/getUserData";
 import { getUserPostsIds } from "../../hooks/server/getUserPostsIds";
 
+import Head from "next/head";
 import MainLayout from "../../components/Layouts/MainLayout";
 import SettingsLayout from "../../components/Layouts/SettingsLayout";
 import Reauthenticate from "../../components/ProfileSettings/Reauthenticate";
@@ -42,6 +43,13 @@ const Edit = ({ token, userData, userPosts, error }) => {
 
 	return (
 		<>
+			<Head>
+				<title>Edit Profile - Chirp</title>
+				<meta
+					name="description"
+					content="Edit basic parts of your profile such as pictures, description, and display name"
+				/>
+			</Head>
 			{formLoading ? <FormLoading /> : null}
 			<EditProfileForm
 				token={token}
