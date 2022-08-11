@@ -14,23 +14,23 @@ const SyncFavorites = ({
 	const deleteFavorites = () => {
 		if (deletedFavorites.length >= 1) {
 			// const batchedFavorites = splitArray(deletedFavorites, 10);
+			const newFavorites = favorites.filter(
+				(favorite) => !favorites.includes(favorite)
+			);
+			const newDeletedFavorites = deletedFavorites.filter(
+				(favorite) => !deletedFavorites.includes(favorite)
+			);
 			deletedFavorites.forEach(async (favorite) => {
 				const userRef = doc(db, `users/${uid}`);
 				const favoriteRef = doc(db, `users/${uid}/favorites/${favorite}`);
-				const newFavorites = favorites.filter(
-					(queuedFavorite) => queuedFavorite !== favorite
-				);
-				const newDeletedFavorites = deletedFavorites.filter(
-					(queuedFavorite) => queuedFavorite !== favorite
-				);
-				try {
-					setDeletedFavorites(newDeletedFavorites);
-					setFavorites(newFavorites);
 
+				try {
 					await deleteDoc(favoriteRef);
 					await updateDoc(userRef, {
 						favorites: increment(-1),
 					});
+					setDeletedFavorites(newDeletedFavorites);
+					setFavorites(newFavorites);
 				} catch (error) {
 					console.log(error);
 				}

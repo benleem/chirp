@@ -1,0 +1,19 @@
+.syncFavorites {
+	background-color: pink;
+	padding: 0.5rem;
+	border: 2px solid red;
+	text-align: center;
+}
+
+.syncButton {
+	cursor: pointer;
+	background-color: red;
+	color: white;
+	border: none;
+	padding: 0.5rem;
+	border-radius: 8px;
+	font-family: "Roboto", sans-serif;
+	font-size: 1rem;
+	transition: background-color 0.3s ease-in-out;
+	margin-top: 0.3rem;
+}

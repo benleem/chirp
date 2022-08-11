@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 
 import { verifyToken } from "../hooks/server/verifyToken";
 import { getPosts } from "../hooks/server/getPosts";
+import { getFavorited } from "../hooks/server/getFavorited";
+import { checkFavorites } from "../hooks/client/checkFavorites";
 
 import Head from "next/head";
 import MainLayout from "../components/Layouts/MainLayout";
 import FeedLayout from "../components/Layouts/FeedLayout";
 import NoPosts from "../components/PageErrors/NoPosts";
 import PostsContainer from "../components/Feed/PostsContainer";
-import { getFavorited } from "../hooks/server/getFavorited";
+import SyncFavorites from "../components/Feed/SyncFavorites";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -41,29 +43,43 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 	const [favorites, setFavorites] = useState(initialFavorites);
 	const [posts, setPosts] = useState(initialPosts);
 	const [checkHasMore, setCheckHasMore] = useState(true);
-
-	useEffect(() => {
-		setPosts(initialPosts);
-		setCheckHasMore(true);
-	}, [initialPosts]);
+	const [deletedFavorites, setDeletedFavorites] = useState([]);
 
 	const ControlErrors = () => {
 		if (error || posts.length < 1) {
 			return <NoPosts />;
 		} else {
 			return (
-				<PostsContainer
-					uid={uid}
-					posts={posts}
-					setPosts={setPosts}
-					favorites={favorites}
-					setFavorites={setFavorites}
-					checkHasMore={checkHasMore}
-					setCheckHasMore={setCheckHasMore}
-				/>
+				<>
+					<SyncFavorites
+						uid={uid}
+						favorites={favorites}
+						setFavorites={setFavorites}
+						deletedFavorites={deletedFavorites}
+						setDeletedFavorites={setDeletedFavorites}
+					/>
+					<PostsContainer
+						uid={uid}
+						posts={posts}
+						setPosts={setPosts}
+						favorites={favorites}
+						setFavorites={setFavorites}
+						checkHasMore={checkHasMore}
+						setCheckHasMore={setCheckHasMore}
+					/>
+				</>
 			);
 		}
 	};
+
+	useEffect(() => {
+		setPosts(initialPosts);
+		setCheckHasMore(true);
+	}, [initialPosts]);
+
+	useEffect(() => {
+		checkFavorites(favorites, setDeletedFavorites);
+	}, []);
 
 	return (
 		<>

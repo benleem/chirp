@@ -94,6 +94,7 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 		const userRef = doc(db, `users/${user.uid}`);
 		const postRef = doc(db, "posts", postId);
 		const userPostRef = doc(db, `users/${user.uid}/posts/${postId}`);
+		const favoriteRef = doc(db, `users/${user.uid}/favorites/${postId}`);
 
 		try {
 			const updatedPosts = posts.filter((post) => post.id !== postId);
@@ -104,6 +105,12 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 			await updateDoc(userRef, {
 				posts: increment(-1),
 			});
+			if (favorites.includes(postId)) {
+				await deleteDoc(favoriteRef);
+				await updateDoc(userRef, {
+					favorites: increment(-1),
+				});
+			}
 			setDeleteLoading(false);
 
 			setPosts(updatedPosts);

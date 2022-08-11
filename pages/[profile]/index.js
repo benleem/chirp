@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Error from "next/error";
 
 import { verifyToken } from "../../hooks/server/verifyToken";
 import { getUserData } from "../../hooks/server/getUserData";
 import { getUserPosts } from "../../hooks/server/getUserPosts";
 import { getFavorited } from "../../hooks/server/getFavorited";
+import { checkFavorites } from "../../hooks/client/checkFavorites";
 
 import Head from "next/head";
 import MainLayout from "../../components/Layouts/MainLayout";
@@ -13,6 +13,7 @@ import NoPosts from "../../components/PageErrors/NoPosts";
 import PageError from "../../components/PageErrors/PageError";
 import PostsContainer from "../../components/Feed/PostsContainer";
 import UserCard from "../../components/UserCard";
+import SyncFavorites from "../../components/Feed/SyncFavorites";
 
 export const getServerSideProps = async (context) => {
 	try {
@@ -59,6 +60,7 @@ const Profile = ({
 	const [favorites, setFavorites] = useState(initialFavorites);
 	const [posts, setPosts] = useState(profilePosts);
 	const [checkHasMore, setCheckHasMore] = useState(true);
+	const [deletedFavorites, setDeletedFavorites] = useState([]);
 
 	const CheckUser = () => {
 		if (uid === profileId) {
@@ -93,6 +95,13 @@ const Profile = ({
 		} else {
 			return (
 				<>
+					<SyncFavorites
+						uid={uid}
+						favorites={favorites}
+						setFavorites={setFavorites}
+						deletedFavorites={deletedFavorites}
+						setDeletedFavorites={setDeletedFavorites}
+					/>
 					<PostsContainer
 						uid={profileId}
 						posts={posts}
@@ -108,25 +117,44 @@ const Profile = ({
 		}
 	};
 
+	const ControlHeader = () => {
+		if (profileData) {
+			return (
+				<Head>
+					<title>@{profileData.displayName} - Chirp</title>
+					<meta
+						name="description"
+						content={
+							profileData.description
+								? `${profileData.description}`
+								: `See what ${profileData.displayName} has been up to`
+						}
+					/>
+				</Head>
+			);
+		} else {
+			return (
+				<Head>
+					<title>Chirp</title>
+				</Head>
+			);
+		}
+	};
+
 	useEffect(() => {
 		setPosts(profilePosts);
 		setCheckHasMore(true);
-		console.log(profileData);
 	}, [profilePosts]);
+
+	useEffect(() => {
+		if (favorites) {
+			checkFavorites(favorites, setDeletedFavorites);
+		}
+	}, []);
 
 	return (
 		<>
-			<Head>
-				<title>@{profileData.displayName} - Chirp</title>
-				<meta
-					name="description"
-					content={
-						profileData.description
-							? `${profileData.description}`
-							: `See what ${profileData.displayName} has been up to`
-					}
-				/>
-			</Head>
+			<ControlHeader />
 			<ControlErrors />
 		</>
 	);
