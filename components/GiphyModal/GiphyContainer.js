@@ -132,7 +132,7 @@ const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
 				dataLength={gifsArray.length}
 				next={newGifsBatch}
 				hasMore={checkHasMore}
-				loader={<h4>Loading...</h4>}
+				loader={<></>}
 				scrollableTarget="giphyContainer"
 				scrollThreshold={0.9}
 			>

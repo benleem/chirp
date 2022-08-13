@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import {
 	setDoc,
 	deleteDoc,
@@ -14,22 +15,37 @@ import { AnimatePresence } from "framer-motion";
 import { db } from "../../firebase/firebaseConfig";
 import { EditContext } from "../../context/EditContext";
 import { useAuth } from "../../hooks/client/useAuth";
+import { infiniteScrollFetch } from "../../hooks/client/infiniteScrollFetch";
 
 import FormLoading from "../FormState/FormLoading";
 import InteractionError from "./InteractionError";
+import ScrollLoading from "./ScrollLoading";
 
 import styles from "../../styles/Feed/Post.module.css";
 
-const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
+const Post = ({
+	postId,
+	post,
+	posts,
+	setPosts,
+	favorites,
+	setFavorites,
+	isLast,
+	checkHasMore,
+	setCheckHasMore,
+}) => {
 	const user = useAuth();
+	const router = useRouter();
 	const { setEditActive, setEditObject, setEditedPosts } =
 		useContext(EditContext);
 
+	const postRef = useRef();
 	const [favoriteHover, setFavoriteHover] = useState(false);
 	const [editHover, setEditHover] = useState(false);
 	const [deleteHover, setDeleteHover] = useState(false);
 	const [deleteLoading, setDeleteLoading] = useState(false);
 	const [firebaseError, setFirebaseError] = useState("");
+	const [batchLoading, setBatchLoading] = useState(false);
 
 	const errorCountdown = (seconds) => {
 		setTimeout(function () {
@@ -134,116 +150,155 @@ const Post = ({ postId, post, posts, setPosts, favorites, setFavorites }) => {
 		setEditedPosts(posts);
 	};
 
+	const getNewBatch = async () => {
+		const latestPostId = posts[posts.length - 1].id;
+		try {
+			setBatchLoading(true);
+			const newBatch = await infiniteScrollFetch(
+				latestPostId,
+				router.pathname,
+				user?.uid
+			);
+			if (newBatch.length < 1 || newBatch === undefined) {
+				setCheckHasMore(false);
+			} else {
+				setPosts([...posts, ...newBatch]);
+				setCheckHasMore(true);
+			}
+			setBatchLoading(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		if (!postRef?.current) return;
+		const observer = new IntersectionObserver(([entry]) => {
+			if (
+				isLast === true &&
+				entry.isIntersecting &&
+				checkHasMore === true &&
+				batchLoading === false
+			) {
+				getNewBatch();
+			}
+		});
+		observer.observe(postRef.current);
+	}, [postRef]);
+
 	return (
-		<div className={styles.post}>
-			{deleteLoading ? <FormLoading /> : null}
-			<AnimatePresence>
-				{firebaseError ? <InteractionError /> : null}
-			</AnimatePresence>
-			<div className={styles.imgContainer}>
-				<div className={styles.userImgWrapper}>
-					<Image
-						src={post.userImg}
-						alt="User picture"
-						layout="responsive"
-						width={40}
-						height={40}
-						objectFit="cover"
-					/>
-				</div>
-			</div>
-			<div className={styles.postContainer}>
-				<div className={styles.postDetails}>
-					<Link href={`/${post.userId}`}>
-						<a className={styles.displayName}> {post.displayName}</a>
-					</Link>
-					<ConvertTime />
-				</div>
-				<p className={styles.postText}>{post.text}</p>
-				{post.fileRef ? (
-					<div className={styles.imgWrapper}>
+		<>
+			<div ref={postRef} className={styles.post}>
+				{deleteLoading ? <FormLoading /> : null}
+				<AnimatePresence>
+					{firebaseError ? <InteractionError /> : null}
+				</AnimatePresence>
+				<div className={styles.imgContainer}>
+					<div className={styles.userImgWrapper}>
 						<Image
-							src={post.fileRef}
-							alt="Post gif"
+							src={post.userImg}
+							alt="User picture"
 							layout="responsive"
-							width={post.fileWidth}
-							height={post.fileHeight}
+							width={40}
+							height={40}
+							objectFit="cover"
 						/>
 					</div>
-				) : null}
-				<div className={styles.interactContainer}>
-					<div className={styles.interactLeft}>
-						<button
-							id="favorite"
-							className={styles.interactButton}
-							onClick={handleFavorite}
-							onMouseEnter={() => setFavoriteHover(true)}
-							onMouseLeave={() => setFavoriteHover(false)}
-						>
-							{favorites.includes(postId) || favoriteHover ? (
-								<img
-									className={styles.interactButtonImg}
-									src="/img/favorite-post-hover.svg"
-									alt="favorite"
-								/>
-							) : (
-								<img
-									className={styles.interactButtonImg}
-									src="/img/favorite-post.svg"
-									alt="favorite"
-								/>
-							)}
-						</button>
+				</div>
+				<div className={styles.postContainer}>
+					<div className={styles.postDetails}>
+						<Link href={`/${post.userId}`}>
+							<a className={styles.displayName}> {post.displayName}</a>
+						</Link>
+						<ConvertTime />
 					</div>
-					{post.userId === user?.uid ? (
-						<div className={styles.interactRight}>
+					<p className={styles.postText}>{post.text}</p>
+					{post.fileRef ? (
+						<div className={styles.imgWrapper}>
+							<Image
+								src={post.fileRef}
+								alt="Post gif"
+								layout="responsive"
+								width={post.fileWidth}
+								height={post.fileHeight}
+							/>
+						</div>
+					) : null}
+					<div className={styles.interactContainer}>
+						<div className={styles.interactLeft}>
 							<button
-								id="edit"
+								id="favorite"
 								className={styles.interactButton}
-								onClick={editPost}
-								onMouseEnter={() => setEditHover(true)}
-								onMouseLeave={() => setEditHover(false)}
+								onClick={handleFavorite}
+								onMouseEnter={() => setFavoriteHover(true)}
+								onMouseLeave={() => setFavoriteHover(false)}
 							>
-								{editHover ? (
+								{favorites.includes(postId) || favoriteHover ? (
 									<img
 										className={styles.interactButtonImg}
-										src="/img/edit-hover.svg"
-										alt="edit"
+										src="/img/favorite-post-hover.svg"
+										alt="favorite"
 									/>
 								) : (
 									<img
 										className={styles.interactButtonImg}
-										src="/img/edit.svg"
-										alt="edit"
-									/>
-								)}
-							</button>
-							<button
-								id="delete"
-								className={styles.interactButton}
-								onClick={deletePost}
-								onMouseEnter={() => setDeleteHover(true)}
-								onMouseLeave={() => setDeleteHover(false)}
-							>
-								{deleteHover ? (
-									<img
-										className={styles.interactButtonImg}
-										src="/img/delete-hover.svg"
-										alt="delete"
-									/>
-								) : (
-									<img
-										className={styles.interactButtonImg}
-										src="/img/delete.svg"
-										alt="delete"
+										src="/img/favorite-post.svg"
+										alt="favorite"
 									/>
 								)}
 							</button>
 						</div>
-					) : null}
+						{post.userId === user?.uid ? (
+							<div className={styles.interactRight}>
+								<button
+									id="edit"
+									className={styles.interactButton}
+									onClick={editPost}
+									onMouseEnter={() => setEditHover(true)}
+									onMouseLeave={() => setEditHover(false)}
+								>
+									{editHover ? (
+										<img
+											className={styles.interactButtonImg}
+											src="/img/edit-hover.svg"
+											alt="edit"
+										/>
+									) : (
+										<img
+											className={styles.interactButtonImg}
+											src="/img/edit.svg"
+											alt="edit"
+										/>
+									)}
+								</button>
+								<button
+									id="delete"
+									className={styles.interactButton}
+									onClick={deletePost}
+									onMouseEnter={() => setDeleteHover(true)}
+									onMouseLeave={() => setDeleteHover(false)}
+								>
+									{deleteHover ? (
+										<img
+											className={styles.interactButtonImg}
+											src="/img/delete-hover.svg"
+											alt="delete"
+										/>
+									) : (
+										<img
+											className={styles.interactButtonImg}
+											src="/img/delete.svg"
+											alt="delete"
+										/>
+									)}
+								</button>
+							</div>
+						) : null}
+					</div>
 				</div>
 			</div>
-		</div>
+			{batchLoading ? <ScrollLoading /> : null}
+		</>
 	);
 };
 
