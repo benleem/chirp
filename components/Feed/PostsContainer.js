@@ -3,6 +3,7 @@ import Post from "./Post";
 import styles from "../../styles/Feed/PostsContainer.module.css";
 
 const PostsContainer = ({
+	uid,
 	posts,
 	setPosts,
 	favorites,
@@ -14,6 +15,7 @@ const PostsContainer = ({
 		<div className={styles.postsContainer}>
 			{posts?.map((post, index) => (
 				<Post
+					uid={uid}
 					key={post.id}
 					postId={post.id}
 					post={post.data}

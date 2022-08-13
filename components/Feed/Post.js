@@ -24,6 +24,7 @@ import ScrollLoading from "./ScrollLoading";
 import styles from "../../styles/Feed/Post.module.css";
 
 const Post = ({
+	uid,
 	postId,
 	post,
 	posts,
@@ -157,7 +158,7 @@ const Post = ({
 			const newBatch = await infiniteScrollFetch(
 				latestPostId,
 				router.pathname,
-				user?.uid
+				uid
 			);
 			if (newBatch.length < 1 || newBatch === undefined) {
 				setCheckHasMore(false);
