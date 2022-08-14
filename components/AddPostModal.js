@@ -75,6 +75,9 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 
 		const { id, value } = e.target;
 		setFormValues({ ...formValues, [id]: value });
+		if (editActive === true) {
+			setEditObject({ ...editObject, [id]: value });
+		}
 	};
 
 	const removeFile = () => {
@@ -106,11 +109,13 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 			});
 			setFormLoading(false);
 			setShowPostModal(false);
-			// window.scrollTo({ top: 0, behavior: "smooth" });
-			// router.replace(router.asPath, router.asPath, {
+
+			// await router.replace(router.asPath, router.asPath, {
 			// 	scroll: false,
 			// });
-			router.replace(router.asPath, router.asPath);
+			// window.scrollTo({ top: 0, behavior: "auto" });
+
+			await router.replace(router.asPath);
 		} catch (error) {
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);

@@ -208,7 +208,7 @@ const Post = ({
 				</div>
 				<div className={styles.postContainer}>
 					<div className={styles.postDetails}>
-						<Link href={`/${post.userId}`}>
+						<Link href={`/${post.userId}`} scroll={true}>
 							<a className={styles.displayName}> {post.displayName}</a>
 						</Link>
 						<ConvertTime />

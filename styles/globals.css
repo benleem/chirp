@@ -11,7 +11,7 @@ font-family: 'Roboto', sans-serif;
 */
 
 /* html {
-	scroll-behavior: smooth;
+	scroll-behavior: auto !important;
 } */
 
 html,
@@ -23,6 +23,9 @@ body {
 	background-color: #f0f2f5;
 	height: 100%;
 	width: 100%;
+}
+
+body {
 	overflow-x: hidden;
 }
 
