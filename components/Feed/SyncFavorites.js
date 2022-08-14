@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { deleteDoc, updateDoc, doc, increment } from "firebase/firestore";
 
 import { db } from "../../firebase/firebaseConfig";
@@ -15,7 +16,7 @@ const SyncFavorites = ({
 		if (deletedFavorites.length >= 1) {
 			// const batchedFavorites = splitArray(deletedFavorites, 10);
 			const newFavorites = favorites.filter(
-				(favorite) => !favorites.includes(favorite)
+				(favorite) => !deletedFavorites.includes(favorite)
 			);
 			const newDeletedFavorites = deletedFavorites.filter(
 				(favorite) => !deletedFavorites.includes(favorite)
@@ -37,6 +38,10 @@ const SyncFavorites = ({
 			});
 		}
 	};
+
+	useEffect(() => {
+		console.log(favorites);
+	}, [favorites]);
 
 	return (
 		<>
