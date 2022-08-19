@@ -39,10 +39,6 @@ const SyncFavorites = ({
 		}
 	};
 
-	useEffect(() => {
-		console.log(favorites);
-	}, [favorites]);
-
 	return (
 		<>
 			{deletedFavorites.length >= 1 ? (

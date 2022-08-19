@@ -205,6 +205,21 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 		}
 	}, [showGiphy]);
 
+	// close modal when user clicks outside the form
+	useEffect(() => {
+		const closeModal = (e) => {
+			if (!e.path.includes(form.current) && e.path[1].tagName !== "BUTTON") {
+				setShowPostModal(!showPostModal);
+			}
+		};
+
+		document.body.addEventListener("click", closeModal);
+
+		return () => {
+			document.body.removeEventListener("click", closeModal);
+		};
+	}, []);
+
 	return (
 		<motion.div
 			className={styles.addPostModalContainer}

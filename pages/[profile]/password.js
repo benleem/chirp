@@ -41,7 +41,7 @@ const Password = ({ token }) => {
 				<title>Change Password - Chirp</title>
 				<meta
 					name="description"
-					content="Change password associated with account"
+					content="Change password associated with your Chirp account."
 				/>
 			</Head>
 			{formLoading ? <FormLoading /> : null}
