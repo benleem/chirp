@@ -36,6 +36,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 		setEditedPosts,
 	} = useContext(EditContext);
 
+	const giphyContainer = useRef();
 	const form = useRef();
 	const textArea = useRef();
 
@@ -203,7 +204,11 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	// close modal when user clicks outside the form
 	useEffect(() => {
 		const closeModal = (e) => {
-			if (!e.path.includes(form.current) && e.path[1].tagName !== "BUTTON") {
+			if (
+				!e.path.includes(form.current) &&
+				!e.path.includes(giphyContainer.current) &&
+				e.path[0].tagName !== "IMG"
+			) {
 				handleClose();
 			}
 		};
@@ -225,6 +230,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 		>
 			{showGiphy ? (
 				<GiphyContainer
+					giphyContainer={giphyContainer}
 					showGiphy={showGiphy}
 					setShowGiphy={setShowGiphy}
 					setFile={setFile}
@@ -250,7 +256,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 								<button
 									className={styles.closeButton}
 									type="button"
-									onClick={() => handleClose}
+									onClick={handleClose}
 								></button>
 							</div>
 							<div className={styles.inputContainer}>

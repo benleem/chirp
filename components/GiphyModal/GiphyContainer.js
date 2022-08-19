@@ -8,10 +8,14 @@ import GiphyTile from "./GiphyTile";
 
 import styles from "../../styles/GiphyModal/GiphyContainer.module.css";
 
-const GiphyContainer = ({ showGiphy, setShowGiphy, setFile }) => {
+const GiphyContainer = ({
+	giphyContainer,
+	showGiphy,
+	setShowGiphy,
+	setFile,
+}) => {
 	const gf = new GiphyFetch(`${process.env.NEXT_PUBLIC_GIPHY_KEY}`);
 
-	const giphyContainer = useRef();
 	const searchInput = useRef();
 
 	const [gifsArray, setGifsArray] = useState([]);
