@@ -110,11 +110,6 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 			setFormLoading(false);
 			setShowPostModal(false);
 
-			// await router.replace(router.asPath, router.asPath, {
-			// 	scroll: false,
-			// });
-			// window.scrollTo({ top: 0, behavior: "auto" });
-
 			await router.replace(router.asPath);
 		} catch (error) {
 			const errorMessage = error.message;
@@ -209,12 +204,10 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	useEffect(() => {
 		const closeModal = (e) => {
 			if (!e.path.includes(form.current) && e.path[1].tagName !== "BUTTON") {
-				setShowPostModal(!showPostModal);
+				handleClose();
 			}
 		};
-
 		document.body.addEventListener("click", closeModal);
-
 		return () => {
 			document.body.removeEventListener("click", closeModal);
 		};
@@ -257,11 +250,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 								<button
 									className={styles.closeButton}
 									type="button"
-									onClick={() => {
-										setShowPostModal(false);
-										setEditActive(false);
-										setEditObject(null);
-									}}
+									onClick={() => handleClose}
 								></button>
 							</div>
 							<div className={styles.inputContainer}>
