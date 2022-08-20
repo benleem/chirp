@@ -6,6 +6,8 @@ Chirp is a social media platform. Keep up with people from around the globe, or 
 
 The full site can be found [here](https://goggle-earth.netlify.app/)
 
+![Demo gif](https://drive.google.com/uc?export=view&id=1HMQqZvJ6OqDExzFCDWKv4RMbcPcvdnS0)
+
 ## About This Project
 
 Technologies/Libraries used:
