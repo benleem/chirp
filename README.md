@@ -1,6 +1,6 @@
 # Chirp
 
-![Demo image](https://drive.google.com/uc?export=view&id=1uJ3UhrJ4329UTAAtyfnxInUOM07ir90W)
+![Demo image](https://drive.google.com/uc?export=view&id=1VJGDSw-7YCLAZULWlJX7WDh-bwEuQ3HL)
 
 Chirp is a social media platform. Keep up with people from around the globe, or just post funny memes. Whatever your social media needs, Chirp is there! Start now by creating an account!
 
