@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 import { AuthProvider } from "../context/AuthContext";
 import { EditProvider } from "../context/EditContext";
