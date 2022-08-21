@@ -8,7 +8,7 @@ import {
 	setDoc,
 	increment,
 } from "firebase/firestore";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { EditContext } from "../context/EditContext";
 import { useAuth } from "../hooks/client/useAuth";

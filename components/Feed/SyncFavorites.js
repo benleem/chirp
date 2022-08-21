@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { deleteDoc, updateDoc, doc, increment } from "firebase/firestore";
 
 import { db } from "../../firebase/firebaseConfig";

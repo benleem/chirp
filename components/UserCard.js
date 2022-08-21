@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
 
 import { useUser } from "../hooks/client/useUser";
 import { useAuth } from "../hooks/client/useAuth";
 
-import ActionButton from "./FormState/ActionButton";
 import FormLoading from "./FormState/FormLoading";
 
 import styles from "../styles/UserCard.module.css";

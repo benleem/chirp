@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { applyActionCode, signOut } from "firebase/auth";
 
@@ -7,6 +7,7 @@ import { auth } from "../../firebase/firebaseConfig";
 import FormLoading from "../FormState/FormLoading";
 import RecoverTop from "../FormState/RecoverTop";
 import ActionButton from "../FormState/ActionButton";
+import FormError from "../FormState/FormError";
 
 // import styles from "../../styles/ProfileSettings/RecoverEmail.module.css";
 import styles from "../../styles/ProfileSettings/RecoverForm.module.css";

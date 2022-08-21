@@ -4,8 +4,7 @@ import { doc, updateDoc, writeBatch } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import Image from "next/image";
 
-import { db, auth, storage } from "../../firebase/firebaseConfig";
-import { getUserPosts } from "../../hooks/server/getUserPosts";
+import { db, storage } from "../../firebase/firebaseConfig";
 
 import FormError from "../FormState/FormError";
 import InputField from "../FormState/InputField";

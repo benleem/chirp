@@ -7,7 +7,6 @@ import { getUserPostsIds } from "../../hooks/server/getUserPostsIds";
 import Head from "next/head";
 import MainLayout from "../../components/Layouts/MainLayout";
 import SettingsLayout from "../../components/Layouts/SettingsLayout";
-import Reauthenticate from "../../components/ProfileSettings/Reauthenticate";
 import EditProfileForm from "../../components/ProfileSettings/EditProfileForm";
 import FormLoading from "../../components/FormState/FormLoading";
 

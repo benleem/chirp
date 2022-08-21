@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-
 import ProfileDropdown from "./ProfileDropdown";
 import NavButton from "./NavButton";
 

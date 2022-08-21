@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import Link from "next/link";
 
 import { auth } from "../../firebase/firebaseConfig";
 
