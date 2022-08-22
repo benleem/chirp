@@ -5,7 +5,7 @@
 	position: sticky;
 	top: 0;
 	z-index: 2;
-	overflow: hidden;
+	overflow-x: clip;
 }
 
 .navBar {
@@ -15,6 +15,7 @@
 	color: white;
 	max-width: 1000px;
 	width: 100%;
+	margin: auto;
 }
 
 @media only screen and (max-width: 1000px) {
