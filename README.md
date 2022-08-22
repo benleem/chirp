@@ -4,7 +4,7 @@
 
 Chirp is a social media platform. Keep up with people from around the globe, or just post funny memes. Whatever your social media needs, Chirp is there! Start now by creating an account!
 
-The full site can be found [here](https://goggle-earth.netlify.app/)
+The full site can be found [here](https://chirp-social.vercel.app/)
 
 ##### Demo Gifs
 
