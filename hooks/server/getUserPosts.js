@@ -21,5 +21,21 @@ export const getUserPosts = async (uid) => {
 		return { id: doc.id, data: doc.data() };
 	});
 
-	return posts;
+	const newPosts = posts.map((post) => {
+		let date = new Date(post.data.timeStamp);
+		let time = date.toLocaleTimeString("en-US", {
+			timeZoneName: "short",
+			hour12: "true",
+			hour: "2-digit",
+			minute: "2-digit",
+			weekday: "short",
+			month: "long",
+			day: "numeric",
+			year: "numeric",
+		});
+		post.data.timeStamp = time;
+		return post;
+	});
+
+	return newPosts;
 };

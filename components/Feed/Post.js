@@ -54,28 +54,6 @@ const Post = ({
 		}, seconds * 1000);
 	};
 
-	const ConvertTime = () => {
-		let date = new Date(post.timeStamp);
-		let time = date.toLocaleTimeString("en-US", {
-			timeZoneName: "short",
-			hour12: "true",
-			hour: "2-digit",
-			minute: "2-digit",
-			weekday: "short",
-			month: "long",
-			day: "numeric",
-			year: "numeric",
-		});
-
-		return (
-			<>
-				<p suppressHydrationWarning className={styles.postTime}>
-					{time}
-				</p>
-			</>
-		);
-	};
-
 	const handleFavorite = async () => {
 		const userRef = doc(db, `users/${user.uid}`);
 		const docRef = doc(db, `users/${user.uid}/favorites/${postId}`);
@@ -211,7 +189,7 @@ const Post = ({
 						<Link href={`/${post.userId}`} scroll={true}>
 							<a className={styles.displayName}> {post.displayName}</a>
 						</Link>
-						<ConvertTime />
+						<p className={styles.postTime}>{post.timeStamp}</p>
 					</div>
 					<p className={styles.postText}>{post.text}</p>
 					{post.fileRef ? (

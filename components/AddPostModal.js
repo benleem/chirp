@@ -22,7 +22,6 @@ import SubmitButton from "./FormState/SubmitButton";
 import GiphyContainer from "./GiphyModal/GiphyContainer";
 
 import styles from "../styles/AddPostModal.module.css";
-import { route } from "next/dist/server/router";
 
 const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	const user = useAuth();

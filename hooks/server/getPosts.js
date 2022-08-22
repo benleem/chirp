@@ -1,4 +1,12 @@
-import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
+import {
+	query,
+	collection,
+	orderBy,
+	limit,
+	getDocs,
+	Timestamp,
+	serverTimestamp,
+} from "firebase/firestore";
 
 import { db } from "../../firebase/firebaseConfig";
 
@@ -10,7 +18,23 @@ export const getPosts = async () => {
 	);
 	const posts = [];
 	const postsData = await getDocs(postsQuery);
-	postsData.docs.map((doc) => posts.push({ id: doc.id, data: doc.data() }));
+	postsData.docs.forEach((doc) => posts.push({ id: doc.id, data: doc.data() }));
 
-	return posts;
+	const newPosts = posts.map((post) => {
+		let date = new Date(post.data.timeStamp);
+		let time = date.toLocaleTimeString("en-US", {
+			timeZoneName: "short",
+			hour12: "true",
+			hour: "2-digit",
+			minute: "2-digit",
+			weekday: "short",
+			month: "long",
+			day: "numeric",
+			year: "numeric",
+		});
+		post.data.timeStamp = time;
+		return post;
+	});
+
+	return newPosts;
 };
