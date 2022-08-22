@@ -2,12 +2,14 @@
 	margin: 0;
 	padding: 0;
 	white-space: nowrap;
-	height: 35px;
+	display: flex;
+	height: 100%;
+	align-items: center;
 }
 
 .navListItem {
 	display: inline-block;
-	height: 100%;
+	height: 35px;
 	margin-left: 10px;
 	text-align: center;
 	position: relative;

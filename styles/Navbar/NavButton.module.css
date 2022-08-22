@@ -9,7 +9,7 @@
 
 .toolTip {
 	visibility: hidden;
-	width: 100px;
+	width: 75px;
 	background-color: black;
 	opacity: 0.75;
 	color: white;
@@ -22,7 +22,7 @@
 	z-index: 99;
 	top: 100%;
 	left: 50%;
-	margin-left: -50px;
+	margin-left: -37.5px;
 	margin-top: 5px;
 }
 
@@ -34,4 +34,11 @@
 .navListButton img {
 	height: 100%;
 	padding: 0;
+}
+
+@media only screen and (max-width: 600px) {
+	.toolTip {
+		left: 100%;
+		margin-left: -75px;
+	}
 }
