@@ -30,7 +30,7 @@ const NoPosts = ({ profileData }) => {
 				return (
 					<div className={styles.noPosts}>
 						<p className={styles.title}>
-							{profileData.displayName} doesn't have any posts!
+							{profileData.displayName} doesn&apos;t have any posts!
 						</p>
 						<video
 							className={styles.mp4Gif}

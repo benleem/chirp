@@ -93,7 +93,7 @@ const SignIn = ({ chooseForm, setChooseForm, auth }) => {
 			/>
 			<SubmitButton text="Sign in" />
 			<ForgotPassword />
-			<p className={styles.query}>Don't have an account?</p>
+			<p className={styles.query}>Don&apos;t have an account?</p>
 			<button
 				type="button"
 				className={styles.answer}

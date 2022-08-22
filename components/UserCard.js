@@ -11,15 +11,8 @@ import styles from "../styles/UserCard.module.css";
 
 const UserCard = ({ profileData, renderButton }) => {
 	const router = useRouter();
-
-	const checkUserInfo = () => {
-		if (profileData) {
-			return profileData;
-		} else {
-			return useUser();
-		}
-	};
-	const userInfo = checkUserInfo();
+	const userDetails = useUser();
+	const userInfo = profileData ? profileData : userDetails;
 	const user = useAuth();
 
 	const ConvertTime = () => {
