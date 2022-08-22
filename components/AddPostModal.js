@@ -111,7 +111,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 			setFormLoading(false);
 			setShowPostModal(false);
 
-			await router.replace(router.asPath, router.asPath, {
+			router.replace(router.asPath, router.asPath, {
 				shallow: false,
 				getServerSideProps: true,
 			});
