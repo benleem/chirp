@@ -73,7 +73,7 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 	};
 
 	useEffect(() => {
-		setPosts(initialPosts);
+		// setPosts(initialPosts);
 		setCheckHasMore(true);
 	}, [initialPosts]);
 
