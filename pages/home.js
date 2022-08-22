@@ -74,13 +74,13 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 
 	useEffect(() => {
 		setPosts(initialPosts);
-		setCheckHasMore(true);
 	}, [initialPosts]);
 
 	useEffect(() => {
 		if (favorites) {
 			checkFavorites(favorites, setDeletedFavorites);
 		}
+		setCheckHasMore(true);
 	}, []);
 
 	return (

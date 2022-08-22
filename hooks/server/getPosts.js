@@ -1,12 +1,4 @@
-import {
-	query,
-	collection,
-	orderBy,
-	limit,
-	getDocs,
-	Timestamp,
-	serverTimestamp,
-} from "firebase/firestore";
+import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
 
 import { db } from "../../firebase/firebaseConfig";
 
@@ -16,9 +8,10 @@ export const getPosts = async () => {
 		orderBy("timeStamp", "desc"),
 		limit(10)
 	);
-	const posts = [];
 	const postsData = await getDocs(postsQuery);
-	postsData.docs.forEach((doc) => posts.push({ id: doc.id, data: doc.data() }));
+	const posts = postsData.docs.map((doc) => {
+		return { id: doc.id, data: doc.data() };
+	});
 
 	const newPosts = posts.map((post) => {
 		let date = new Date(post.data.timeStamp);

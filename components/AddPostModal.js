@@ -111,10 +111,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 			setFormLoading(false);
 			setShowPostModal(false);
 
-			router.replace(router.asPath, router.asPath, {
-				shallow: false,
-				getServerSideProps: true,
-			});
+			router.replace(router.asPath, router.asPath);
 		} catch (error) {
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);

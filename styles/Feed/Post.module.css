@@ -109,3 +109,10 @@
 	width: 100%;
 	display: block;
 }
+
+@media only screen and (max-width: 1000px) {
+	/* For mobile phones: */
+	.post {
+		padding: 1rem;
+	}
+}
