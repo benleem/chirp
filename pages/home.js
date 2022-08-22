@@ -78,7 +78,9 @@ const Home = ({ initialPosts, error, uid, initialFavorites }) => {
 	}, [initialPosts]);
 
 	useEffect(() => {
-		checkFavorites(favorites, setDeletedFavorites);
+		if (favorites) {
+			checkFavorites(favorites, setDeletedFavorites);
+		}
 	}, []);
 
 	return (
