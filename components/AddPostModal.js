@@ -22,6 +22,7 @@ import SubmitButton from "./FormState/SubmitButton";
 import GiphyContainer from "./GiphyModal/GiphyContainer";
 
 import styles from "../styles/AddPostModal.module.css";
+import { route } from "next/dist/server/router";
 
 const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	const user = useAuth();
@@ -111,7 +112,7 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 			setFormLoading(false);
 			setShowPostModal(false);
 
-			await router.replace(router.asPath);
+			await router.replace(router.asPath, router.asPath);
 		} catch (error) {
 			const errorMessage = error.message;
 			setFirebaseError(errorMessage);
