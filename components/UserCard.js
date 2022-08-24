@@ -27,13 +27,7 @@ const UserCard = ({ profileData, renderButton }) => {
 	};
 
 	return (
-		<div
-			className={
-				router.route === "/[profile]/edit"
-					? styles.userCardContainerPreview
-					: styles.userCardContainer
-			}
-		>
+		<div className={styles.userCardContainer}>
 			<div
 				className={
 					router.route === "/[profile]/edit"

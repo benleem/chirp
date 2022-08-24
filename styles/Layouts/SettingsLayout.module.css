@@ -1,3 +1,23 @@
+.backButton {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+
+	cursor: pointer;
+	background: none;
+	border: none;
+	font-size: 2rem;
+	margin-right: 0.5rem;
+	transition: all 0.2s ease-in-out;
+	padding: 0 0.3rem;
+	border-radius: 0.3rem;
+}
+
+.backButton:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
 .tabSection {
 	/* background-color: white; */
 	max-width: 250px;
@@ -53,4 +73,19 @@
 	flex: 1;
 	background-color: white;
 	padding: 2rem;
+}
+
+@media only screen and (max-width: 600px) {
+	.userCard {
+		border: 1px solid grey;
+		border-bottom: none;
+	}
+	.tabSection {
+		max-width: 100%;
+	}
+
+	.settingsContent {
+		height: calc(100vh - 72px);
+		border-left: 1px solid grey;
+	}
 }

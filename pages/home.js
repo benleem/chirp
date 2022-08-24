@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import { verifyToken } from "../hooks/server/verifyToken";
 import { getPosts } from "../hooks/server/getPosts";
 import { getFavorited } from "../hooks/server/getFavorited";

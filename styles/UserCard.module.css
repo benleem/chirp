@@ -2,12 +2,7 @@
 	flex: 1;
 }
 
-.userCardContainerPreview {
-	width: 100%;
-}
-
-.userCard,
-.userCardPreview {
+.userCard {
 	background-color: white;
 	border: 1px solid grey;
 	border-left: none;
@@ -17,11 +12,7 @@
 	background-color: white;
 	font-family: "Roboto", sans-serif;
 	color: black;
-}
-
-.userCardPreview {
-	border: 1px solid grey;
-	/* padding: 2rem 1rem; */
+	box-shadow: -1px 0 0 0 grey;
 }
 
 .cardTop {
@@ -136,8 +127,10 @@
 	text-align: center;
 }
 
-/* .topCard {
-	width: 100%;
-	background: hsla(155, 61%, 51%, 1);
-	padding: 0 1rem;
-} */
+@media only screen and (max-width: 600px) {
+	.userCard {
+		border: 1px solid grey;
+		border-bottom: none;
+		box-shadow: none;
+	}
+}

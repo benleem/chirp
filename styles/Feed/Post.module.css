@@ -1,6 +1,6 @@
 .post {
 	width: 100%;
-	padding: 2rem;
+	padding: 1rem;
 	border-bottom: 1px solid grey;
 	border-left: 1px solid grey;
 	border-right: 1px solid grey;
@@ -15,7 +15,6 @@
 }
 
 .imgContainer {
-	/* height: 2.3rem; */
 	margin-right: 0.5rem;
 }
 
@@ -110,9 +109,8 @@
 	display: block;
 }
 
-@media only screen and (max-width: 600px) {
-	/* For mobile phones: */
+/* @media only screen and (max-width: 500px) {
 	.post {
-		padding: 1rem;
+		padding: 0.5rem;
 	}
-}
+} */
