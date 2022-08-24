@@ -97,6 +97,8 @@
 	background: none;
 	border: none;
 	padding: 0;
+	height: 1.2rem;
+	width: 1.2rem;
 }
 
 .interactButton:first-child {
