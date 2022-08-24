@@ -12,9 +12,8 @@
 
 .navLogo {
 	display: inline-block;
-	height: 100%;
+	height: 35px;
 	width: 100%;
-	width: max-content;
 }
 
 .searchBarContainer {
