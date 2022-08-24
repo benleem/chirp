@@ -1,5 +1,5 @@
 .navLeft {
-	display: inline-block;
+	display: flex;
 	align-items: center;
 	justify-content: flex-start;
 }
@@ -11,7 +11,9 @@
 }
 
 .navLogo {
+	display: inline-block;
 	height: 100%;
+	width: 100%;
 	width: max-content;
 }
 
