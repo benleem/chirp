@@ -5,9 +5,10 @@
 }
 
 .navLeft a {
+	padding-top: 4px;
 	display: inline-block;
 	margin-right: 10px;
-	height: 40px;
+	height: 35px;
 }
 
 .navLogo {
@@ -19,7 +20,7 @@
 	display: flex;
 	background-color: #dcf6e8;
 	border-radius: 10px;
-	height: 40px;
+	height: 35px;
 	width: 100%;
 }
 

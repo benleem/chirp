@@ -25,9 +25,9 @@
 	border: 1px solid grey;
 	background-color: white;
 	font-family: "Roboto", sans-serif;
-	height: calc(100vh - 72px);
+	height: calc(100vh - 59px);
 	position: sticky;
-	top: 72px;
+	top: 59px;
 	left: 0;
 }
 
@@ -85,7 +85,7 @@
 	}
 
 	.settingsContent {
-		height: calc(100vh - 72px);
+		height: calc(100vh - 59px);
 		border-left: 1px solid grey;
 	}
 }
