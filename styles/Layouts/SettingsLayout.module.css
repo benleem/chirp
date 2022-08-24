@@ -76,10 +76,6 @@
 }
 
 @media only screen and (max-width: 600px) {
-	.userCard {
-		border: 1px solid grey;
-		border-bottom: none;
-	}
 	.tabSection {
 		max-width: 100%;
 	}
@@ -87,5 +83,11 @@
 	.settingsContent {
 		height: calc(100vh - 59px);
 		border-left: 1px solid grey;
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.backButton {
+		display: none;
 	}
 }
