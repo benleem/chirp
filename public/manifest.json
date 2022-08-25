@@ -2,7 +2,7 @@
 	"theme_color": "#35CE8D",
 	"background_color": "#35CE8D",
 	"display": "standalone",
-	"scope": "/",
+	"scope": "https://chirp-social.vercel.app/",
 	"start_url": "https://chirp-social.vercel.app/",
 	"name": "Chirp",
 	"short_name": "Chirp",
