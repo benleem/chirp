@@ -3,7 +3,7 @@
 	"background_color": "#35CE8D",
 	"display": "standalone",
 	"scope": "/",
-	"start_url": "/",
+	"start_url": "https://chirp-social.vercel.app/",
 	"name": "Chirp",
 	"short_name": "Chirp",
 	"description": "Social media",
