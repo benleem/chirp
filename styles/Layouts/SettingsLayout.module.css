@@ -94,6 +94,6 @@
 
 @media screen and (display-mode: standalone) {
 	.settingsContent {
-		height: calc(100vh - 69px);
+		height: calc(100vh - 74px);
 	}
 }
