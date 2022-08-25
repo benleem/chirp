@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { updateEmail } from "firebase/auth";
 
 import { auth } from "../../firebase/firebaseConfig";
+import { useAuth } from "../../hooks/client/useAuth";
 
 import FormError from "../FormState/FormError";
 import InputField from "../FormState/InputField";
@@ -10,6 +12,8 @@ import SubmitButton from "../FormState/SubmitButton";
 import styles from "../../styles/ProfileSettings/ChangeEmailForm.module.css";
 
 const ChangeEmailForm = ({ setFormLoading }) => {
+	const user = useAuth();
+	const router = useRouter();
 	const emailInput = useRef();
 
 	const [formValues, setFormValues] = useState({
@@ -25,6 +29,7 @@ const ChangeEmailForm = ({ setFormLoading }) => {
 			setFormLoading(true);
 			await updateEmail(auth.currentUser, formValues.email);
 			setFormLoading(false);
+			router.replace(`/${user.uid}`);
 		} catch (error) {
 			setFormLoading(false);
 			const errorMessage = error.message;

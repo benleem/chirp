@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { updatePassword } from "firebase/auth";
 
 import { auth } from "../../firebase/firebaseConfig";
+import { useAuth } from "../../hooks/client/useAuth";
 
 import FormError from "../FormState/FormError";
 import InputField from "../FormState/InputField";
@@ -10,6 +12,8 @@ import SubmitButton from "../FormState/SubmitButton";
 import styles from "../../styles/ProfileSettings/ChangePasswordForm.module.css";
 
 const ChangePasswordForm = ({ setFormLoading }) => {
+	const user = useAuth();
+	const router = useRouter();
 	const passwordInput = useRef();
 
 	const [formValues, setFormValues] = useState({
@@ -20,11 +24,14 @@ const ChangePasswordForm = ({ setFormLoading }) => {
 	const [firebaseError, setFirebaseError] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
 
+	console.log(user);
+
 	const changePassword = async () => {
 		try {
 			setFormLoading(true);
 			await updatePassword(auth.currentUser, formValues.confirm);
 			setFormLoading(false);
+			router.push(`/${user.uid}`);
 		} catch (error) {
 			setFormLoading(false);
 			const errorMessage = error.message;

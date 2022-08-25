@@ -95,8 +95,7 @@ const EditProfileForm = ({ token, userData, userPosts, setFormLoading }) => {
 			});
 			await batch.commit();
 
-			await router.replace(router.asPath);
-			window.scrollTo({ top: 0, behavior: "smooth" });
+			await router.replace(`/${token.uid}`);
 		} catch (error) {
 			setFormLoading(false);
 			const errorMessage = error.message;
