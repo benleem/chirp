@@ -26,9 +26,7 @@
 	background-color: white;
 	font-family: "Roboto", sans-serif;
 	height: calc(100vh - 59px);
-	position: sticky;
-	top: 59px;
-	left: 0;
+	margin-top: 59px;
 }
 
 .linkTab {
@@ -73,6 +71,8 @@
 	flex: 1;
 	background-color: white;
 	padding: 2rem;
+	margin-top: 59px;
+	/* height: calc(100vh - 59px); */
 }
 
 @media only screen and (max-width: 600px) {
@@ -81,8 +81,8 @@
 	}
 
 	.settingsContent {
-		height: calc(100vh - 59px);
 		border-left: 1px solid grey;
+		height: calc(100vh - 59px);
 	}
 }
 
