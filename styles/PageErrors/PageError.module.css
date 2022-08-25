@@ -1,6 +1,6 @@
 .badUrl {
 	width: 100%;
-	height: calc(100vh - 72px);
+	height: calc(100vh - 59px);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -33,4 +33,10 @@
 
 .errorButton:hover {
 	background-color: #259076;
+}
+
+@media screen and (display-mode: standalone) {
+	.badUrl {
+		height: calc(100vh - 69px);
+	}
 }

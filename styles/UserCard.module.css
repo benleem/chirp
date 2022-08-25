@@ -134,3 +134,9 @@
 		box-shadow: none;
 	}
 }
+
+@media screen and (display-mode: standalone) {
+	.usercard {
+		top: 69px;
+	}
+}

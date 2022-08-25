@@ -2,11 +2,12 @@
 	padding: 10px 0;
 	background-color: #35ce8d;
 	font-family: "Roboto", sans-serif;
-	position: sticky;
+	position: fixed;
 	top: 0;
 	z-index: 2;
 	text-align: center;
 	height: min-content;
+	width: 100%;
 }
 
 .navBar {
@@ -27,6 +28,6 @@
 
 @media screen and (display-mode: standalone) {
 	.navBar {
-		padding: 15px;
+		padding-top: 10px;
 	}
 }

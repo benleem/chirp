@@ -91,3 +91,9 @@
 		display: none;
 	}
 }
+
+@media screen and (display-mode: standalone) {
+	.settingsContent {
+		height: calc(100vh - 69px);
+	}
+}
