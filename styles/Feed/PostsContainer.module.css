@@ -2,11 +2,4 @@
 	max-width: 600px;
 	width: 100%;
 	position: relative;
-	padding-top: 59px;
-}
-
-@media screen and (display-mode: standalone) {
-	.postsContainer {
-		padding-top: 74px;
-	}
 }
