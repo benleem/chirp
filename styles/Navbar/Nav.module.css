@@ -24,3 +24,9 @@
 		padding: 0 3%;
 	}
 }
+
+@media screen and (display-mode: standalone) {
+	.navBar {
+		padding: 15px;
+	}
+}
