@@ -7,8 +7,10 @@ const Document = () => {
 				<meta charSet="utf-8" />
 				<link rel="icon" href="/img/logo.svg" />
 				<link rel="manifest" href="/manifest.json" />
+				<link rel="apple-touch-startup-image" href="/logo-256x256.png" />
 				<link rel="apple-touch-icon" href="/logo-192x192.png" />
-				<meta name="theme-color" content="#f0f2f5" />
+				<meta name="theme-color" content="#35CE8D" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
 				<meta
 					name="apple-mobile-web-app-status-bar-style"
 					content="black-translucent"

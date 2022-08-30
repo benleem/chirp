@@ -11,3 +11,10 @@
 		padding: 0 3%;
 	}
 }
+@media screen and (display-mode: standalone) {
+	.appMain {
+		/* background-color: #f0f2f5; */
+		padding: 0;
+		overflow: scroll;
+	}
+}

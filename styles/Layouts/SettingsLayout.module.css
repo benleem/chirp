@@ -94,12 +94,12 @@
 
 @media screen and (display-mode: standalone) {
 	.tabSection {
-		height: calc(100vh - 74px);
-		margin-top: 74px;
+		height: calc(100vh - 59px);
+		margin-top: 59px;
 	}
 
 	.settingsContent {
-		height: calc(100vh - 74px);
-		margin-top: 74px;
+		height: calc(100vh - 59px);
+		margin-top: 59px;
 	}
 }
