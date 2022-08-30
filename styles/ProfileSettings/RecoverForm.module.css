@@ -41,9 +41,3 @@
 	font-size: 0.9rem;
 	color: grey;
 }
-
-@media screen and (display-mode: standalone) {
-	.recoverFormContainer {
-		height: calc(100vh - 74px);
-	}
-}

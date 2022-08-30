@@ -204,10 +204,11 @@ const AddPostModal = ({ showPostModal, setShowPostModal }) => {
 	// close modal when user clicks outside the form
 	useEffect(() => {
 		const closeModal = (e) => {
+			const path = e.composedPath();
 			if (
-				!e.path.includes(form.current) &&
-				!e.path.includes(giphyContainer.current) &&
-				e.path[0].tagName !== "IMG"
+				!path.includes(form.current) &&
+				!path.includes(giphyContainer.current) &&
+				path[0].tagName !== "IMG"
 			) {
 				handleClose();
 			}

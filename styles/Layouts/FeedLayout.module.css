@@ -17,3 +17,10 @@
 		flex-direction: column-reverse;
 	}
 }
+
+@media screen and (display-mode: standalone) {
+	.feedSection,
+	.profileFeed {
+		margin-top: 0;
+	}
+}

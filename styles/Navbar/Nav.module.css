@@ -26,3 +26,11 @@
 		padding: 0 3%;
 	}
 }
+
+@media screen and (display-mode: standalone) {
+	.navContainer {
+		position: sticky;
+		position: -webkit-sticky;
+		box-shadow: 0 -100px 0 100px #35ce8d;
+	}
+}

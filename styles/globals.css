@@ -41,10 +41,6 @@ p {
 }
 
 @media screen and (display-mode: standalone) {
-	html,
-	body {
-		overflow: scroll;
-	}
 	body {
 		background-color: #35ce8d;
 	}
