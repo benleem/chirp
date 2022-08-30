@@ -1,6 +1,7 @@
 .recoverFormContainer {
 	width: 100%;
 	height: calc(100vh - 59px);
+	margin-top: 59px;
 	display: grid;
 	place-items: center;
 }
