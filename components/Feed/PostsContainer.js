@@ -1,6 +1,7 @@
 import Post from "./Post";
 
 import styles from "../../styles/Feed/PostsContainer.module.css";
+import { useEffect } from "react";
 
 const PostsContainer = ({
 	uid,
@@ -11,6 +12,10 @@ const PostsContainer = ({
 	checkHasMore,
 	setCheckHasMore,
 }) => {
+	useEffect(() => {
+		console.log(posts);
+	}, [posts]);
+
 	return (
 		<div className={styles.postsContainer}>
 			{posts?.map((post, index) => (
