@@ -227,19 +227,20 @@ const Post = ({
 								onMouseEnter={() => setFavoriteHover(true)}
 								onMouseLeave={() => setFavoriteHover(false)}
 							>
-								{favorites.includes(postId) || favoriteHover ? (
-									<img
-										className={styles.interactButtonImg}
-										src="/img/favorite-post-hover.svg"
-										alt="favorite"
-									/>
-								) : (
-									<img
-										className={styles.interactButtonImg}
-										src="/img/favorite-post.svg"
-										alt="favorite"
-									/>
-								)}
+								<svg
+									className={styles.interactButtonImg}
+									xmlns="http://www.w3.org/2000/svg"
+									height="100%"
+									width="100%"
+									viewBox="0 0 48 48"
+									fill={
+										favorites.includes(postId) || favoriteHover
+											? "#fd2bff"
+											: "grey"
+									}
+								>
+									<path d="m24 41.95-2.05-1.85q-5.3-4.85-8.75-8.375-3.45-3.525-5.5-6.3T4.825 20.4Q4 18.15 4 15.85q0-4.5 3.025-7.525Q10.05 5.3 14.5 5.3q2.85 0 5.275 1.35Q22.2 8 24 10.55q2.1-2.7 4.45-3.975T33.5 5.3q4.45 0 7.475 3.025Q44 11.35 44 15.85q0 2.3-.825 4.55T40.3 25.425q-2.05 2.775-5.5 6.3T26.05 40.1ZM24 38q5.05-4.65 8.325-7.975 3.275-3.325 5.2-5.825 1.925-2.5 2.7-4.45.775-1.95.775-3.9 0-3.3-2.1-5.425T33.5 8.3q-2.55 0-4.75 1.575T25.2 14.3h-2.45q-1.3-2.8-3.5-4.4-2.2-1.6-4.75-1.6-3.3 0-5.4 2.125Q7 12.55 7 15.85q0 1.95.775 3.925.775 1.975 2.7 4.5Q12.4 26.8 15.7 30.1 19 33.4 24 38Zm0-14.85Z" />
+								</svg>
 							</button>
 						</div>
 						{post.userId === user?.uid ? (
@@ -251,19 +252,16 @@ const Post = ({
 									onMouseEnter={() => setEditHover(true)}
 									onMouseLeave={() => setEditHover(false)}
 								>
-									{editHover ? (
-										<img
-											className={styles.interactButtonImg}
-											src="/img/edit-hover.svg"
-											alt="edit"
-										/>
-									) : (
-										<img
-											className={styles.interactButtonImg}
-											src="/img/edit.svg"
-											alt="edit"
-										/>
-									)}
+									<svg
+										className={styles.interactButtonImg}
+										xmlns="http://www.w3.org/2000/svg"
+										height="100%"
+										width="100%"
+										viewBox="0 0 48 48"
+										fill={editHover ? "#ffa401" : "grey"}
+									>
+										<path d="M9 39h2.2l22.15-22.15-2.2-2.2L9 36.8Zm30.7-24.3-6.4-6.4 2.1-2.1q.85-.85 2.1-.85t2.1.85l2.2 2.2q.85.85.85 2.1t-.85 2.1Zm-2.1 2.1L12.4 42H6v-6.4l25.2-25.2Zm-5.35-1.05-1.1-1.1 2.2 2.2Z" />
+									</svg>
 								</button>
 								<button
 									id="delete"
@@ -272,19 +270,16 @@ const Post = ({
 									onMouseEnter={() => setDeleteHover(true)}
 									onMouseLeave={() => setDeleteHover(false)}
 								>
-									{deleteHover ? (
-										<img
-											className={styles.interactButtonImg}
-											src="/img/delete-hover.svg"
-											alt="delete"
-										/>
-									) : (
-										<img
-											className={styles.interactButtonImg}
-											src="/img/delete.svg"
-											alt="delete"
-										/>
-									)}
+									<svg
+										className={styles.interactButtonImg}
+										xmlns="http://www.w3.org/2000/svg"
+										height="100%"
+										width="100%"
+										viewBox="0 0 48 48"
+										fill={deleteHover ? "#fe0000" : "grey"}
+									>
+										<path d="M13.05 42q-1.25 0-2.125-.875T10.05 39V10.5H8v-3h9.4V6h13.2v1.5H40v3h-2.05V39q0 1.2-.9 2.1-.9.9-2.1.9Zm21.9-31.5h-21.9V39h21.9Zm-16.6 24.2h3V14.75h-3Zm8.3 0h3V14.75h-3Zm-13.6-24.2V39Z" />
+									</svg>
 								</button>
 							</div>
 						) : null}
